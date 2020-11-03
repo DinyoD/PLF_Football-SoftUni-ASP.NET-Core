@@ -1,8 +1,8 @@
 ﻿namespace PLF_Football.Data.Configurations
 {
-    using PLF_Football.Data.Models;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
+    using PLF_Football.Data.Models;
 
     public class ApplicationUserConfiguration : IEntityTypeConfiguration<ApplicationUser>
     {

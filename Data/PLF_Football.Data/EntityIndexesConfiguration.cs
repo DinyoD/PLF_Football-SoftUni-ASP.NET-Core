@@ -2,9 +2,9 @@
 {
     using System.Linq;
 
-    using PLF_Football.Data.Common.Models;
-
     using Microsoft.EntityFrameworkCore;
+
+    using PLF_Football.Data.Common.Models;
 
     internal static class EntityIndexesConfiguration
     {
