@@ -12,7 +12,6 @@
     using PLF_Football.Data.Common.Models;
     using PLF_Football.Data.Models;
 
-
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
         private static readonly MethodInfo SetIsDeletedQueryFilterMethod =
@@ -25,7 +24,23 @@
         {
         }
 
-        public DbSet<Setting> Settings { get; set; }
+        public DbSet<Club> Clubs { get; set; }
+
+        public DbSet<Country> Countries { get; set; }
+
+        public DbSet<Fixture> Fixtures { get; set; }
+
+        public DbSet<Player> Players { get; set; }
+
+        public DbSet<PlayerStats> PlayersStats { get; set; }
+
+        public DbSet<Position> Positions { get; set; }
+
+        public DbSet<SocialLinks> SocialLinks { get; set; }
+
+        public DbSet<Stadium> Stadiums { get; set; }
+
+        public DbSet<UserGames> UserGames { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 
@@ -73,6 +88,20 @@
             {
                 foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
             }
+
+            builder.Entity<Club>()
+                .HasMany(x => x.HomeMatches)
+                .WithOne(y => y.HomeTeam)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Club>()
+                .HasMany(x => x.AwayMatches)
+                .WithOne(y => y.AwayTeam)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Player>()
+                .Property(x => x.Id)
+                .ValueGeneratedNever();
         }
 
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)

@@ -24,4 +24,8 @@
     <ProjectReference Include="..\PLF_Football.Services.Mapping\PLF_Football.Services.Mapping.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+
 </Project>

@@ -3,9 +3,8 @@ namespace PLF_Football.Data.Models
 {
     using System;
 
-    using PLF_Football.Data.Common.Models;
-
     using Microsoft.AspNetCore.Identity;
+    using PLF_Football.Data.Common.Models;
 
     public class ApplicationRole : IdentityRole, IAuditInfo, IDeletableEntity
     {

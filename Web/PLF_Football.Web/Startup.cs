@@ -17,7 +17,6 @@
     using PLF_Football.Data.Models;
     using PLF_Football.Data.Repositories;
     using PLF_Football.Data.Seeding;
-    using PLF_Football.Services.Data;
     using PLF_Football.Services.Mapping;
     using PLF_Football.Services.Messaging;
     using PLF_Football.Web.ViewModels;
@@ -65,7 +64,6 @@
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
-            services.AddTransient<ISettingsService, SettingsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,9 +74,15 @@
             // Seed data on application startup
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {
-                var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                var dbContext = serviceScope.ServiceProvider
+                    .GetRequiredService<ApplicationDbContext>();
+
                 dbContext.Database.Migrate();
-                new ApplicationDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
+
+                new ApplicationDbContextSeeder()
+                    .SeedAsync(dbContext, serviceScope.ServiceProvider)
+                    .GetAwaiter()
+                    .GetResult();
             }
 
             if (env.IsDevelopment())

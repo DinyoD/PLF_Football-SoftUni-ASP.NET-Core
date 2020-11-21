@@ -4,9 +4,9 @@ namespace PLF_Football.Data.Models
     using System;
     using System.Collections.Generic;
 
-    using PLF_Football.Data.Common.Models;
-
     using Microsoft.AspNetCore.Identity;
+
+    using PLF_Football.Data.Common.Models;
 
     public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntity
     {
@@ -16,6 +16,7 @@ namespace PLF_Football.Data.Models
             this.Roles = new HashSet<IdentityUserRole<string>>();
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
+            this.Games = new HashSet<UserGames>();
         }
 
         // Audit info
@@ -28,10 +29,14 @@ namespace PLF_Football.Data.Models
 
         public DateTime? DeletedOn { get; set; }
 
+        public Club FavoriteTeam { get; set; }
+
         public virtual ICollection<IdentityUserRole<string>> Roles { get; set; }
 
         public virtual ICollection<IdentityUserClaim<string>> Claims { get; set; }
 
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
+
+        public virtual ICollection<UserGames> Games { get; set; }
     }
 }

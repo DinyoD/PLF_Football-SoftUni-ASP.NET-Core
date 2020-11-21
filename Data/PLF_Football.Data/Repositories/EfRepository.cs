@@ -4,9 +4,8 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using PLF_Football.Data.Common.Repositories;
-
     using Microsoft.EntityFrameworkCore;
+    using PLF_Football.Data.Common.Repositories;
 
     public class EfRepository<TEntity> : IRepository<TEntity>
         where TEntity : class

@@ -2,9 +2,8 @@
 {
     using System.Diagnostics;
 
-    using PLF_Football.Web.ViewModels;
-
     using Microsoft.AspNetCore.Mvc;
+    using PLF_Football.Web.ViewModels;
 
     public class HomeController : BaseController
     {

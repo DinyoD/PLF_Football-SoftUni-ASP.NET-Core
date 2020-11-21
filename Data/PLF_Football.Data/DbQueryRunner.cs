@@ -3,9 +3,8 @@
     using System;
     using System.Threading.Tasks;
 
-    using PLF_Football.Data.Common;
-
     using Microsoft.EntityFrameworkCore;
+    using PLF_Football.Data.Common;
 
     public class DbQueryRunner : IDbQueryRunner
     {

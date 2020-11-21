@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\PLF_Football.Common\PLF_Football.Common.csproj" />
     <ProjectReference Include="..\PLF_Football.Data.Common\PLF_Football.Data.Common.csproj" />
   </ItemGroup>
   
