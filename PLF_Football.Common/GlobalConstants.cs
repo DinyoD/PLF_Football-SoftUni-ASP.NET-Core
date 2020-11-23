@@ -16,12 +16,17 @@
 
         public const string PlayerTotalStats = "stats";
 
-        public const string PlayerSeasonStats = "?co=1&se=363";
+        public const string PlayerSeasonStatsFilter = "? co = 1 & se = 363";
+
+        public const string PlayerImgLink =
+            "https://resources.premierleague.com/premierleague/photos/players/110x140/";
 
         public const string OwnerName = "Dinyo";
 
         public const string OwnerEmail = "dinyo517@gmail.com";
 
         public const string OwnerPassword = "Dinjo517";
+
+        public const string PremierLeagueLink = "https://www.premierleague.com/clubs";
     }
 }

@@ -17,6 +17,7 @@
     using PLF_Football.Data.Models;
     using PLF_Football.Data.Repositories;
     using PLF_Football.Data.Seeding;
+    using PLF_Football.Services;
     using PLF_Football.Services.Mapping;
     using PLF_Football.Services.Messaging;
     using PLF_Football.Web.ViewModels;
@@ -64,6 +65,8 @@
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
+            services.AddTransient<IPLClubsScraperService, PLClubsScraperService>();
+            services.AddTransient<IPlayersByClubScraperService, PlayersByClubScraperService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

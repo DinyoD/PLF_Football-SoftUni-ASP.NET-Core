@@ -40,6 +40,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\PLF_Football.Common\PLF_Football.Common.csproj" />
+    <ProjectReference Include="..\..\Services\PLF_Football.Services.Messaging\PLF_Football.Services.Messaging.csproj" />
+    <ProjectReference Include="..\..\Services\PLF_Football.Services\PLF_Football.Services.csproj" />
     <ProjectReference Include="..\PLF_Football.Data.Common\PLF_Football.Data.Common.csproj" />
     <ProjectReference Include="..\PLF_Football.Data.Models\PLF_Football.Data.Models.csproj" />
   </ItemGroup>

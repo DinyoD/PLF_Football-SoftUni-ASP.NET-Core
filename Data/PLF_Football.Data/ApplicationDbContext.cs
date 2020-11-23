@@ -98,10 +98,6 @@
                 .HasMany(x => x.AwayMatches)
                 .WithOne(y => y.AwayTeam)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Player>()
-                .Property(x => x.Id)
-                .ValueGeneratedNever();
         }
 
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)
