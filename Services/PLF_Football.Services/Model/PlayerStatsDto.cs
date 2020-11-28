@@ -1,8 +1,9 @@
-﻿namespace PLF_Football.Data.Models
+﻿namespace PLF_Football.Services.Model
 {
-    using PLF_Football.Data.Common.Models;
+    using PLF_Football.Data.Models;
+    using PLF_Football.Services.Mapping;
 
-    public class PlayerStats : BaseDeletableModel<int>
+    public class PlayerStatsDto : IMapTo<PlayerStats>
     {
         public int Appearances { get; set; }
 
@@ -10,11 +11,11 @@
 
         public int Losses { get; set; }
 
-        public int? CleanSheets{ get; set; }
+        public int? CleanSheets { get; set; }
 
         public int? GoalsConceded { get; set; }
 
-        public int Goals{ get; set; }
+        public int Goals { get; set; }
 
         public int Assists { get; set; }
 
@@ -35,5 +36,7 @@
         public int? Clearences { get; set; }
 
         public int? Tackles { get; set; }
+
+        // public int PlayerId { get; set; }
     }
 }

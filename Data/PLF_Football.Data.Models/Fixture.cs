@@ -4,7 +4,7 @@
 
     using PLF_Football.Data.Common.Models;
 
-    public class Fixture : BaseDeletableModel<int>
+    public class Fixture : BaseModel<int>
     {
         public int Matchday { get; set; }
 

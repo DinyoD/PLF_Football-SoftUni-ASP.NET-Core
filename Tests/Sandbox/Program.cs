@@ -16,6 +16,7 @@
     using PLF_Football.Data.Models;
     using PLF_Football.Data.Repositories;
     using PLF_Football.Data.Seeding;
+    using PLF_Football.Services;
     using PLF_Football.Services.Messaging;
 
     public static class Program
@@ -75,6 +76,7 @@
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
+
         }
     }
 }

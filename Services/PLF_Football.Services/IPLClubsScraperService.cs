@@ -7,6 +7,6 @@
 
     public interface IPLClubsScraperService
     {
-        Task ImportClubsInfoAsync();
+        Task ImportClubsAsync();
     }
 }

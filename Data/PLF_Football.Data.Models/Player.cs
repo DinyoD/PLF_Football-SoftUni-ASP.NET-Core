@@ -1,6 +1,7 @@
 ﻿namespace PLF_Football.Data.Models
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
 
     using PLF_Football.Common;
@@ -8,13 +9,18 @@
 
     public class Player : BaseDeletableModel<int>
     {
+        public Player()
+        {
+            this.UsersGames = new HashSet<PlayersUserGames>();
+        }
+
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
 
         public string ImageUrl { get; set; }
 
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
         public int? Height { get; set; }
 
@@ -26,9 +32,9 @@
 
         public Position Position { get; set; }
 
-        public int NationalityId { get; set; }
+        public int? CountryId { get; set; }
 
-        public Country Nationality { get; set; }
+        public Country Country { get; set; }
 
         public int ClubId { get; set; }
 
@@ -40,12 +46,11 @@
         public string PLTotalStatsLink => this.PLOverviewLink
             .Replace(GlobalConstants.PlayerOverview, GlobalConstants.PlayerTotalStats);
 
-        [NotMapped]
-        public string PLCurrSeasonLink => this.PLTotalStatsLink + GlobalConstants.PlayerSeasonStatsFilter;
+        // [NotMapped]
+        // public string PLCurrSeasonLink => this.PLTotalStatsLink + GlobalConstants.PlayerSeasonStatsFilter;
+        public int PlayerStatsId { get; set; }
 
-        public int PremierLeagueRecordId { get; set; }
-
-        public PlayerStats PremierLeagueRecord { get; set; }
+        public PlayerStats PlayerStats { get; set; }
 
         public int SocialLinksId { get; set; }
 
@@ -53,5 +58,7 @@
 
         [NotMapped]
         public int Price => 3_000_000;
+
+        public virtual ICollection<PlayersUserGames> UsersGames { get; set; }
     }
 }

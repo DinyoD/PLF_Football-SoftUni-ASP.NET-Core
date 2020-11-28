@@ -40,7 +40,9 @@
 
         public DbSet<Stadium> Stadiums { get; set; }
 
-        public DbSet<UserGames> UserGames { get; set; }
+        public DbSet<UserGame> UsersGames { get; set; }
+
+        public DbSet<PlayersUserGames> PlayersUserGames { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 
@@ -98,6 +100,9 @@
                 .HasMany(x => x.AwayMatches)
                 .WithOne(y => y.AwayTeam)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<PlayersUserGames>()
+                .HasKey(x => new { x.PlayerId, x.UserGameId });
         }
 
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)

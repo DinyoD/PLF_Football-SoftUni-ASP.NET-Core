@@ -13,8 +13,8 @@
 
         public string Name { get; set; }
 
-        public string Flag { get; set; }
+        public string FlagCode { get; set; }
 
-        public virtual ICollection<Player> Players { get; set; }
+        public ICollection<Player> Players { get; set; }
     }
 }

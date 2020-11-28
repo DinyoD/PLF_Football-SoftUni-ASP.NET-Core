@@ -7,17 +7,17 @@
     using Microsoft.Extensions.DependencyInjection;
     using PLF_Football.Services;
 
-    public class ClubsSeeder : ISeeder
+    public class FixtureSeeder : ISeeder
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {
-            if (dbContext.Clubs.Any())
+            if (dbContext.Fixtures.Any())
             {
                 return;
             }
 
-            var clubsScraperService = serviceProvider.GetRequiredService<IPLClubsScraperService>();
-            await clubsScraperService.ImportClubsAsync();
+            var fixturexScraperService = serviceProvider.GetRequiredService<IFixtureScraperService>();
+            await fixturexScraperService.ImportFixture();
         }
     }
 }

@@ -15,16 +15,16 @@ namespace PLF_Football.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.9")
+                .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "5.0.0");
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -48,7 +48,7 @@ namespace PLF_Football.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -145,12 +145,12 @@ namespace PLF_Football.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
@@ -158,7 +158,7 @@ namespace PLF_Football.Data.Migrations
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasName("RoleNameIndex")
+                        .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
@@ -183,8 +183,8 @@ namespace PLF_Football.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
@@ -205,12 +205,12 @@ namespace PLF_Football.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
@@ -228,8 +228,8 @@ namespace PLF_Football.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
@@ -238,11 +238,11 @@ namespace PLF_Football.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.HasIndex("NormalizedEmail")
-                        .HasName("EmailIndex");
+                        .HasDatabaseName("EmailIndex");
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasName("UserNameIndex")
+                        .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
@@ -253,19 +253,13 @@ namespace PLF_Football.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("BadgeUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
@@ -276,15 +270,13 @@ namespace PLF_Football.Data.Migrations
                     b.Property<string>("PLLink")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("SocialLinksId")
+                    b.Property<int>("SocialLinksId")
                         .HasColumnType("int");
 
                     b.Property<int>("StadiumId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
 
                     b.HasIndex("SocialLinksId");
 
@@ -298,7 +290,7 @@ namespace PLF_Football.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -306,7 +298,7 @@ namespace PLF_Football.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Flag")
+                    b.Property<string>("FlagCode")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
@@ -330,7 +322,7 @@ namespace PLF_Football.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<int>("AwayTeamId")
                         .HasColumnType("int");
@@ -338,17 +330,11 @@ namespace PLF_Football.Data.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
                     b.Property<bool>("Finished")
                         .HasColumnType("bit");
 
                     b.Property<int>("HomeTeamId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<int>("Matchday")
                         .HasColumnType("int");
@@ -365,8 +351,6 @@ namespace PLF_Football.Data.Migrations
 
                     b.HasIndex("HomeTeamId");
 
-                    b.HasIndex("IsDeleted");
-
                     b.ToTable("Fixtures");
                 });
 
@@ -375,15 +359,18 @@ namespace PLF_Football.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<int>("ClubId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CountryId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateOfBirth")
+                    b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedOn")
@@ -407,16 +394,13 @@ namespace PLF_Football.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("NationalityId")
-                        .HasColumnType("int");
-
                     b.Property<string>("PLOverviewLink")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PositionId")
+                    b.Property<int>("PlayerStatsId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PremierLeagueRecordId")
+                    b.Property<int>("PositionId")
                         .HasColumnType("int");
 
                     b.Property<int>("SocialLinksId")
@@ -425,7 +409,7 @@ namespace PLF_Football.Data.Migrations
                     b.Property<string>("SquadNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserGamesId")
+                    b.Property<int?>("UserGameId")
                         .HasColumnType("int");
 
                     b.Property<int?>("Weight")
@@ -435,17 +419,17 @@ namespace PLF_Football.Data.Migrations
 
                     b.HasIndex("ClubId");
 
+                    b.HasIndex("CountryId");
+
                     b.HasIndex("IsDeleted");
 
-                    b.HasIndex("NationalityId");
+                    b.HasIndex("PlayerStatsId");
 
                     b.HasIndex("PositionId");
 
-                    b.HasIndex("PremierLeagueRecordId");
-
                     b.HasIndex("SocialLinksId");
 
-                    b.HasIndex("UserGamesId");
+                    b.HasIndex("UserGameId");
 
                     b.ToTable("Players");
                 });
@@ -455,24 +439,21 @@ namespace PLF_Football.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
-                    b.Property<int>("AppearancesSeason")
+                    b.Property<int>("Appearances")
                         .HasColumnType("int");
 
-                    b.Property<int>("AppearancesTotal")
+                    b.Property<int>("Assists")
                         .HasColumnType("int");
 
-                    b.Property<int>("AssistsSeason")
+                    b.Property<int?>("BigChanceCreated")
                         .HasColumnType("int");
 
-                    b.Property<int>("AssistsTotal")
+                    b.Property<int?>("CleanSheets")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CleanSheetsSeason")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CleanSheetsTotal")
+                    b.Property<int?>("Clearences")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedOn")
@@ -481,46 +462,43 @@ namespace PLF_Football.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("GoalsConcededSeason")
+                    b.Property<int?>("Fouls")
                         .HasColumnType("int");
 
-                    b.Property<int?>("GoalsConcededTotal")
+                    b.Property<int>("Goals")
                         .HasColumnType("int");
 
-                    b.Property<int>("GoalsSeason")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GoalsTotal")
+                    b.Property<int?>("GoalsConceded")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("LossesSeason")
-                        .HasColumnType("int");
-
-                    b.Property<int>("LossesTotal")
+                    b.Property<int>("Losses")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("RedCardsSeason")
+                    b.Property<int?>("Passes")
                         .HasColumnType("int");
 
-                    b.Property<int>("RedCardsTotal")
+                    b.Property<int>("RedCards")
                         .HasColumnType("int");
 
-                    b.Property<int>("WinsSeason")
+                    b.Property<int?>("Shots")
                         .HasColumnType("int");
 
-                    b.Property<int>("WinsTotal")
+                    b.Property<int?>("ShotsOnTarget")
                         .HasColumnType("int");
 
-                    b.Property<int>("YellowCardsSeason")
+                    b.Property<int?>("Tackles")
                         .HasColumnType("int");
 
-                    b.Property<int>("YellowCardsTotal")
+                    b.Property<int>("Wins")
+                        .HasColumnType("int");
+
+                    b.Property<int>("YellowCards")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -530,10 +508,33 @@ namespace PLF_Football.Data.Migrations
                     b.ToTable("PlayersStats");
                 });
 
+            modelBuilder.Entity("PLF_Football.Data.Models.PlayersUserGames", b =>
+                {
+                    b.Property<int>("PlayerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserGameId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PlayerId", "UserGameId");
+
+                    b.HasIndex("UserGameId");
+
+                    b.ToTable("PlayersUserGames");
+                });
+
             modelBuilder.Entity("PLF_Football.Data.Models.Position", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -548,7 +549,7 @@ namespace PLF_Football.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -586,12 +587,9 @@ namespace PLF_Football.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ImageUrl")
@@ -599,9 +597,6 @@ namespace PLF_Football.Data.Migrations
 
                     b.Property<string>("Info")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
@@ -611,17 +606,15 @@ namespace PLF_Football.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IsDeleted");
-
                     b.ToTable("Stadiums");
                 });
 
-            modelBuilder.Entity("PLF_Football.Data.Models.UserGames", b =>
+            modelBuilder.Entity("PLF_Football.Data.Models.UserGame", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -650,7 +643,7 @@ namespace PLF_Football.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserGames");
+                    b.ToTable("UsersGames");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -709,19 +702,27 @@ namespace PLF_Football.Data.Migrations
                     b.HasOne("PLF_Football.Data.Models.Club", "FavoriteTeam")
                         .WithMany("Supporters")
                         .HasForeignKey("FavoriteTeamId");
+
+                    b.Navigation("FavoriteTeam");
                 });
 
             modelBuilder.Entity("PLF_Football.Data.Models.Club", b =>
                 {
                     b.HasOne("PLF_Football.Data.Models.SocialLinks", "SocialLinks")
                         .WithMany()
-                        .HasForeignKey("SocialLinksId");
+                        .HasForeignKey("SocialLinksId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("PLF_Football.Data.Models.Stadium", "Stadium")
                         .WithMany()
                         .HasForeignKey("StadiumId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("SocialLinks");
+
+                    b.Navigation("Stadium");
                 });
 
             modelBuilder.Entity("PLF_Football.Data.Models.Fixture", b =>
@@ -737,6 +738,10 @@ namespace PLF_Football.Data.Migrations
                         .HasForeignKey("HomeTeamId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("AwayTeam");
+
+                    b.Navigation("HomeTeam");
                 });
 
             modelBuilder.Entity("PLF_Football.Data.Models.Player", b =>
@@ -747,21 +752,19 @@ namespace PLF_Football.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("PLF_Football.Data.Models.Country", "Nationality")
+                    b.HasOne("PLF_Football.Data.Models.Country", "Country")
                         .WithMany("Players")
-                        .HasForeignKey("NationalityId")
+                        .HasForeignKey("CountryId");
+
+                    b.HasOne("PLF_Football.Data.Models.PlayerStats", "PlayerStats")
+                        .WithMany()
+                        .HasForeignKey("PlayerStatsId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("PLF_Football.Data.Models.Position", "Position")
-                        .WithMany()
+                        .WithMany("Players")
                         .HasForeignKey("PositionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("PLF_Football.Data.Models.PlayerStats", "PremierLeagueRecord")
-                        .WithMany()
-                        .HasForeignKey("PremierLeagueRecordId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -771,16 +774,89 @@ namespace PLF_Football.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("PLF_Football.Data.Models.UserGames", null)
+                    b.HasOne("PLF_Football.Data.Models.UserGame", null)
                         .WithMany("MatchdayTeam")
-                        .HasForeignKey("UserGamesId");
+                        .HasForeignKey("UserGameId");
+
+                    b.Navigation("Club");
+
+                    b.Navigation("Country");
+
+                    b.Navigation("PlayerStats");
+
+                    b.Navigation("Position");
+
+                    b.Navigation("SocialLinks");
                 });
 
-            modelBuilder.Entity("PLF_Football.Data.Models.UserGames", b =>
+            modelBuilder.Entity("PLF_Football.Data.Models.PlayersUserGames", b =>
+                {
+                    b.HasOne("PLF_Football.Data.Models.Player", "Player")
+                        .WithMany("UsersGames")
+                        .HasForeignKey("PlayerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("PLF_Football.Data.Models.UserGame", "UserGame")
+                        .WithMany()
+                        .HasForeignKey("UserGameId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Player");
+
+                    b.Navigation("UserGame");
+                });
+
+            modelBuilder.Entity("PLF_Football.Data.Models.UserGame", b =>
                 {
                     b.HasOne("PLF_Football.Data.Models.ApplicationUser", "User")
                         .WithMany("Games")
                         .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("PLF_Football.Data.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("Claims");
+
+                    b.Navigation("Games");
+
+                    b.Navigation("Logins");
+
+                    b.Navigation("Roles");
+                });
+
+            modelBuilder.Entity("PLF_Football.Data.Models.Club", b =>
+                {
+                    b.Navigation("AwayMatches");
+
+                    b.Navigation("HomeMatches");
+
+                    b.Navigation("Players");
+
+                    b.Navigation("Supporters");
+                });
+
+            modelBuilder.Entity("PLF_Football.Data.Models.Country", b =>
+                {
+                    b.Navigation("Players");
+                });
+
+            modelBuilder.Entity("PLF_Football.Data.Models.Player", b =>
+                {
+                    b.Navigation("UsersGames");
+                });
+
+            modelBuilder.Entity("PLF_Football.Data.Models.Position", b =>
+                {
+                    b.Navigation("Players");
+                });
+
+            modelBuilder.Entity("PLF_Football.Data.Models.UserGame", b =>
+                {
+                    b.Navigation("MatchdayTeam");
                 });
 #pragma warning restore 612, 618
         }

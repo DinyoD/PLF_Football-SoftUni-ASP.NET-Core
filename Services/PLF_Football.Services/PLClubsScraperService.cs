@@ -1,6 +1,9 @@
 ﻿namespace PLF_Football.Services
 {
+    using System;
     using System.Collections.Concurrent;
+    using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -13,92 +16,105 @@
     public class PLClubsScraperService : IPLClubsScraperService
     {
         private readonly IBrowsingContext context;
-        private readonly IDeletableEntityRepository<Club> clubRepo;
+        private readonly IRepository<Club> clubRepo;
         private readonly IDeletableEntityRepository<SocialLinks> sociallinksRepo;
-        private readonly IDeletableEntityRepository<Stadium> stadiumRepo;
+        private readonly IRepository<Stadium> stadiumRepo;
+        private readonly IRepository<Position> positionRepo;
+        private readonly IRepository<Country> countryRepo;
 
         public PLClubsScraperService(
-            IDeletableEntityRepository<Club> clubRepo,
+            IRepository<Club> clubRepo,
             IDeletableEntityRepository<SocialLinks> sociallinksRepo,
-            IDeletableEntityRepository<Stadium> stadiumRepo)
+            IRepository<Stadium> stadiumRepo,
+            IRepository<Position> positionRepo,
+            IRepository<Country> countryRepo)
         {
             var config = Configuration.Default.WithDefaultLoader();
             this.context = BrowsingContext.New(config);
             this.clubRepo = clubRepo;
             this.sociallinksRepo = sociallinksRepo;
             this.stadiumRepo = stadiumRepo;
+            this.positionRepo = positionRepo;
+            this.countryRepo = countryRepo;
         }
 
-        public async Task ImportClubsInfoAsync()
+        public async Task ImportClubsAsync()
         {
             var clubsDto = await this.GetClubsInfoAsync();
-            foreach (var dto in clubsDto)
+            foreach (var clubDto in clubsDto)
             {
-                var club = new Club
-                {
-                    Name = dto.Name,
-                    BadgeUrl = dto.BadgeUrl,
-                    PLLink = dto.PLLink,
-                    Stadium = new Stadium
-                    {
-                        Name = dto.Stadium.Name,
-                    },
-                    SocialLinks = new SocialLinks
-                    {
-                        WebsiteLink = dto.SocialLinks.WebsiteLink,
-                        FacebookLink = dto.SocialLinks.FacebookLink,
-                        TweeterLink = dto.SocialLinks.TweeterLink,
-                        InstagramLink = dto.SocialLinks.InstagramLink,
-                    },
-                };
+                Club club = this.CreateClub(clubDto);
 
                 await this.clubRepo.AddAsync(club);
-                await this.clubRepo.SaveChangesAsync();
             }
+
+        }
+
+        private Club CreateClub(ClubDto clubDto)
+        {
+            var club = new Club
+            {
+                Name = clubDto.Name,
+                BadgeUrl = clubDto.BadgeUrl,
+                PLLink = clubDto.PLLink,
+                Stadium = new Stadium
+                {
+                    Name = clubDto.Stadium.Name,
+                },
+                SocialLinks = new SocialLinks
+                {
+                    WebsiteLink = clubDto.SocialLinks.WebsiteLink,
+                    FacebookLink = clubDto.SocialLinks.FacebookLink,
+                    TweeterLink = clubDto.SocialLinks.TweeterLink,
+                    InstagramLink = clubDto.SocialLinks.InstagramLink,
+                },
+            };
+
+            return club;
         }
 
         private async Task<ConcurrentBag<ClubDto>> GetClubsInfoAsync()
         {
             var document = await this.context.OpenAsync(GlobalConstants.PremierLeagueLink);
 
-            var clubs = document.QuerySelectorAll(".indexItem").ToList();
+            var clubsPages = document.QuerySelectorAll(".indexItem").ToList();
 
-            var clubsInfo = new ConcurrentBag<ClubDto>();
+            var clubsDtosList = new ConcurrentBag<ClubDto>();
 
-            foreach (var club in clubs)
+            foreach (var clubPage in clubsPages)
             {
-                clubsInfo.Add(this.GetClubDto(club));
+                clubsDtosList.Add(this.GetClubDto(clubPage));
             }
 
-            foreach (var club in clubsInfo)
+            foreach (var clubDto in clubsDtosList)
             {
-                club.SocialLinks = await this.AddSocialLinksDtoToClubDto(club);
+                clubDto.SocialLinks = await this.GetSocialLinksDto(clubDto.PLStadiumLink);
             }
 
-            return clubsInfo;
+            return clubsDtosList;
         }
 
-        private ClubDto GetClubDto(AngleSharp.Dom.IElement club)
+        private ClubDto GetClubDto(AngleSharp.Dom.IElement clubPage)
         {
-            var clubInfo = new ClubDto();
+            var clubDto = new ClubDto();
 
-            clubInfo.Name = club.QuerySelector(".clubName").TextContent;
+            clubDto.Name = clubPage.QuerySelector(".clubName").TextContent;
 
-            clubInfo.BadgeUrl = club.QuerySelector(".badge-image").GetAttribute("src");
+            clubDto.BadgeUrl = clubPage.QuerySelector(".badge-image").GetAttribute("src");
 
-            var clubHref = club.GetAttribute("href");
+            var clubHref = clubPage.GetAttribute("href");
 
-            clubInfo.PLLink = GlobalConstants.PremierLeagueLink
+            clubDto.PLLink = GlobalConstants.PremierLeagueLink
                 .Replace("/clubs", string.Empty) + clubHref;
 
-            clubInfo.Stadium = this.GetStadiumDto(club);
+            clubDto.Stadium = this.GetStadiumDto(clubPage);
 
-            return clubInfo;
+            return clubDto;
         }
 
-        private async Task<SocialLinksDto> AddSocialLinksDtoToClubDto(ClubDto club)
+        private async Task<SocialLinksDto> GetSocialLinksDto(string clubStadiumLink)
         {
-            var clubStadiumPage = await this.context.OpenAsync(club.PLStadiumLink);
+            var clubStadiumPage = await this.context.OpenAsync(clubStadiumLink);
 
             var socialLinkDto = new SocialLinksDto
             {
@@ -110,15 +126,17 @@
             return socialLinkDto;
         }
 
-        private StadiumDto GetStadiumDto(AngleSharp.Dom.IElement club)
+        private StadiumDto GetStadiumDto(AngleSharp.Dom.IElement clubPage)
         {
             var stadiumDto = new StadiumDto
             {
-                Name = club.QuerySelector(".stadiumName").TextContent,
+                Name = clubPage.QuerySelector(".stadiumName").TextContent,
 
                 // TODO Stadium Info, Stadium image
             };
             return stadiumDto;
         }
+
+       
     }
 }

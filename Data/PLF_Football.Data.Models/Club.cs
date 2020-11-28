@@ -6,13 +6,14 @@
     using PLF_Football.Common;
     using PLF_Football.Data.Common.Models;
 
-    public class Club : BaseDeletableModel<int>
+    public class Club : BaseModel<int>
     {
         public Club()
         {
             this.Players = new HashSet<Player>();
             this.HomeMatches = new HashSet<Fixture>();
             this.AwayMatches = new HashSet<Fixture>();
+            this.Supporters = new HashSet<ApplicationUser>();
         }
 
         public string PLLink { get; set; }
@@ -21,10 +22,9 @@
         public string PLSquadLink => this.PLLink
             .Replace(GlobalConstants.ClubOverview, GlobalConstants.ClubSquad);
 
-        [NotMapped]
-        public string PLStadiumLink => this.PLLink
-            .Replace(GlobalConstants.ClubOverview, GlobalConstants.ClubStadium);
-
+        // [NotMapped]
+        // public string PLStadiumLink => this.PLLink
+        //     .Replace(GlobalConstants.ClubOverview, GlobalConstants.ClubStadium);
         public string Name { get; set; }
 
         public string BadgeUrl { get; set; }
@@ -32,6 +32,8 @@
         public int StadiumId { get; set; }
 
         public Stadium Stadium { get; set; }
+
+        public int SocialLinksId { get; set; }
 
         public SocialLinks SocialLinks { get; set; }
 

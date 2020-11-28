@@ -16,7 +16,7 @@
 
         public const string PlayerTotalStats = "stats";
 
-        public const string PlayerSeasonStatsFilter = "? co = 1 & se = 363";
+        public const string PlayerSeasonStatsFilter = "?co=1&se=363";
 
         public const string PlayerImgLink =
             "https://resources.premierleague.com/premierleague/photos/players/110x140/";

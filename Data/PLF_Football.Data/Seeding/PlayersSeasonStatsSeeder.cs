@@ -1,23 +1,20 @@
 ﻿namespace PLF_Football.Data.Seeding
 {
     using System;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.Extensions.DependencyInjection;
     using PLF_Football.Services;
 
-    public class ClubsSeeder : ISeeder
+    public class PlayersSeasonStatsSeeder : ISeeder
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {
-            if (dbContext.Clubs.Any())
+            var seasonStatsScraperSerice = serviceProvider.GetRequiredService<IPlayerUpdatedStatsScraperService>();
+            foreach (var player in dbContext.Players)
             {
-                return;
+                await seasonStatsScraperSerice.GetPlayerUpdatedStats(player.Id);
             }
-
-            var clubsScraperService = serviceProvider.GetRequiredService<IPLClubsScraperService>();
-            await clubsScraperService.ImportClubsAsync();
         }
     }
 }

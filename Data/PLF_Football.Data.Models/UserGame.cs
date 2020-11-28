@@ -4,12 +4,14 @@
 
     using PLF_Football.Data.Common.Models;
 
-    public class UserGames : BaseDeletableModel<int>
+    public class UserGame : BaseDeletableModel<int>
     {
-        public UserGames()
+        public UserGame()
         {
             this.MatchdayTeam = new HashSet<Player>();
         }
+
+        public string UserId { get; set; }
 
         public ApplicationUser User { get; set; }
 

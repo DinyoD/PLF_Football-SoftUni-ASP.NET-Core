@@ -1,12 +1,11 @@
 ﻿namespace PLF_Football.Services
 {
-    using System.Collections.Concurrent;
     using System.Threading.Tasks;
 
-    using PLF_Football.Services.Model;
+    using PLF_Football.Data.Models;
 
     public interface IPlayersByClubScraperService
     {
-        Task ImportPlayersInfoAsync(string clubSquadLink);
+        Task ImportPlayersInfoAsync(Club club);
     }
 }

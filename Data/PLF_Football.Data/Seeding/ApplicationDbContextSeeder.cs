@@ -27,10 +27,13 @@
                           {
                               new RolesSeeder(),
                               new UsersSeeder(),
-                              new ClubsSeeder(),
-                              new PositionSeeder(),
 
-                              // new PlayersByClubSeeder(),
+                              new ClubsSeeder(),
+                              new FixtureSeeder(),
+
+                              new PositionSeeder(),
+                              new CountrySeeder(),
+                              new PlayersByClubSeeder(),
                           };
 
             foreach (var seeder in seeders)

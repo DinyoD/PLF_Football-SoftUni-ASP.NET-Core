@@ -12,7 +12,7 @@
 
         public string ImageUrl { get; set; }
 
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
         public int? Height { get; set; }
 
@@ -22,13 +22,11 @@
 
         public string PositionName { get; set; }
 
-        public string NationalityName { get; set; }
+        public string CountryName { get; set; }
 
         public string PLOverviewLink { get; set; }
 
-        public PlayerStatsTotalDto PremierLeagueRecordTotal { get; set; }
-
-        public PlayerSeasonStatsDto PremierLeagueSeasonRecord { get; set; }
+        public PlayerStatsDto PremierLeagueRecordTotal { get; set; }
 
         public SocialLinksDto SocialLinks { get; set; }
 

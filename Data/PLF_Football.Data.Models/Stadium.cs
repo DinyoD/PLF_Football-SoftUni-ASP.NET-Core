@@ -2,7 +2,7 @@
 {
     using PLF_Football.Data.Common.Models;
 
-    public class Stadium : BaseDeletableModel<int>
+    public class Stadium : BaseModel<int>
     {
         public string Name { get; set; }
 

@@ -18,10 +18,11 @@
                     return;
                 }
 
-                var playersScraperService = serviceProvider.GetRequiredService<IPlayersByClubScraperService>();
-            }
+                var playersScraperService = serviceProvider
+                    .GetRequiredService<IPlayersByClubScraperService>();
 
-            dbContext.SaveChanges();
+                await playersScraperService.ImportPlayersInfoAsync(club);
+            }
         }
     }
 }

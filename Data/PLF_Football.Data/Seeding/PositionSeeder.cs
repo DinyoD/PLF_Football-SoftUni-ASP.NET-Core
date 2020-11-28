@@ -15,10 +15,10 @@
                 return;
             }
 
-            await dbContext.Positions.AddAsync(new Position { Id = 1, Name = "Goalkeeper" });
-            await dbContext.Positions.AddAsync(new Position { Id = 2, Name = "Defender" });
-            await dbContext.Positions.AddAsync(new Position { Id = 3, Name = "Midfielder" });
-            await dbContext.Positions.AddAsync(new Position { Id = 4, Name = "Forward" });
+            await dbContext.Positions.AddAsync(new Position { Name = "Goalkeeper" });
+            await dbContext.Positions.AddAsync(new Position { Name = "Defender" });
+            await dbContext.Positions.AddAsync(new Position { Name = "Midfielder" });
+            await dbContext.Positions.AddAsync(new Position { Name = "Forward" });
 
             await dbContext.SaveChangesAsync();
         }

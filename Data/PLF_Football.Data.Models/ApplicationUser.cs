@@ -16,7 +16,7 @@ namespace PLF_Football.Data.Models
             this.Roles = new HashSet<IdentityUserRole<string>>();
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
-            this.Games = new HashSet<UserGames>();
+            this.Games = new HashSet<UserGame>();
         }
 
         // Audit info
@@ -37,6 +37,6 @@ namespace PLF_Football.Data.Models
 
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
 
-        public virtual ICollection<UserGames> Games { get; set; }
+        public virtual ICollection<UserGame> Games { get; set; }
     }
 }

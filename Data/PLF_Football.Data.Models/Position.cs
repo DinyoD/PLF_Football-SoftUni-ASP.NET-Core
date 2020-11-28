@@ -1,12 +1,18 @@
 ﻿namespace PLF_Football.Data.Models
 {
-    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Collections.Generic;
 
-    public class Position
+    using PLF_Football.Data.Common.Models;
+
+    public class Position : BaseModel<int>
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int Id { get; set; }
+        public Position()
+        {
+            this.Players = new HashSet<Player>();
+        }
 
         public string Name { get; set; }
+
+        public virtual ICollection<Player> Players { get; set; }
     }
 }
