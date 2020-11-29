@@ -44,6 +44,8 @@
 
         public DbSet<PlayersUserGames> PlayersUserGames { get; set; }
 
+        public DbSet<PlayerPointsByFixture> PlayerPointsByFixtures { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)

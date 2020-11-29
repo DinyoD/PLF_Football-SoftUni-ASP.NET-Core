@@ -29,13 +29,9 @@
 
         public string BadgeUrl { get; set; }
 
-        public int StadiumId { get; set; }
+        public virtual Stadium Stadium { get; set; }
 
-        public Stadium Stadium { get; set; }
-
-        public int SocialLinksId { get; set; }
-
-        public SocialLinks SocialLinks { get; set; }
+        public virtual SocialLinks SocialLinks { get; set; }
 
         public virtual ICollection<Player> Players { get; set; }
 

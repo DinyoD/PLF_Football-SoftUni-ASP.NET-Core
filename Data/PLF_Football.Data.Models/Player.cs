@@ -12,6 +12,7 @@
         public Player()
         {
             this.UsersGames = new HashSet<PlayersUserGames>();
+            this.PlayerPoints = new HashSet<PlayerPointsByFixture>();
         }
 
         public string FirstName { get; set; }
@@ -30,15 +31,18 @@
 
         public int PositionId { get; set; }
 
-        public Position Position { get; set; }
+        [ForeignKey("PositionId")]
+        public virtual Position Position { get; set; }
 
         public int? CountryId { get; set; }
 
-        public Country Country { get; set; }
+        [ForeignKey("CountryId")]
+        public virtual Country Country { get; set; }
 
         public int ClubId { get; set; }
 
-        public Club Club { get; set; }
+        [ForeignKey("ClubId")]
+        public virtual Club Club { get; set; }
 
         public string PLOverviewLink { get; set; }
 
@@ -46,19 +50,14 @@
         public string PLTotalStatsLink => this.PLOverviewLink
             .Replace(GlobalConstants.PlayerOverview, GlobalConstants.PlayerTotalStats);
 
-        // [NotMapped]
-        // public string PLCurrSeasonLink => this.PLTotalStatsLink + GlobalConstants.PlayerSeasonStatsFilter;
-        public int PlayerStatsId { get; set; }
+        public virtual PlayerStats PlayerStats { get; set; }
 
-        public PlayerStats PlayerStats { get; set; }
+        public virtual SocialLinks SocialLinks { get; set; }
 
-        public int SocialLinksId { get; set; }
-
-        public SocialLinks SocialLinks { get; set; }
-
-        [NotMapped]
-        public int Price => 3_000_000;
+        public int Price { get; set; }
 
         public virtual ICollection<PlayersUserGames> UsersGames { get; set; }
+
+        public virtual ICollection<PlayerPointsByFixture> PlayerPoints { get; set; }
     }
 }

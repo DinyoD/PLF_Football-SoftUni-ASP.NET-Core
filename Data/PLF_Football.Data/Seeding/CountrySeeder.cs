@@ -13,33 +13,10 @@
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {
-            var countriesAll = new List<Country>();
+            var countryScraperService = serviceProvider
+                .GetRequiredService<ICountryScraperService>();
 
-            foreach (var club in dbContext.Clubs)
-            {
-                if (dbContext.Countries.Any())
-                {
-                    return;
-                }
-
-                var countryScraperService = serviceProvider
-                    .GetRequiredService<ICountryScraperService>();
-
-                var countriesByClub = await countryScraperService.AddPlayersCountry(club);
-
-                foreach (var country in countriesByClub)
-                {
-                    if (!countriesAll.Any(x => x.Name == country.Name))
-                    {
-                        countriesAll.Add(country);
-                    }
-                }
-            }
-
-            foreach (var country in countriesAll)
-            {
-                await dbContext.Countries.AddAsync(country);
-            }
+            await countryScraperService.ImportPlayersCountry();
         }
     }
 }

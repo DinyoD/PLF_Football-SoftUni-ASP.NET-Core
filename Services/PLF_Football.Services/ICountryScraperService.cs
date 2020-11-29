@@ -7,6 +7,6 @@
 
     public interface ICountryScraperService
     {
-        Task<ICollection<Country>> AddPlayersCountry(Club club);
+        Task ImportPlayersCountry();
     }
 }

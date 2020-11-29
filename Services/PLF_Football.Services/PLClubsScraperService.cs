@@ -136,7 +136,5 @@
             };
             return stadiumDto;
         }
-
-       
     }
 }

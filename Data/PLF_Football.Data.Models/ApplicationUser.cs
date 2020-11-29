@@ -3,7 +3,7 @@ namespace PLF_Football.Data.Models
 {
     using System;
     using System.Collections.Generic;
-
+    using System.ComponentModel.DataAnnotations.Schema;
     using Microsoft.AspNetCore.Identity;
 
     using PLF_Football.Data.Common.Models;
@@ -29,7 +29,10 @@ namespace PLF_Football.Data.Models
 
         public DateTime? DeletedOn { get; set; }
 
-        public Club FavoriteTeam { get; set; }
+        public int? ClubId { get; set; }
+
+        [ForeignKey("ClubId")]
+        public virtual Club FavoriteTeam { get; set; }
 
         public virtual ICollection<IdentityUserRole<string>> Roles { get; set; }
 

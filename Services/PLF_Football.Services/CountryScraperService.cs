@@ -11,16 +11,41 @@
     public class CountryScraperService : ICountryScraperService
     {
         private readonly IRepository<Country> countryRepo;
+        private readonly IRepository<Club> clubsRepo;
         private readonly IBrowsingContext context;
 
-        public CountryScraperService(IRepository<Country> countryRepo)
+        public CountryScraperService(IRepository<Country> countryRepo, IRepository<Club> clubsRepo)
         {
             var config = Configuration.Default.WithDefaultLoader();
             this.context = BrowsingContext.New(config);
             this.countryRepo = countryRepo;
+            this.clubsRepo = clubsRepo;
         }
 
-        public async Task<ICollection<Country>> AddPlayersCountry(Club club)
+        public async Task ImportPlayersCountry()
+        {
+            var countriesAll = new List<Country>();
+
+            foreach (var club in this.clubsRepo.AllAsNoTracking())
+            {
+                var countriesByClub = await this.ImportPlayersCountry(club);
+
+                foreach (var country in countriesByClub)
+                {
+                    if (!countriesAll.Any(x => x.Name == country.Name))
+                    {
+                        countriesAll.Add(country);
+                    }
+                }
+            }
+
+            foreach (var country in countriesAll)
+            {
+                await this.countryRepo.AddAsync(country);
+            }
+        }
+
+        public async Task<ICollection<Country>> ImportPlayersCountry(Club club)
         {
             var clubSquadPage = await this.context.OpenAsync(club.PLSquadLink);
             var playersNationality = clubSquadPage.QuerySelectorAll(".squadPlayerStats");

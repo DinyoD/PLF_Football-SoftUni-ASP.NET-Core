@@ -3,6 +3,8 @@
     using System;
     using System.Diagnostics;
     using System.IO;
+    using System.Linq;
+    using System.Text.Json;
     using System.Threading.Tasks;
 
     using CommandLine;
@@ -23,7 +25,7 @@
     {
         public static int Main(string[] args)
         {
-            Console.WriteLine($"{typeof(Program).Namespace} ({string.Join(" ", args)}) starts working...");
+            //Console.WriteLine($"{typeof(Program).Namespace} ({string.Join(" ", args)}) starts working...");
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
             IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider(true);
@@ -32,8 +34,17 @@
             using (var serviceScope = serviceProvider.CreateScope())
             {
                 var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                dbContext.Database.Migrate();
-                new ApplicationDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
+
+                //dbContext.Database.Migrate();
+                //new ApplicationDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
+
+                var players = dbContext.Players.Select(x => new
+                {
+                    Name = x.FirstName + " " + x.LastName,
+                    Price = GetPlayerPrice(x.PlayerStats),
+                }).ToList();
+
+                Console.WriteLine(JsonSerializer.Serialize(players));
             }
 
             using (var serviceScope = serviceProvider.CreateScope())
@@ -44,6 +55,46 @@
                     opts => SandboxCode(opts, serviceProvider).GetAwaiter().GetResult(),
                     _ => 255);
             }
+        }
+
+        private static int GetPlayerPrice(PlayerStats playerStats)
+        {
+            var price = 200_000;
+
+            if (playerStats.Appearances > 6)
+            {
+                var bonus = (playerStats.Wins * 100 / playerStats.Appearances) * 40_000;
+                price += bonus;
+            }
+
+            if (playerStats.CleanSheets == null && playerStats.Appearances > 0)
+            {
+                var bonus =
+                    (playerStats.Goals * 100 / playerStats.Appearances * 60_000)
+                    + (playerStats.Assists * 100 / playerStats.Appearances * 40_000);
+
+                price += bonus;
+            }
+
+            if (playerStats.CleanSheets != null && playerStats.Appearances > 0)
+            {
+                var bonus =
+                    (playerStats.CleanSheets * 100 / playerStats.Appearances * 30_000)
+                    - (playerStats.GoalsConceded / playerStats.Appearances * 10_000);
+
+                price += (int)bonus;
+            }
+
+            if (playerStats.Clearences != null && playerStats.Appearances > 5)
+            {
+                var bonus =
+                    (playerStats.Clearences * 10 / playerStats.Appearances * 10_000)
+                    + (playerStats.Tackles * 10 / playerStats.Appearances * 10_000);
+
+                price += (int)bonus;
+            }
+
+            return price;
         }
 
         private static async Task<int> SandboxCode(SandboxOptions options, IServiceProvider serviceProvider)

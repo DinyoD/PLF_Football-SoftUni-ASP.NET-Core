@@ -51,17 +51,59 @@
             {
                 var player = this.CreatePlayerFromPlayerDto(playerDto, club.Id);
 
-                player.PositionId = this.positionRepo
+                player.Position = this.positionRepo
                                     .All()
-                                    .FirstOrDefault(x => x.Name == playerDto.PositionName).Id;
-                player.CountryId = this.countryRepo
+                                    .FirstOrDefault(x => x.Name == playerDto.PositionName);
+                player.Country = this.countryRepo
                                     .All()
-                                    .FirstOrDefault(x => x.Name == playerDto.CountryName)?.Id;
+                                    .FirstOrDefault(x => x.Name == playerDto.CountryName);
+
+                player.Price = this.GetPlayerPrice(player.PlayerStats);
 
                 players.Add(player);
             }
 
             return players;
+        }
+
+        private int GetPlayerPrice(PlayerStats playerStats)
+        {
+            var price = 200_000;
+
+            if (playerStats.Appearances > 6)
+            {
+                var appearancesBonus = (playerStats.Wins * 100 / playerStats.Appearances) * 40_000;
+                price += appearancesBonus;
+            }
+
+            if (playerStats.CleanSheets == null && playerStats.Appearances > 0)
+            {
+                var attackingBonus =
+                    (playerStats.Goals * 100 / playerStats.Appearances * 60_000)
+                    + (playerStats.Assists * 100 / playerStats.Appearances * 40_000);
+
+                price += attackingBonus;
+            }
+
+            if (playerStats.CleanSheets != null && playerStats.Appearances > 0)
+            {
+                var goalkeepersBonus =
+                    (playerStats.CleanSheets * 100 / playerStats.Appearances * 30_000)
+                    - (playerStats.GoalsConceded / playerStats.Appearances * 10_000);
+
+                price += (int)goalkeepersBonus;
+            }
+
+            if (playerStats.Clearences != null && playerStats.Appearances > 5)
+            {
+                var defendersgBonus =
+                    (playerStats.Clearences * 10 / playerStats.Appearances * 10_000)
+                    + (playerStats.Tackles * 10 / playerStats.Appearances * 10_000);
+
+                price += (int)defendersgBonus;
+            }
+
+            return price;
         }
 
         private async Task<ConcurrentBag<PlayerDto>> GetPlayersDtoByClub(Club club)
@@ -99,7 +141,7 @@
 
             var fullName = playerPage.QuerySelector(".playerDetails  .name")?.TextContent;
 
-            var names = fullName?.Split(" ");
+            var names = fullName?.Split(" ", 2);
             if (names != null && names.Length > 1)
             {
                 playerDto.FirstName = names[0];

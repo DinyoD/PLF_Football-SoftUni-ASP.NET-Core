@@ -1,6 +1,7 @@
 ﻿namespace PLF_Football.Data.Models
 {
     using PLF_Football.Data.Common.Models;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public class PlayerStats : BaseDeletableModel<int>
     {
@@ -35,5 +36,10 @@
         public int? Clearences { get; set; }
 
         public int? Tackles { get; set; }
+
+        public int PlayerId { get; set; }
+
+        [ForeignKey("PlayerId")]
+        public Player Player { get; set; }
     }
 }

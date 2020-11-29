@@ -33,6 +33,7 @@
 
                               new PositionSeeder(),
                               new CountrySeeder(),
+
                               new PlayersByClubSeeder(),
                           };
 

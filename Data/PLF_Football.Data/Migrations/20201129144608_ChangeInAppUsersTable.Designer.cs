@@ -10,8 +10,8 @@ using PLF_Football.Data;
 namespace PLF_Football.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201128231123_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20201129144608_ChangeInAppUsersTable")]
+    partial class ChangeInAppUsersTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -174,6 +174,9 @@ namespace PLF_Football.Data.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ClubId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -190,9 +193,6 @@ namespace PLF_Football.Data.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<int?>("FavoriteTeamId")
-                        .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -235,7 +235,7 @@ namespace PLF_Football.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FavoriteTeamId");
+                    b.HasIndex("ClubId");
 
                     b.HasIndex("IsDeleted");
 
@@ -272,17 +272,7 @@ namespace PLF_Football.Data.Migrations
                     b.Property<string>("PLLink")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SocialLinksId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StadiumId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("SocialLinksId");
-
-                    b.HasIndex("StadiumId");
 
                     b.ToTable("Clubs");
                 });
@@ -399,13 +389,10 @@ namespace PLF_Football.Data.Migrations
                     b.Property<string>("PLOverviewLink")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PlayerStatsId")
-                        .HasColumnType("int");
-
                     b.Property<int>("PositionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SocialLinksId")
+                    b.Property<int>("Price")
                         .HasColumnType("int");
 
                     b.Property<string>("SquadNumber")
@@ -425,15 +412,50 @@ namespace PLF_Football.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.HasIndex("PlayerStatsId");
-
                     b.HasIndex("PositionId");
-
-                    b.HasIndex("SocialLinksId");
 
                     b.HasIndex("UserGameId");
 
                     b.ToTable("Players");
+                });
+
+            modelBuilder.Entity("PLF_Football.Data.Models.PlayerPointsByFixture", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("FixtureId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PlayerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Points")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FixtureId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("PlayerId");
+
+                    b.ToTable("PlayerPointsByFixtures");
                 });
 
             modelBuilder.Entity("PLF_Football.Data.Models.PlayerStats", b =>
@@ -485,6 +507,9 @@ namespace PLF_Football.Data.Migrations
                     b.Property<int?>("Passes")
                         .HasColumnType("int");
 
+                    b.Property<int>("PlayerId")
+                        .HasColumnType("int");
+
                     b.Property<int>("RedCards")
                         .HasColumnType("int");
 
@@ -506,6 +531,9 @@ namespace PLF_Football.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
+
+                    b.HasIndex("PlayerId")
+                        .IsUnique();
 
                     b.ToTable("PlayersStats");
                 });
@@ -553,6 +581,9 @@ namespace PLF_Football.Data.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<int?>("ClubId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
@@ -571,6 +602,9 @@ namespace PLF_Football.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("PlayerId")
+                        .HasColumnType("int");
+
                     b.Property<string>("TweeterLink")
                         .HasColumnType("nvarchar(max)");
 
@@ -579,7 +613,15 @@ namespace PLF_Football.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ClubId")
+                        .IsUnique()
+                        .HasFilter("[ClubId] IS NOT NULL");
+
                     b.HasIndex("IsDeleted");
+
+                    b.HasIndex("PlayerId")
+                        .IsUnique()
+                        .HasFilter("[PlayerId] IS NOT NULL");
 
                     b.ToTable("SocialLinks");
                 });
@@ -590,6 +632,9 @@ namespace PLF_Football.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
+
+                    b.Property<int>("ClubId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -607,6 +652,9 @@ namespace PLF_Football.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClubId")
+                        .IsUnique();
 
                     b.ToTable("Stadiums");
                 });
@@ -703,28 +751,9 @@ namespace PLF_Football.Data.Migrations
                 {
                     b.HasOne("PLF_Football.Data.Models.Club", "FavoriteTeam")
                         .WithMany("Supporters")
-                        .HasForeignKey("FavoriteTeamId");
+                        .HasForeignKey("ClubId");
 
                     b.Navigation("FavoriteTeam");
-                });
-
-            modelBuilder.Entity("PLF_Football.Data.Models.Club", b =>
-                {
-                    b.HasOne("PLF_Football.Data.Models.SocialLinks", "SocialLinks")
-                        .WithMany()
-                        .HasForeignKey("SocialLinksId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("PLF_Football.Data.Models.Stadium", "Stadium")
-                        .WithMany()
-                        .HasForeignKey("StadiumId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("SocialLinks");
-
-                    b.Navigation("Stadium");
                 });
 
             modelBuilder.Entity("PLF_Football.Data.Models.Fixture", b =>
@@ -758,21 +787,9 @@ namespace PLF_Football.Data.Migrations
                         .WithMany("Players")
                         .HasForeignKey("CountryId");
 
-                    b.HasOne("PLF_Football.Data.Models.PlayerStats", "PlayerStats")
-                        .WithMany()
-                        .HasForeignKey("PlayerStatsId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("PLF_Football.Data.Models.Position", "Position")
                         .WithMany("Players")
                         .HasForeignKey("PositionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("PLF_Football.Data.Models.SocialLinks", "SocialLinks")
-                        .WithMany()
-                        .HasForeignKey("SocialLinksId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -784,11 +801,37 @@ namespace PLF_Football.Data.Migrations
 
                     b.Navigation("Country");
 
-                    b.Navigation("PlayerStats");
-
                     b.Navigation("Position");
+                });
 
-                    b.Navigation("SocialLinks");
+            modelBuilder.Entity("PLF_Football.Data.Models.PlayerPointsByFixture", b =>
+                {
+                    b.HasOne("PLF_Football.Data.Models.Fixture", "Fixture")
+                        .WithMany()
+                        .HasForeignKey("FixtureId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("PLF_Football.Data.Models.Player", "Player")
+                        .WithMany("PlayerPoints")
+                        .HasForeignKey("PlayerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Fixture");
+
+                    b.Navigation("Player");
+                });
+
+            modelBuilder.Entity("PLF_Football.Data.Models.PlayerStats", b =>
+                {
+                    b.HasOne("PLF_Football.Data.Models.Player", "Player")
+                        .WithOne("PlayerStats")
+                        .HasForeignKey("PLF_Football.Data.Models.PlayerStats", "PlayerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Player");
                 });
 
             modelBuilder.Entity("PLF_Football.Data.Models.PlayersUserGames", b =>
@@ -808,6 +851,32 @@ namespace PLF_Football.Data.Migrations
                     b.Navigation("Player");
 
                     b.Navigation("UserGame");
+                });
+
+            modelBuilder.Entity("PLF_Football.Data.Models.SocialLinks", b =>
+                {
+                    b.HasOne("PLF_Football.Data.Models.Club", "Club")
+                        .WithOne("SocialLinks")
+                        .HasForeignKey("PLF_Football.Data.Models.SocialLinks", "ClubId");
+
+                    b.HasOne("PLF_Football.Data.Models.Player", "Player")
+                        .WithOne("SocialLinks")
+                        .HasForeignKey("PLF_Football.Data.Models.SocialLinks", "PlayerId");
+
+                    b.Navigation("Club");
+
+                    b.Navigation("Player");
+                });
+
+            modelBuilder.Entity("PLF_Football.Data.Models.Stadium", b =>
+                {
+                    b.HasOne("PLF_Football.Data.Models.Club", "Club")
+                        .WithOne("Stadium")
+                        .HasForeignKey("PLF_Football.Data.Models.Stadium", "ClubId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Club");
                 });
 
             modelBuilder.Entity("PLF_Football.Data.Models.UserGame", b =>
@@ -838,6 +907,10 @@ namespace PLF_Football.Data.Migrations
 
                     b.Navigation("Players");
 
+                    b.Navigation("SocialLinks");
+
+                    b.Navigation("Stadium");
+
                     b.Navigation("Supporters");
                 });
 
@@ -848,6 +921,12 @@ namespace PLF_Football.Data.Migrations
 
             modelBuilder.Entity("PLF_Football.Data.Models.Player", b =>
                 {
+                    b.Navigation("PlayerPoints");
+
+                    b.Navigation("PlayerStats");
+
+                    b.Navigation("SocialLinks");
+
                     b.Navigation("UsersGames");
                 });
 
