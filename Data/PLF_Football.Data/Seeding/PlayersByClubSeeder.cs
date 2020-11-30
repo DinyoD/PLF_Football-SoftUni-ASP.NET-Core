@@ -11,18 +11,15 @@
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {
-            foreach (var club in dbContext.Clubs)
+            if (dbContext.Players.Any())
             {
-                if (dbContext.Players.Where(x => x.ClubId == club.Id).Any())
-                {
-                    return;
-                }
+                return;
+            }
 
-                var playersScraperService = serviceProvider
+            var playersScraperService = serviceProvider
                     .GetRequiredService<IPlayersByClubScraperService>();
 
-                await playersScraperService.ImportPlayersInfoAsync(club);
-            }
+            await playersScraperService.ImportPlayersAsync();
         }
     }
 }

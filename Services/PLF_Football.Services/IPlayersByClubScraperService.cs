@@ -6,6 +6,6 @@
 
     public interface IPlayersByClubScraperService
     {
-        Task ImportPlayersInfoAsync(Club club);
+        Task ImportPlayersAsync();
     }
 }

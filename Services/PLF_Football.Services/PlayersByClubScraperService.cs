@@ -17,32 +17,32 @@
     {
         private readonly IBrowsingContext context;
         private readonly IRepository<Club> clubRepo;
-        private readonly IDeletableEntityRepository<Player> playersRepo;
         private readonly IRepository<Position> positionRepo;
         private readonly IRepository<Country> countryRepo;
 
         public PlayersByClubScraperService(
             IRepository<Club> clubRepo,
-            IDeletableEntityRepository<Player> playersRepo,
             IRepository<Position> positionRepo,
             IRepository<Country> countryRepo)
         {
             var config = Configuration.Default.WithDefaultLoader();
             this.context = BrowsingContext.New(config);
             this.clubRepo = clubRepo;
-            this.playersRepo = playersRepo;
             this.positionRepo = positionRepo;
             this.countryRepo = countryRepo;
         }
 
-        public async Task ImportPlayersInfoAsync(Club club)
+        public async Task ImportPlayersAsync()
         {
-            var players = await this.GetClubPlayers(club);
+            foreach (var club in this.clubRepo.All())
+            {
+                var players = await this.GetClubPlayersAsync(club);
 
-            club.Players = players;
+                club.Players = players;
+            }
         }
 
-        private async Task<ICollection<Player>> GetClubPlayers(Club club)
+        private async Task<ICollection<Player>> GetClubPlayersAsync(Club club)
         {
             var playersDtoByClub = await this.GetPlayersDtoByClub(club);
             var players = new List<Player>();
