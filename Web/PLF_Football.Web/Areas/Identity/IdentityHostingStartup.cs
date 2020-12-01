@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -9,6 +10,7 @@ using PLF_Football.Data;
 using PLF_Football.Data.Models;
 
 [assembly: HostingStartup(typeof(PLF_Football.Web.Areas.Identity.IdentityHostingStartup))]
+
 namespace PLF_Football.Web.Areas.Identity
 {
     public class IdentityHostingStartup : IHostingStartup

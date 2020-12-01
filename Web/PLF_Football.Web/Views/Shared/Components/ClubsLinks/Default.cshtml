@@ -1,0 +1,13 @@
+﻿@model PLF_Football.Web.ViewModels.ViewComponents.ClubLinksInListViewModel
+
+<div class="container col-12">
+    <ul class="row list-inline justify-content-around">
+
+        @foreach (var club in Model.Clubs)
+        {
+            <li>
+                <img src="@club.BadgeUrl" alt="Alternate Text" style="width:40px" />
+            </li>
+        }
+    </ul>
+</div>

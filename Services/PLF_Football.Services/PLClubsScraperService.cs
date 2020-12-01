@@ -47,7 +47,6 @@
 
                 await this.clubRepo.AddAsync(club);
             }
-
         }
 
         private Club CreateClub(ClubDto clubDto)

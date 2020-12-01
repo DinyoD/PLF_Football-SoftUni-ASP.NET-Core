@@ -16,6 +16,7 @@
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.AspNetCore.WebUtilities;
     using Microsoft.Extensions.Logging;
+    using PLF_Football.Data.Common.Repositories;
     using PLF_Football.Data.Models;
 
     [AllowAnonymous]
@@ -25,23 +26,36 @@
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ILogger<RegisterModel> logger;
         private readonly IEmailSender emailSender;
+        private readonly IRepository<Club> clubRepo;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IRepository<Club> clubRepo)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.logger = logger;
             this.emailSender = emailSender;
+            this.clubRepo = clubRepo;
         }
 
         [BindProperty]
         public InputModel Input { get; set; }
 
         public string ReturnUrl { get; set; }
+
+        public ICollection<RegisterClubModel> Clubs => this.clubRepo
+            .AllAsNoTracking()
+            .Select(x => new RegisterClubModel
+            {
+                Name = x.Name,
+                Id = x.Id,
+            })
+            .OrderBy(x => x.Name)
+            .ToList();
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
@@ -57,7 +71,12 @@
             this.ExternalLogins = (await this.signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (this.ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = this.Input.UserName, Email = this.Input.Email };
+                var user = new ApplicationUser
+                {
+                    UserName = this.Input.UserName,
+                    Email = this.Input.Email,
+                    ClubId = this.Input.TeamId,
+                };
                 var result = await this.userManager.CreateAsync(user, this.Input.Password);
                 if (result.Succeeded)
                 {
@@ -118,6 +137,17 @@
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Required]
+            [Display(Name = "Choose Favorite Team")]
+            public int TeamId { get; set; }
+        }
+
+        public class RegisterClubModel
+        {
+            public string Name { get; set; }
+
+            public int Id { get; set; }
         }
     }
 }
