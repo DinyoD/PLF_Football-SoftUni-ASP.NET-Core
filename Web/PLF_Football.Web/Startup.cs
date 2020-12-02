@@ -18,7 +18,7 @@
     using PLF_Football.Data.Repositories;
     using PLF_Football.Data.Seeding;
     using PLF_Football.Services;
-    using PLF_Football.Services.Data.Models;
+    using PLF_Football.Services.Data;
     using PLF_Football.Services.Mapping;
     using PLF_Football.Services.Messaging;
     using PLF_Football.Web.ViewModels;

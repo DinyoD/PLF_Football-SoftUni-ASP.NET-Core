@@ -1,0 +1,123 @@
+﻿@model PLF_Football.Web.ViewModels.Clubs.ClubMainVewModel
+@{
+    this.ViewData["ClubImg"] = @Model.Name.ToLower();
+}
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="~/css/teamSection.css" rel="stylesheet" />
+    <!------ Include the above in your HEAD tag ---------->
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+        .club-info{
+            position: relative;
+        }
+        .club-info::after {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            @*background-image: url("@($"/image/Clubs/{Model.Name.ToLower()}.png")");*@
+            background-image: url("/image/Club/chelsea.png");
+            width: 100%;
+            height: 100%;
+            background-position:center;
+            opacity: 0.5;
+            z-index: -1;
+        }
+    </style>
+
+    <section class="our-webcoderskull padding-lg">
+
+        <div class="container">
+
+            <div class="club-info">
+
+                <br />
+                <img src="@Model.BadgeUrl" alt="Alternate Text" />
+                <span class="display-1">@Model.Name</span>
+                <br />
+
+                <ul class="follow-us clearfix">
+                    <li>
+                        <a href="@Model.SocialLinks.WebsiteLink">
+                            Official Website
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Model.SocialLinks.FacebookLink">
+                            <i class="fa fa-facebook" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Model.SocialLinks.TweeterLink">
+                            <i class="fa fa-twitter" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Model.SocialLinks.InstagramLink">
+                            <i class="fa fa-linkedin" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                </ul>
+                <br />
+                <p>
+                    <a href="@Model.PLLink">
+                        Source
+                    </a>
+                </p>
+                <br />
+                <p>@Model.StadiumName</p>
+
+            </div>
+
+            <ul class="row">
+
+                @foreach (var player in Model.Players.Where(x=>x.SquadNumber != null).OrderBy(x => int.Parse(x.SquadNumber)))
+                {
+                    <li class="col-12 col-md-6 col-lg-3 bg-light accept-policy">
+                        <div class="cnt-block equal-hight" style="height: 349px;">
+
+                            <span class="number">@player.SquadNumber</span>
+                            <figure>
+                                <img src="@player.ImageUrl" class="img-responsive" alt="" onerror="this.src = 'https://resources.premierleague.com/premierleague/photos/players/110x140/Photo-Missing.png'">
+                            </figure>
+                            <h3 class="display-2">@player.FullName</h3>
+                            <p class="display-4">@player.PositionName</p>
+                            <p>
+                                <a asp-controller="Players" asp-action="GetStatistic" asp-route-id="@player.Id">
+                                    Premier League Record
+                                </a>
+                            </p>
+                            <ul class="follow-us clearfix">
+                                <li>
+                                    <a href="@player.SocialLinks.FacebookLink">
+                                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@player.SocialLinks.TweeterLink">
+                                        <i class="fa fa-twitter" aria-hidden="true"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@player.SocialLinks.InstagramLink">
+                                        <i class="fa fa-instagram" aria-hidden="true"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                            <br />
+                            <br />
+                        </div>
+                    </li>
+
+                };
+            </ul>
+
+        </div> 
+
+    </section>

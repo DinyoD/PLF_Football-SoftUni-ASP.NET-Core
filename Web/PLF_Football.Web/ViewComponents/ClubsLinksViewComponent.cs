@@ -1,7 +1,7 @@
 ﻿namespace PLF_Football.Web.ViewComponents
 {
     using Microsoft.AspNetCore.Mvc;
-    using PLF_Football.Services.Data.Models;
+    using PLF_Football.Services.Data;
     using PLF_Football.Web.ViewModels.ViewComponents;
 
     public class ClubsLinksViewComponent : ViewComponent

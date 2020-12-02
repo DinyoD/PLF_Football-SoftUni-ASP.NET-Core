@@ -1,4 +1,4 @@
-﻿namespace PLF_Football.Services.Data.Models
+﻿namespace PLF_Football.Services.Data
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -19,6 +19,11 @@
         public IEnumerable<T> GetAll<T>()
         {
             return this.clubsRepo.AllAsNoTracking().OrderBy(x => x.Name).To<T>().ToList();
+        }
+
+        public T GetById<T>(int id)
+        {
+            return this.clubsRepo.AllAsNoTracking().Where(x => x.Id == id).To<T>().FirstOrDefault();
         }
     }
 }

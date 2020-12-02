@@ -4,8 +4,8 @@ namespace PLF_Football.Data.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
-    using Microsoft.AspNetCore.Identity;
 
+    using Microsoft.AspNetCore.Identity;
     using PLF_Football.Data.Common.Models;
 
     public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntity

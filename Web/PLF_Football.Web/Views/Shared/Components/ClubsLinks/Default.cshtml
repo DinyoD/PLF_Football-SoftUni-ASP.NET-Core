@@ -5,9 +5,11 @@
 
         @foreach (var club in Model.Clubs)
         {
-            <li>
+        <li hre>
+            <a asp-controller="Clubs" asp-action="ById" asp-route-id="@club.Id">
                 <img src="@club.BadgeUrl" alt="Alternate Text" style="width:40px" />
-            </li>
+            </a>
+        </li>
         }
     </ul>
 </div>

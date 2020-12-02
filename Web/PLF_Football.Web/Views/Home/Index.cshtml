@@ -3,16 +3,19 @@
     this.ViewData["Title"] = "Home Page";
 }
 
-@if (!User.Identity.IsAuthenticated)
-{
-    <div class="text-center">
-        <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
-    </div>
-}
-else
-{
-    <div class="text-center">
-        <h1 class="display-4">Welcome to @User.Identity.Name team page!</h1>
-    </div>
-}
+<div class="container" style="width: 100vw; height: 70vh">
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <div class="text-center">
+            <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
+        </div>
+    }
+    else
+    {
+        <div class="text-center">
+            <h1 class="display-4">@User.Identity.Name team, Come on!</h1>
+        </div>
+    }
+</div>
 
+    
