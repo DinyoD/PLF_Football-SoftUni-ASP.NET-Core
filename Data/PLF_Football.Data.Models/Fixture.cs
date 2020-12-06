@@ -20,6 +20,6 @@
 
         public string Result { get; set; }
 
-        public bool Finished { get; set; }
+        public bool Started { get; set; }
     }
 }

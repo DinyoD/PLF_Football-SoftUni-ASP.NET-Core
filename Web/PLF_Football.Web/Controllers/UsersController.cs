@@ -9,9 +9,9 @@
 
         }
 
-        public IActionResult AddUserTeam()
+        public IActionResult Team(int id)
         {
-            return null;
+            return this.View();
         }
     }
 }

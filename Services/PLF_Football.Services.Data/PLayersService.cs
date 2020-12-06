@@ -17,6 +17,11 @@ namespace PLF_Football.Services.Data
             this.playersRepo = playersRepo;
         }
 
+        public Player GetPlayerById(int playerId)
+        {
+            return this.playersRepo.AllAsNoTracking().Where(x => x.Id == playerId).FirstOrDefault();
+        }
+
         public T GetPlayerStatsbyId<T>(int playerId)
         {
             return this.playersRepo.AllAsNoTracking()

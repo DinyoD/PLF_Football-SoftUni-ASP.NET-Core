@@ -36,7 +36,7 @@
                     Matchday = fixtureDto.Matchday,
                     AwayTeamId = fixtureDto.AwayTeamId,
                     HomeTeamId = fixtureDto.HomeTeamId,
-                    Finished = fixtureDto.Result.Contains(" - "),
+                    Started = fixtureDto.Result.Contains(" - "),
                     Result = fixtureDto.Result,
                 };
 

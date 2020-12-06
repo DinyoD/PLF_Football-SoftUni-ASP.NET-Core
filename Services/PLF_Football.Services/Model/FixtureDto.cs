@@ -9,7 +9,5 @@
         public int AwayTeamId { get; set; }
 
         public string Result { get; set; }
-
-        public bool Finished { get; set; }
     }
 }

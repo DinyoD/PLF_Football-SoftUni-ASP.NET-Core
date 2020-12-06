@@ -73,6 +73,8 @@
             services.AddTransient<ICountryScraperService, CountryScraperService>();
             services.AddTransient<IClubsService, ClubsService>();
             services.AddTransient<IPlayersService, PLayersService>();
+            services.AddTransient<IUserGamesService, UserGamesService>();
+            services.AddTransient<IFixtureService, FixtureService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

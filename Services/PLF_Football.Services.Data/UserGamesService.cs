@@ -1,6 +1,7 @@
 ﻿namespace PLF_Football.Services.Data
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -20,20 +21,44 @@
             this.playersRepo = playersRepo;
         }
 
-        public async Task<bool> AddPlayerToUserGame(int playerId, int userGameId)
+        public async Task<bool> AddPlayerToUserGameAsync(int playerId)
         {
-            bool sucsess = false;
-            var userGame = this.userGamesRepo.All().Where(x => x.Id == userGameId).FirstOrDefault();
+            bool success = false;
+            var userGame = this.userGamesRepo.All().OrderByDescending(x => x.Id).FirstOrDefault();
             var player = this.playersRepo.All().Where(x => x.Id == playerId).FirstOrDefault();
 
             if (userGame != null && userGame.MatchdayTeam.Count < 11 && player != null)
             {
                 userGame.MatchdayTeam.Add(player);
                 await this.userGamesRepo.SaveChangesAsync();
-                sucsess = true;
+                success = true;
             }
 
-            return sucsess;
+            return success;
+        }
+
+        public async Task CreateUserGameAsync(string userid, int nextMatchday)
+        {
+            await this.userGamesRepo.AddAsync(new UserGame { UserId = userid, Matchday = nextMatchday });
+            await this.userGamesRepo.SaveChangesAsync();
+        }
+
+        public int GetUserLastMatchdayInUserGames(string userId)
+        {
+            return this.userGamesRepo
+                .AllAsNoTracking()
+                .Where(x => x.UserId == userId)
+                .Max(x => x.Matchday);
+        }
+
+        public ICollection<Player> GetPlayersInLastTeam(string userId)
+        {
+            return this.userGamesRepo
+                .AllAsNoTracking()
+                .Where(x => x.UserId == userId)
+                .OrderByDescending(x => x.Matchday)
+                .Select(x => x.MatchdayTeam)
+                .FirstOrDefault();
         }
     }
 }
