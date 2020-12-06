@@ -1,16 +1,22 @@
 ﻿namespace PLF_Football.Web.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using PLF_Football.Services.Data;
+    using PLF_Football.Web.ViewModels.Players;
 
     public class PlayersController : BaseController
     {
-        public PlayersController()
+        private readonly IPlayersService playersService;
+
+        public PlayersController(IPlayersService playersService)
         {
+            this.playersService = playersService;
         }
 
-        public IActionResult GetStatistic(int playerId)
+        public IActionResult Statistics(int id)
         {
-            return null;
+            var viewModel = this.playersService.GetPlayerStatsbyId<PlayerStatsViewModel>(id);
+            return this.View(viewModel);
         }
     }
 }

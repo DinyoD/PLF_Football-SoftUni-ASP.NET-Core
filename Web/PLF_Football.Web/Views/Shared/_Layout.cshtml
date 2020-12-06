@@ -9,8 +9,9 @@
     <link href="~/css/site.min.css" rel="stylesheet" asp-append-version="true" />
 </head>
 <body>
+
     <header>
-        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-light bg-secondary border-bottom box-shadow mb-3">
             <div class="container col-12">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@GlobalConstants.SystemName</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -36,8 +37,9 @@
 
     @if (@User.Identity.IsAuthenticated)
     {
-        <vc:clubs-links></vc:clubs-links>
-
+        <cache>
+            <vc:clubs-links></vc:clubs-links>
+        </cache>
         <div class="container">
             <partial name="_CookieConsentPartial" />
             <main role="main" class="pb-3">
@@ -55,9 +57,9 @@
         </div>
     }
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; @DateTime.Now.Year - @GlobalConstants.SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="border-top footer bg-secondary">
+        <div class="container-footer">
+            <span>&copy; @DateTime.Now.Year - @GlobalConstants.SystemName </span>
         </div>
     </footer>
 

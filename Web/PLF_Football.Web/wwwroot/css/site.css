@@ -57,6 +57,22 @@ body {
     height: 60px;
     line-height: 60px; /* Vertically center the text there */
 }
+.container-footer{
+    align-items: end;
+}
+
+.container-player-profile {
+    margin-top: 30px;
+    background-color: gainsboro;
+    padding: 20px 40px;
+}
+.container-player-profile .row {
+    justify-content: space-between;
+}
+
+.card-stat{
+    padding-top: 10px;
+}
 
 .bg {
     position: relative;
@@ -67,10 +83,11 @@ body {
         display: block;
         position: absolute;
         top: 0;
-        left: -16%;
+        left: -15%;
         background-image: url("https://e0.365dm.com/20/06/1600x900/skysports-premier-league-restart_5015502.jpg?20200617144146");
-        width: 98vw;
-        min-height: 78vh;
+        background-repeat: no-repeat;
+        width: 130%;
+        min-height: 83vh;
         opacity: 0.3;
         z-index: -1;
 }

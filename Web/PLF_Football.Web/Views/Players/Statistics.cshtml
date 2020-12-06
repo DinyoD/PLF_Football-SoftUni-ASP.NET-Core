@@ -1,0 +1,732 @@
+﻿@model PLF_Football.Web.ViewModels.Players.PlayerStatsViewModel
+
+<div class="container-player-profile">
+    <figure class="row">
+        <img src="@Model.Player.ImageUrl" class="img-responsive" alt="" onerror="this.src = 'https://resources.premierleague.com/premierleague/photos/players/110x140/Photo-Missing.png'">
+        <span class="display-2">@Model.Player.FullName</span>
+    </figure>
+    <div class="row">
+        <p class="display-4">@Model.Player.PositionName</p>
+        <span class="display-4" style="color:crimson">@Model.Player.PriceAtString</span>
+    </div>
+
+    <h4>Games</h4>
+    <div class="row">
+
+        <div class="col-xl-3 col-sm-3 col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body alert-primary">
+                        <div class="media d-flex">
+                            <div class="align-self-center">
+                                <h1 class="primary font-large-2 float-left">@Model.Appearances</h1>
+                            </div>
+                            <div class="media-body text-right">
+                                <h6>Appearances</h6>
+                                <span>Total</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-sm-3 col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body alert-danger">
+                        <div class="media d-flex">
+                            <div class="align-self-center">
+                                <h1 class="primary font-large-2 float-left">@Model.Wins</h1>
+                            </div>
+                            <div class="media-body text-right">
+                                <h5>Wins</h5>
+                                <span>Total</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-sm-3 col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body alert-warning">
+                        <div class="media d-flex">
+                            <div class="align-self-center">
+                                <h1 class="primary font-large-2 float-left">@Model.Losses</h1>
+                            </div>
+                            <div class="media-body text-right">
+                                <h5>Losses</h5>
+                                <span>Total</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-sm-3 col-12">
+            <div class="card">
+                <div class="card-content">
+
+                    <div class="card-body alert-success">
+                        <div class="media d-flex">
+                            <div class="align-self-center">
+                                <h1 class="primary font-large-2 float-left">@Model.WinRatio</h1>
+                            </div>
+                            <div class="media-body text-right">
+                                <h5>Wins</h5>
+                                <h5>%</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="progress mt-1 mb-0" style="height: 7px;">
+                <div class="progress-bar bg-success" role="progressbar" style="width:@Model.WinRatio" ariavaluenow="@Model.WinRatio" aivaluemin="0" ariavaluemax="100">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*Goalkeeper*@
+    @if (Model.Player.Position.Id == 1)
+    {
+        <h4>Goalkeeping</h4>
+        <div class="row">
+
+            <div class="col-xl-3 col-sm-3 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body alert-warning">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <h1 class="primary font-large-2 float-left">@Model.CleanSheets</h1>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h5>Clean Sheets</h5>
+                                    <span>Total</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-sm-3 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body alert-success">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <h1 class="primary font-large-2 float-left">
+                                        @Model.CleanSheetsRatio
+                                    </h1>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h5>Clean</h5>
+                                    <h5>Sheets %</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="progress mt-1 mb-0" style="height: 7px;">
+                    <div class="progress-bar bg-success" role="progressbar" style="width:@Model.CleanSheetsRatio" ariavaluenow="@Model.CleanSheetsRatio" aivaluemin="0" ariavaluemax="100">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-sm-3 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body alert-danger">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <h1 class="primary font-large-2 float-left">@Model.GoalsConceded</h1>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h5>Goals Conc.</h5>
+                                    <span>Total</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-sm-3 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body alert-primary">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <h1 class="primary font-large-2 float-left">@Model.GoalsConcededPerMatch</h1>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h5>Goals Conc.</h5>
+                                    <span>per Match</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    @*Defender*@
+    @if (Model.Player.Position.Id == 2)
+    {
+        <h4>Defence</h4>
+        <div class="row">
+
+            <div class="col-xl-3 col-sm-3 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body alert-warning">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <h1 class="primary font-large-2 float-left">@Model.CleanSheets</h1>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h5>Clean Sheets</h5>
+                                    <span>Total</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-sm-3 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body alert-success">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <h1 class="primary font-large-2 float-left">
+                                        @Model.CleanSheetsRatio
+                                    </h1>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h5>Clean</h5>
+                                    <h5>Sheets %</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="progress mt-1 mb-0" style="height: 7px;">
+                    <div class="progress-bar bg-success" role="progressbar" style="width:@Model.CleanSheetsRatio" ariavaluenow="@Model.CleanSheetsRatio" aivaluemin="0" ariavaluemax="100">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-sm-3 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body alert-danger">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <h1 class="primary font-large-2 float-left">@Model.ClearencesPerMatch</h1>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h5>Clearences</h5>
+                                    <span>per Match</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-sm-3 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body alert-primary">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <h1 class="primary font-large-2 float-left">@Model.TacklesPerMatch</h1>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h5>Tackles</h5>
+                                    <span>per Match</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h4>Attack</h4>
+        <div class="row">
+
+            <div class="col-xl-3 col-sm-3 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body alert-primary">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <h1 class="primary font-large-2 float-left">@Model.Passes</h1>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h5>Passes</h5>
+                                    <span>Total</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-sm-3 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body alert-danger">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <h1 class="primary font-large-2 float-left">@Model.PassesPerMatch</h1>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h5>Passes</h5>
+                                    <span>per Match</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-sm-3 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body alert-warning">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <h1 class="primary font-large-2 float-left">@Model.Assists</h1>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h5>Assists</h5>
+                                    <span>Total</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-sm-3 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body alert-success">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <h1 class="primary font-large-2 float-left">@Model.Goals</h1>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h5>Goals</h5>
+                                    <span>Total</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    @*Midfielder*@
+    @if (Model.Player.Position.Id == 3)
+    {
+        <h4>Attack</h4>
+        <div class="row">
+
+            <div class="col-xl-3 col-sm-3 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body alert-danger">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <h1 class="primary font-large-2 float-left">@Model.Passes</h1>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h5>Passes</h5>
+                                    <span>Total</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-sm-3 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body alert-primary">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <h1 class="primary font-large-2 float-left">@Model.PassesPerMatch</h1>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h5>Passes</h5>
+                                    <span>per Match</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-sm-3 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body alert-success">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <h1 class="primary font-large-2 float-left">@Model.Assists</h1>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h5>Assists</h5>
+                                    <span>Total</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-sm-3 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body alert-warning">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <h1 class="primary font-large-2 float-left">@Model.AssistsPerMatch</h1>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h5>Assists</h5>
+                                    <span>per Match</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <div class="row">
+
+            <div class="col-xl-3 col-sm-3 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body alert-primary">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <h1 class="primary font-large-2 float-left">@Model.BigChanceCreated</h1>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h6>Chance Created</h6>
+                                    <span>Total</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-sm-3 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body alert-danger">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <h1 class="primary font-large-2 float-left">@Model.BigChanceCreatedPerMatch</h1>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h6>Chance Created</h6>
+                                    <span>per Match</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-sm-3 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body alert-warning">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <h1 class="primary font-large-2 float-left">@Model.Goals</h1>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h5>Goals</h5>
+                                    <span>Total</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-sm-3 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body alert-success">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <h1 class="primary font-large-2 float-left">@Model.ShotsPerMatch</h1>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h5>Shots</h5>
+                                    <span>per Match</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+
+    @*Forward*@
+    @if (Model.Player.Position.Id == 4)
+    {
+        <h4>Attack</h4>
+        <div class="row">
+
+            <div class="col-xl-3 col-sm-3 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body alert-danger">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <h1 class="primary font-large-2 float-left">@Model.Assists</h1>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h5>Assists</h5>
+                                    <span>Total</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-sm-3 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body alert-primary">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <h1 class="primary font-large-2 float-left">@Model.AssistsPerMatch</h1>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h5>Assists</h5>
+                                    <span>per Match</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-sm-3 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body alert-success">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <h1 class="primary font-large-2 float-left">@Model.Shots</h1>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h5>Shots</h5>
+                                    <span>Total</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-sm-3 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body alert-warning">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <h1 class="primary font-large-2 float-left">@Model.ShotsPerMatch</h1>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h5>Shots</h5>
+                                    <span>per Match</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <div class="row">
+
+            <div class="col-xl-3 col-sm-3 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body alert-primary">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <h1 class="primary font-large-2 float-left">@Model.ShotsOnTarget</h1>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h6>Shots On Target</h6>
+                                    <span>Total</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-sm-3 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body alert-danger">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <h1 class="primary font-large-2 float-left">@Model.ShotsOnTargetPerMatch</h1>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h6>Shots On Target</h6>
+                                    <span>per Match</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-sm-3 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body alert-warning">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <h1 class="primary font-large-2 float-left">@Model.Goals</h1>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h5>Goals</h5>
+                                    <span>Total</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-sm-3 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body alert-success">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <h1 class="primary font-large-2 float-left">@Model.GoalsPerMatch</h1>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h5>Goals</h5>
+                                    <span>per Match</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+<h4>Discipline</h4>
+    <div class="row">
+
+        <div class="col-xl-3 col-sm-3 col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body alert-danger">
+                        <div class="media d-flex">
+                            <div class="align-self-center">
+                                <h1 class="primary font-large-2 float-left">@Model.YellowCards</h1>
+                            </div>
+                            <div class="media-body text-right">
+                                <h5>YellowCards</h5>
+                                <span>Total</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-sm-3 col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body alert-primary">
+                        <div class="media d-flex">
+                            <div class="align-self-center">
+                                <h1 class="primary font-large-2 float-left">@Model.YellowCardsPerMatch</h1>
+                            </div>
+                            <div class="media-body text-right">
+                                <h5>YellowCards</h5>
+                                <span>per Match</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-sm-3 col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body alert-success">
+                        <div class="media d-flex">
+                            <div class="align-self-center">
+                                <h1 class="primary font-large-2 float-left">@Model.RedCards</h1>
+                            </div>
+                            <div class="media-body text-right">
+                                <h5>RedCards</h5>
+                                <span>Total</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-sm-3 col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body alert-warning">
+                        <div class="media d-flex">
+                            <div class="align-self-center">
+                                <h1 class="primary font-large-2 float-left">@Model.FoulsPerMatch</h1>
+                            </div>
+                            <div class="media-body text-right">
+                                <h5>Fouls</h5>
+                                <span>per Match</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+

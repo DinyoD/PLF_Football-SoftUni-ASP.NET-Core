@@ -12,103 +12,118 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <style>
-        .club-info{
-            position: relative;
-        }
         .club-info::after {
             content: "";
             display: block;
             position: absolute;
-            top: 0;
-            left: 0;
-            @*background-image: url("@($"/image/Clubs/{Model.Name.ToLower()}.png")");*@
-            background-image: url("/image/Club/chelsea.png");
-            width: 100%;
-            height: 100%;
+            top: -10%;
+            left: -10%;
+            background-image: url('/image/Club/@(this.ViewData["ClubImg"]).png');
+            width: 120%;
+            height: 120%;
             background-position:center;
-            opacity: 0.5;
+            opacity: 0.6;
             z-index: -1;
         }
     </style>
 
     <section class="our-webcoderskull padding-lg">
 
-        <div class="container">
+        <div class="container container-players">
 
             <div class="club-info">
 
-                <br />
-                <img src="@Model.BadgeUrl" alt="Alternate Text" />
-                <span class="display-1">@Model.Name</span>
-                <br />
+                <div>
+                    <img src="@Model.BadgeUrl" alt="alternate text" style="height:50px; width:50px"/>
+                    <span class="display-4" >@Model.Name</span>
+                </div>
 
-                <ul class="follow-us clearfix">
-                    <li>
-                        <a href="@Model.SocialLinks.WebsiteLink">
-                            Official Website
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Model.SocialLinks.FacebookLink">
-                            <i class="fa fa-facebook" aria-hidden="true"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Model.SocialLinks.TweeterLink">
-                            <i class="fa fa-twitter" aria-hidden="true"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Model.SocialLinks.InstagramLink">
-                            <i class="fa fa-linkedin" aria-hidden="true"></i>
-                        </a>
-                    </li>
-                </ul>
-                <br />
-                <p>
-                    <a href="@Model.PLLink">
-                        Source
-                    </a>
-                </p>
-                <br />
-                <p>@Model.StadiumName</p>
+                <div>
+                    <ul class="row follow-us clearfix">
+                        <li>
+                            <a href="@Model.SocialLinks.WebsiteLink">
+                                <i class="fas fa-home" aria-hidden="true"></i>
+                                <span>Official Website</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Model.SocialLinks.FacebookLink">
+                                <i class="fa fa-facebook" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Model.SocialLinks.TweeterLink">
+                                <i class="fa fa-twitter" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Model.SocialLinks.InstagramLink">
+                                <i class="fa fa-linkedin" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
 
+                <div>
+                    <a href="@Model.PLLink">source</a>
+                </div>
+
+                <div>
+                    <i class="fas fa-home" aria-hidden="true"></i>
+                    <span>@Model.StadiumName</span>
+                </div>
             </div>
 
-            <ul class="row">
+            <ul class="row container-players">
 
-                @foreach (var player in Model.Players.Where(x=>x.SquadNumber != null).OrderBy(x => int.Parse(x.SquadNumber)))
+                @foreach (var player in Model.Players.OrderBy(x => x.Position.Id))
                 {
-                    <li class="col-12 col-md-6 col-lg-3 bg-light accept-policy">
-                        <div class="cnt-block equal-hight" style="height: 349px;">
+                    <li class="col-12 col-md-6 col-lg-3 accept-policy" style="background-color:transparent">
+                        <div class="cnt-block equal-hight border-bottom box-shadow" style="height: 389px;">
 
                             <span class="number">@player.SquadNumber</span>
                             <figure>
                                 <img src="@player.ImageUrl" class="img-responsive" alt="" onerror="this.src = 'https://resources.premierleague.com/premierleague/photos/players/110x140/Photo-Missing.png'">
                             </figure>
+
+                            <a class="btn button-player-card alert-success" asp-controller="UserGames" asp-action="AddPlayer" asp-route-id="@player.Id">
+                                Buy
+                            </a>
+
+                            <p style="color:crimson">@player.PriceAtString</p>
                             <h3 class="display-2">@player.FullName</h3>
                             <p class="display-4">@player.PositionName</p>
                             <p>
-                                <a asp-controller="Players" asp-action="GetStatistic" asp-route-id="@player.Id">
+                                <a asp-controller="Players" asp-action="Statistics" asp-route-id="@player.Id">
                                     Premier League Record
                                 </a>
                             </p>
                             <ul class="follow-us clearfix">
-                                <li>
-                                    <a href="@player.SocialLinks.FacebookLink">
-                                        <i class="fa fa-facebook" aria-hidden="true"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="@player.SocialLinks.TweeterLink">
-                                        <i class="fa fa-twitter" aria-hidden="true"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="@player.SocialLinks.InstagramLink">
-                                        <i class="fa fa-instagram" aria-hidden="true"></i>
-                                    </a>
-                                </li>
+                                @if (player.SocialLinks.FacebookLink != null)
+                                {
+                                    <li>
+                                        <a href="@player.SocialLinks.FacebookLink">
+                                            <i class="fa fa-facebook" aria-hidden="true"></i>
+                                        </a>
+                                    </li>
+                                }
+                                @if (player.SocialLinks.TweeterLink != null)
+                                {
+                                    <li>
+                                        <a href="@player.SocialLinks.TweeterLink">
+                                            <i class="fa fa-twitter" aria-hidden="true"></i>
+                                        </a>
+                                    </li>
+                                }
+                                @if (player.SocialLinks.InstagramLink != null)
+                                {
+                                    <li>
+                                        <a href="@player.SocialLinks.InstagramLink">
+                                            <i class="fa fa-instagram" aria-hidden="true"></i>
+                                        </a>
+                                    </li>
+                                }
+
                             </ul>
                             <br />
                             <br />

@@ -3,17 +3,23 @@
     this.ViewData["Title"] = "Home Page";
 }
 
+<style>
+    .index-text{
+        padding-top: 100px;
+        color: gray;
+    }
+</style>
 <div class="container" style="width: 100vw; height: 70vh">
     @if (!User.Identity.IsAuthenticated)
     {
         <div class="text-center">
-            <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
+            <h1 class="display-2 index-text">Welcome to @GlobalConstants.SystemName!</h1>
         </div>
     }
     else
     {
         <div class="text-center">
-            <h1 class="display-4">@User.Identity.Name team, Come on!</h1>
+            <h1 class="display-2 index-text">@User.Identity.Name team, Come on!</h1>
         </div>
     }
 </div>

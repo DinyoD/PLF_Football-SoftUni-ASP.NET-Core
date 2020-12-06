@@ -53,13 +53,13 @@
     <Content Update="wwwroot\image\Club\chelsea.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\image\Club\mancgester united.png">
+    <Content Update="wwwroot\image\Club\manchester united.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\image\Club\manchester city.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\image\Club\tottenham.png">
+    <Content Update="wwwroot\image\Club\tottenham hotspur.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
