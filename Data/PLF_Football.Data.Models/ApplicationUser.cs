@@ -4,7 +4,7 @@ namespace PLF_Football.Data.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
-
+    using System.Linq;
     using Microsoft.AspNetCore.Identity;
     using PLF_Football.Data.Common.Models;
 
@@ -41,5 +41,8 @@ namespace PLF_Football.Data.Models
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
 
         public virtual ICollection<UserGame> Games { get; set; }
+
+        [NotMapped]
+        public int TotalPoints => this.Games.Sum(x => x.Points);
     }
 }

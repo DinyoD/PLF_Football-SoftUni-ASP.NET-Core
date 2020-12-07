@@ -1,12 +1,13 @@
 ﻿namespace PLF_Football.Data.Models
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
 
     using PLF_Football.Common;
     using PLF_Football.Data.Common.Models;
 
-    public class Club : BaseModel<int>
+    public class Club : BaseDeletableModel<int>
     {
         public Club()
         {
@@ -22,9 +23,6 @@
         public string PLSquadLink => this.PLLink
             .Replace(GlobalConstants.ClubOverview, GlobalConstants.ClubSquad);
 
-        // [NotMapped]
-        // public string PLStadiumLink => this.PLLink
-        //     .Replace(GlobalConstants.ClubOverview, GlobalConstants.ClubStadium);
         public string Name { get; set; }
 
         public string BadgeUrl { get; set; }

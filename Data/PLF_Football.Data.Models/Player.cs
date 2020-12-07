@@ -11,7 +11,7 @@
     {
         public Player()
         {
-            this.UsersGames = new HashSet<PlayersUserGames>();
+            this.UsersGames = new HashSet<PlayerUserGame>();
             this.PlayerPoints = new HashSet<PlayerPointsByFixture>();
         }
 
@@ -56,7 +56,7 @@
 
         public int Price { get; set; }
 
-        public virtual ICollection<PlayersUserGames> UsersGames { get; set; }
+        public virtual ICollection<PlayerUserGame> UsersGames { get; set; }
 
         public virtual ICollection<PlayerPointsByFixture> PlayerPoints { get; set; }
     }

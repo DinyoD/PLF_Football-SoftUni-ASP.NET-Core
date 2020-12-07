@@ -1,6 +1,6 @@
 ﻿namespace PLF_Football.Data.Models
 {
-    public class PlayersUserGames
+    public class PlayerUserGame
     {
         public int PlayerId { get; set; }
 

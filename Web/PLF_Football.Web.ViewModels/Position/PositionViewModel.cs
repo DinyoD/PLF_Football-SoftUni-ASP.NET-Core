@@ -1,4 +1,4 @@
-﻿namespace PLF_Football.Web.ViewModels
+﻿namespace PLF_Football.Web.ViewModels.Position
 {
     using PLF_Football.Data.Models;
     using PLF_Football.Services.Mapping;

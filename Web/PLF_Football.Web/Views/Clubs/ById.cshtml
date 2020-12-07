@@ -76,7 +76,7 @@
 
             <ul class="row container-players">
 
-                @foreach (var player in Model.Players.OrderBy(x => x.Position.Id))
+                @foreach (var player in Model.Players.Where(x=>x.SquadNumber != null).OrderByDescending(x => x.Position.Id).ThenBy(x=>int.Parse(x.SquadNumber)))
                 {
                     <li class="col-12 col-md-6 col-lg-3 accept-policy" style="background-color:transparent">
                         <div class="cnt-block equal-hight border-bottom box-shadow" style="height: 389px;">
@@ -92,7 +92,8 @@
 
                             <p style="color:crimson">@player.PriceAtString</p>
                             <h3 class="display-2">@player.FullName</h3>
-                            <p class="display-4">@player.PositionName</p>
+                            <p class="display-3">@player.PositionName <i style="color: grey"> @player.Country.Name</i></p>
+
                             <p>
                                 <a asp-controller="Players" asp-action="Statistics" asp-route-id="@player.Id">
                                     Premier League Record

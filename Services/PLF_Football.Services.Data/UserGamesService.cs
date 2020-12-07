@@ -7,6 +7,7 @@
 
     using PLF_Football.Data.Common.Repositories;
     using PLF_Football.Data.Models;
+    using PLF_Football.Services.Mapping;
 
     public class UserGamesService : IUserGamesService
     {
@@ -21,43 +22,40 @@
             this.playersRepo = playersRepo;
         }
 
-        public async Task<bool> AddPlayerToUserGameAsync(int playerId)
+        public async Task AddPlayerToUserGameAsync(int playerId, int userGameId)
         {
-            bool success = false;
-            var userGame = this.userGamesRepo.All().OrderByDescending(x => x.Id).FirstOrDefault();
+            var userGame = this.userGamesRepo.All().Where(x => x.Id == userGameId).FirstOrDefault();
             var player = this.playersRepo.All().Where(x => x.Id == playerId).FirstOrDefault();
-
-            if (userGame != null && userGame.MatchdayTeam.Count < 11 && player != null)
+            if (userGame != null && player != null)
             {
-                userGame.MatchdayTeam.Add(player);
-                await this.userGamesRepo.SaveChangesAsync();
-                success = true;
+                userGame.MatchdayTeam.Add(new PlayerUserGame { PlayerId = playerId, UserGameId = userGameId });
             }
 
-            return success;
-        }
-
-        public async Task CreateUserGameAsync(string userid, int nextMatchday)
-        {
-            await this.userGamesRepo.AddAsync(new UserGame { UserId = userid, Matchday = nextMatchday });
             await this.userGamesRepo.SaveChangesAsync();
         }
 
-        public int GetUserLastMatchdayInUserGames(string userId)
+        public async Task<UserGame> CreateUserGameAsync(string userid, int nextMatchday)
         {
-            return this.userGamesRepo
-                .AllAsNoTracking()
-                .Where(x => x.UserId == userId)
-                .Max(x => x.Matchday);
+            var userGame = new UserGame { UserId = userid, Matchday = nextMatchday };
+            await this.userGamesRepo.AddAsync(userGame);
+            await this.userGamesRepo.SaveChangesAsync();
+            return userGame;
         }
 
-        public ICollection<Player> GetPlayersInLastTeam(string userId)
+        public UserGame GetUserGameByUserAndMatchday(string userId, int matchday)
+        {
+            return this.userGamesRepo
+                .All()
+                .Where(x => x.UserId == userId && x.Matchday == matchday)
+                .FirstOrDefault();
+        }
+
+        public T GetUserGame<T>(string userId, int matchday)
         {
             return this.userGamesRepo
                 .AllAsNoTracking()
-                .Where(x => x.UserId == userId)
-                .OrderByDescending(x => x.Matchday)
-                .Select(x => x.MatchdayTeam)
+                .Where(x => x.UserId == userId && x.Matchday == matchday)
+                .To<T>()
                 .FirstOrDefault();
         }
     }

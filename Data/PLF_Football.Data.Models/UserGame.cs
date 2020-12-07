@@ -9,7 +9,7 @@
     {
         public UserGame()
         {
-            this.MatchdayTeam = new HashSet<Player>();
+            this.MatchdayTeam = new HashSet<PlayerUserGame>();
         }
 
         public string UserId { get; set; }
@@ -21,6 +21,6 @@
 
         public int Points { get; set; }
 
-        public virtual ICollection<Player> MatchdayTeam { get; set; }
+        public virtual ICollection<PlayerUserGame> MatchdayTeam { get; set; }
     }
 }

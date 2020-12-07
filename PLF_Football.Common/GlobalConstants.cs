@@ -6,12 +6,23 @@
 
         public const string AdministratorRoleName = "Administrator";
 
+        public const string PremierLeagueLink = "https://www.premierleague.com/clubs";
+
+        // owner consts
+        public const string OwnerName = "Dinyo";
+
+        public const string OwnerEmail = "dinyo517@gmail.com";
+
+        public const string OwnerPassword = "Dinjo517";
+
+        // club scraper consts
         public const string ClubOverview = "overview";
 
         public const string ClubStadium = "stadium";
 
         public const string ClubSquad = "squad";
 
+        // player scraper consts
         public const string PlayerOverview = "overview";
 
         public const string PlayerTotalStats = "stats";
@@ -21,12 +32,7 @@
         public const string PlayerImgLink =
             "https://resources.premierleague.com/premierleague/photos/players/110x140/";
 
-        public const string OwnerName = "Dinyo";
-
-        public const string OwnerEmail = "dinyo517@gmail.com";
-
-        public const string OwnerPassword = "Dinjo517";
-
-        public const string PremierLeagueLink = "https://www.premierleague.com/clubs";
+        // game consts
+        public const int UserBudget = 40_000_000;
     }
 }

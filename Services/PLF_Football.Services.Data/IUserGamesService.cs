@@ -7,12 +7,12 @@
 
     public interface IUserGamesService
     {
-        int GetUserLastMatchdayInUserGames(string userId);
+        Task AddPlayerToUserGameAsync(int playerId, int userGameId);
 
-        Task<bool> AddPlayerToUserGameAsync(int playerId);
+        UserGame GetUserGameByUserAndMatchday(string userId, int matchday);
 
-        ICollection<Player> GetPlayersInLastTeam(string userId);
+        Task<UserGame> CreateUserGameAsync(string userId, int matchday);
 
-        Task CreateUserGameAsync(string userId, int nextMatchday);
+        T GetUserGame<T>(string userId, int matchday);
     }
 }

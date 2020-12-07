@@ -35,7 +35,9 @@ namespace PLF_Football.Data.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BadgeUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -105,7 +107,7 @@ namespace PLF_Football.Data.Migrations
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ClubId = table.Column<int>(type: "int", nullable: false),
+                    ClubId = table.Column<int>(type: "int", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -142,9 +144,11 @@ namespace PLF_Football.Data.Migrations
                     HomeTeamId = table.Column<int>(type: "int", nullable: false),
                     AwayTeamId = table.Column<int>(type: "int", nullable: false),
                     Result = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Finished = table.Column<bool>(type: "bit", nullable: false),
+                    Started = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -183,6 +187,52 @@ namespace PLF_Football.Data.Migrations
                         name: "FK_Stadiums_Clubs_ClubId",
                         column: x => x.ClubId,
                         principalTable: "Clubs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Players",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Height = table.Column<int>(type: "int", nullable: true),
+                    Weight = table.Column<int>(type: "int", nullable: true),
+                    SquadNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PositionId = table.Column<int>(type: "int", nullable: false),
+                    CountryId = table.Column<int>(type: "int", nullable: true),
+                    ClubId = table.Column<int>(type: "int", nullable: false),
+                    PLOverviewLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Price = table.Column<int>(type: "int", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Players", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Players_Clubs_ClubId",
+                        column: x => x.ClubId,
+                        principalTable: "Clubs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Players_Countries_CountryId",
+                        column: x => x.CountryId,
+                        principalTable: "Countries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Players_Positions_PositionId",
+                        column: x => x.PositionId,
+                        principalTable: "Positions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -298,60 +348,7 @@ namespace PLF_Football.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Players",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Height = table.Column<int>(type: "int", nullable: true),
-                    Weight = table.Column<int>(type: "int", nullable: true),
-                    SquadNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PositionId = table.Column<int>(type: "int", nullable: false),
-                    CountryId = table.Column<int>(type: "int", nullable: true),
-                    ClubId = table.Column<int>(type: "int", nullable: false),
-                    PLOverviewLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Price = table.Column<int>(type: "int", nullable: false),
-                    UserGameId = table.Column<int>(type: "int", nullable: true),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Players", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Players_Clubs_ClubId",
-                        column: x => x.ClubId,
-                        principalTable: "Clubs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Players_Countries_CountryId",
-                        column: x => x.CountryId,
-                        principalTable: "Countries",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Players_Positions_PositionId",
-                        column: x => x.PositionId,
-                        principalTable: "Positions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Players_UsersGames_UserGameId",
-                        column: x => x.UserGameId,
-                        principalTable: "UsersGames",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PlayerPointsByFixtures",
+                name: "PlayersPointsByFixtures",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -366,15 +363,15 @@ namespace PLF_Football.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PlayerPointsByFixtures", x => x.Id);
+                    table.PrimaryKey("PK_PlayersPointsByFixtures", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PlayerPointsByFixtures_Fixtures_FixtureId",
+                        name: "FK_PlayersPointsByFixtures_Fixtures_FixtureId",
                         column: x => x.FixtureId,
                         principalTable: "Fixtures",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_PlayerPointsByFixtures_Players_PlayerId",
+                        name: "FK_PlayersPointsByFixtures_Players_PlayerId",
                         column: x => x.PlayerId,
                         principalTable: "Players",
                         principalColumn: "Id",
@@ -421,30 +418,6 @@ namespace PLF_Football.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PlayersUserGames",
-                columns: table => new
-                {
-                    PlayerId = table.Column<int>(type: "int", nullable: false),
-                    UserGameId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PlayersUserGames", x => new { x.PlayerId, x.UserGameId });
-                    table.ForeignKey(
-                        name: "FK_PlayersUserGames_Players_PlayerId",
-                        column: x => x.PlayerId,
-                        principalTable: "Players",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_PlayersUserGames_UsersGames_UserGameId",
-                        column: x => x.UserGameId,
-                        principalTable: "UsersGames",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "SocialLinks",
                 columns: table => new
                 {
@@ -474,6 +447,30 @@ namespace PLF_Football.Data.Migrations
                         name: "FK_SocialLinks_Players_PlayerId",
                         column: x => x.PlayerId,
                         principalTable: "Players",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PlayersUserGames",
+                columns: table => new
+                {
+                    PlayerId = table.Column<int>(type: "int", nullable: false),
+                    UserGameId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PlayersUserGames", x => new { x.PlayerId, x.UserGameId });
+                    table.ForeignKey(
+                        name: "FK_PlayersUserGames_Players_PlayerId",
+                        column: x => x.PlayerId,
+                        principalTable: "Players",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PlayersUserGames_UsersGames_UserGameId",
+                        column: x => x.UserGameId,
+                        principalTable: "UsersGames",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -533,6 +530,11 @@ namespace PLF_Football.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Clubs_IsDeleted",
+                table: "Clubs",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Countries_IsDeleted",
                 table: "Countries",
                 column: "IsDeleted");
@@ -548,19 +550,9 @@ namespace PLF_Football.Data.Migrations
                 column: "HomeTeamId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PlayerPointsByFixtures_FixtureId",
-                table: "PlayerPointsByFixtures",
-                column: "FixtureId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PlayerPointsByFixtures_IsDeleted",
-                table: "PlayerPointsByFixtures",
+                name: "IX_Fixtures_IsDeleted",
+                table: "Fixtures",
                 column: "IsDeleted");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PlayerPointsByFixtures_PlayerId",
-                table: "PlayerPointsByFixtures",
-                column: "PlayerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Players_ClubId",
@@ -583,9 +575,19 @@ namespace PLF_Football.Data.Migrations
                 column: "PositionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Players_UserGameId",
-                table: "Players",
-                column: "UserGameId");
+                name: "IX_PlayersPointsByFixtures_FixtureId",
+                table: "PlayersPointsByFixtures",
+                column: "FixtureId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PlayersPointsByFixtures_IsDeleted",
+                table: "PlayersPointsByFixtures",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PlayersPointsByFixtures_PlayerId",
+                table: "PlayersPointsByFixtures",
+                column: "PlayerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PlayersStats_IsDeleted",
@@ -657,7 +659,7 @@ namespace PLF_Football.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "PlayerPointsByFixtures");
+                name: "PlayersPointsByFixtures");
 
             migrationBuilder.DropTable(
                 name: "PlayersStats");
@@ -678,19 +680,19 @@ namespace PLF_Football.Data.Migrations
                 name: "Fixtures");
 
             migrationBuilder.DropTable(
+                name: "UsersGames");
+
+            migrationBuilder.DropTable(
                 name: "Players");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Countries");
 
             migrationBuilder.DropTable(
                 name: "Positions");
-
-            migrationBuilder.DropTable(
-                name: "UsersGames");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Clubs");

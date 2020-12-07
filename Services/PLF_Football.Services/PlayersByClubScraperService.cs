@@ -208,16 +208,23 @@
                 playerStatsPage.QuerySelector(".statbig_chance_created")?.TextContent.Trim().Replace(",", string.Empty);
             var tackles = playerStatsPage.QuerySelector(".stattotal_tackle")?.TextContent.Trim().Replace(",", string.Empty);
             var cleareances = playerStatsPage.QuerySelector(".stattotal_clearance")?.TextContent.Trim().Replace(",", string.Empty);
+            var appearances = playerStatsPage.QuerySelector(".statappearances")?.TextContent.Trim();
+            var wins = playerStatsPage.QuerySelector(".statwins")?.TextContent.Trim();
+            var losses = playerStatsPage.QuerySelector(".statlosses")?.TextContent.Trim();
+            var goals = playerStatsPage.QuerySelector(".statgoals")?.TextContent.Trim();
+            var assists = playerStatsPage.QuerySelector(".statgoal_assist")?.TextContent.Trim();
+            var yellowCards = playerStatsPage.QuerySelector(".statyellow_card")?.TextContent.Trim();
+            var redCards = playerStatsPage.QuerySelector(".statred_card")?.TextContent.Trim();
 
             var playerStatsTotalDto = new PlayerStatsDto
             {
-                Appearances = int.Parse(playerStatsPage.QuerySelector(".statappearances")?.TextContent.Trim()),
-                Wins = int.Parse(playerStatsPage.QuerySelector(".statwins")?.TextContent.Trim()),
-                Losses = int.Parse(playerStatsPage.QuerySelector(".statlosses")?.TextContent.Trim()),
-                Goals = int.Parse(playerStatsPage.QuerySelector(".statgoals")?.TextContent.Trim()),
-                Assists = int.Parse(playerStatsPage.QuerySelector(".statgoal_assist")?.TextContent.Trim()),
-                YellowCards = int.Parse(playerStatsPage.QuerySelector(".statyellow_card")?.TextContent.Trim()),
-                RedCards = int.Parse(playerStatsPage.QuerySelector(".statred_card")?.TextContent.Trim()),
+                Appearances = appearances != null ? int.Parse(appearances) : 0,
+                Wins = wins != null ? int.Parse(wins) : 0,
+                Losses = losses != null ? int.Parse(losses) : 0,
+                Goals = goals != null ? int.Parse(goals) : 0,
+                Assists = assists != null ? int.Parse(assists) : 0,
+                YellowCards = yellowCards != null ? int.Parse(yellowCards) : 0,
+                RedCards = redCards != null ? int.Parse(redCards) : 0,
 
                 CleanSheets = cleanSheets != null ? int.Parse(cleanSheets) : (int?)null,
                 GoalsConceded = goalsConc != null ? int.Parse(goalsConc) : (int?)null,
