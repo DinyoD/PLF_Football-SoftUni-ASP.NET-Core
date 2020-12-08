@@ -2,7 +2,7 @@
 {
     public static class GlobalConstants
     {
-        public const string SystemName = "PLF_Football";
+        public const string SystemName = "Premier.League.Fan.Football";
 
         public const string AdministratorRoleName = "Administrator";
 

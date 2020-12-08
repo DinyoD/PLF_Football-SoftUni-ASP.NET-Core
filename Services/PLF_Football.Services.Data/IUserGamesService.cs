@@ -9,9 +9,11 @@
     {
         Task AddPlayerToUserGameAsync(int playerId, int userGameId);
 
-        UserGame GetUserGameByUserAndMatchday(string userId, int matchday);
+        int GetUserGameIdByUserAndMatchday(string userId, int matchday);
 
-        Task<UserGame> CreateUserGameAsync(string userId, int matchday);
+        Task<int> CreateUserGameAsync(string userId, int matchday);
+
+        ICollection<Player> GetUserGameMatchTeamPlayers(int userGameId);
 
         T GetUserGame<T>(string userId, int matchday);
     }

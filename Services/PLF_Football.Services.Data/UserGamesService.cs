@@ -34,20 +34,21 @@
             await this.userGamesRepo.SaveChangesAsync();
         }
 
-        public async Task<UserGame> CreateUserGameAsync(string userid, int nextMatchday)
+        public async Task<int> CreateUserGameAsync(string userid, int nextMatchday)
         {
             var userGame = new UserGame { UserId = userid, Matchday = nextMatchday };
             await this.userGamesRepo.AddAsync(userGame);
             await this.userGamesRepo.SaveChangesAsync();
-            return userGame;
+            return userGame.Id;
         }
 
-        public UserGame GetUserGameByUserAndMatchday(string userId, int matchday)
+        public int GetUserGameIdByUserAndMatchday(string userId, int matchday)
         {
-            return this.userGamesRepo
+            var userGame = this.userGamesRepo
                 .All()
                 .Where(x => x.UserId == userId && x.Matchday == matchday)
                 .FirstOrDefault();
+            return userGame != null ? userGame.Id : 0;
         }
 
         public T GetUserGame<T>(string userId, int matchday)
@@ -57,6 +58,18 @@
                 .Where(x => x.UserId == userId && x.Matchday == matchday)
                 .To<T>()
                 .FirstOrDefault();
+        }
+
+        public ICollection<Player> GetUserGameMatchTeamPlayers(int userGameId)
+        {
+            var team = this.userGamesRepo
+                .AllAsNoTracking()
+                .Where(x => x.Id == userGameId)
+                .Select(x => x.MatchdayTeam)
+                .FirstOrDefault();
+
+            return team.SelectMany(x => this.playersRepo.All().Where(y => y.Id == x.PlayerId))
+                .ToList();
         }
     }
 }

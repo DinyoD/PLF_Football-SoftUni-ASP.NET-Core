@@ -33,59 +33,59 @@
             var user = await this.userManager.GetUserAsync(this.User);
             var nextMatchday = this.fixtureService.GetNextMatchday();
 
-            var userGame = this.userGamesService.GetUserGameByUserAndMatchday(user.Id, nextMatchday);
-            if (userGame == null)
+            var userGameId = this.userGamesService.GetUserGameIdByUserAndMatchday(user.Id, nextMatchday);
+            if (userGameId == 0)
             {
-                userGame = await this.userGamesService.CreateUserGameAsync(user.Id, nextMatchday);
+                userGameId = await this.userGamesService.CreateUserGameAsync(user.Id, nextMatchday);
             }
 
             var player = this.playersService.GetPlayerById(id);
-            var playersInTeam = userGame.MatchdayTeam;
-            var teamPrice = playersInTeam.Select(x => x.Player).Sum(x => x.Price);
+            var playersInTeam = this.userGamesService.GetUserGameMatchTeamPlayers(userGameId);
+            var teamPrice = playersInTeam.Sum(x => x.Price);
 
             if (playersInTeam.Count >= 11)
             {
                 return this.RedirectToPage("Error - team is full");
             }
-            else if (playersInTeam.Select(x => x.Player).Contains(player))
+            else if (playersInTeam.Contains(player))
             {
                 return this.RedirectToPage("Error - player already in team");
             }
             else if (user.ClubId == player.ClubId
-                && playersInTeam.Select(x => x.Player).Where(x => x.ClubId == user.ClubId).Count() >= 5)
+                && playersInTeam.Where(x => x.ClubId == user.ClubId).Count() >= 5)
             {
                 return this.RedirectToPage("Error - already five local");
             }
             else if (user.ClubId != player.ClubId
-                && playersInTeam.Select(x => x.Player).Where(x => x.ClubId != user.ClubId).Count() >= 6)
+                && playersInTeam.Where(x => x.ClubId != user.ClubId).Count() >= 6)
             {
                 return this.RedirectToPage("Error - already six foreign");
             }
 
             // Gk
             else if (player.PositionId == 1
-                && playersInTeam.Select(x => x.Player).Where(x => x.PositionId == 1).Count() >= 1)
+                && playersInTeam.Where(x => x.PositionId == 1).Count() >= 1)
             {
                 return this.RedirectToPage("Error - already one GK");
             }
 
             // Def
             else if (player.PositionId == 2
-                && playersInTeam.Select(x => x.Player).Where(x => x.PositionId == 2).Count() >= 4)
+                && playersInTeam.Where(x => x.PositionId == 2).Count() >= 4)
             {
                 return this.RedirectToPage("Error - already 4 Defs");
             }
 
             // Midf
             else if (player.PositionId == 3
-                && playersInTeam.Select(x => x.Player).Where(x => x.PositionId == 3).Count() >= 4)
+                && playersInTeam.Where(x => x.PositionId == 3).Count() >= 4)
             {
                 return this.RedirectToPage("Error - already 4 Midf");
             }
 
             // Forw
             else if (player.PositionId == 4
-                && playersInTeam.Select(x => x.Player).Where(x => x.PositionId == 4).Count() >= 2)
+                && playersInTeam.Where(x => x.PositionId == 4).Count() >= 2)
             {
                 return this.RedirectToPage("Error - already 2 Forw");
             }
@@ -95,7 +95,7 @@
             }
             else
             {
-                await this.userGamesService.AddPlayerToUserGameAsync(id, userGame.Id);
+                await this.userGamesService.AddPlayerToUserGameAsync(id, userGameId);
                 return this.Redirect($"/Users/Team/?userId={user.Id}&matchday={nextMatchday}");
             }
         }
