@@ -32,6 +32,9 @@
         public const string PlayerImgLink =
             "https://resources.premierleague.com/premierleague/photos/players/110x140/";
 
+        // fixture scraper consts
+        public const string FixtureSource = "https://en.as.com/resultados/futbol/inglaterra/calendario/";
+
         // game consts
         public const int UserBudget = 40_000_000;
     }

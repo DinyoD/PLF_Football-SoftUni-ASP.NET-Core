@@ -5,13 +5,13 @@
     using System.Threading.Tasks;
 
     using AngleSharp;
+    using PLF_Football.Common;
     using PLF_Football.Data.Common.Repositories;
     using PLF_Football.Data.Models;
     using PLF_Football.Services.Model;
 
     public class FixtureScraperService : IFixtureScraperService
     {
-        private const string FixtureSource = "https://en.as.com/resultados/futbol/inglaterra/calendario/";
         private readonly IBrowsingContext context;
         private readonly IRepository<Fixture> fixtureRepo;
         private readonly IRepository<Club> clubRepo;
@@ -36,8 +36,9 @@
                     Matchday = fixtureDto.Matchday,
                     AwayTeamId = fixtureDto.AwayTeamId,
                     HomeTeamId = fixtureDto.HomeTeamId,
-                    Started = fixtureDto.Result.Contains(" - "),
                     Result = fixtureDto.Result,
+                    Started = fixtureDto.Started,
+                    Finished = fixtureDto.Finished,
                 };
 
                 await this.fixtureRepo.AddAsync(fixture);
@@ -46,36 +47,30 @@
 
         public async Task<ICollection<FixtureDto>> GetFixture()
         {
-            var document = await this.context.OpenAsync(FixtureSource);
-            var fixture = new Dictionary<int, List<string>>();
+            var document = await this.context.OpenAsync(GlobalConstants.FixtureSource);
+
+            var allFixtureDto = new List<FixtureDto>();
+
             for (int i = 1; i <= 38; i++)
             {
                 var idName = "jornada-" + i;
 
-                var gameWeekFixture = document
-                    .QuerySelectorAll($"#{idName} tbody tr td")
-                    .Select(x => x.TextContent
-                    .Trim())
-                    .ToList();
-                fixture[i] = gameWeekFixture;
-            }
+                var gameWeekFixture = document.QuerySelectorAll($"#{idName} tbody tr");
 
-            var allFixtureDto = new List<FixtureDto>();
-
-            foreach (var matchday in fixture)
-            {
-                for (int i = 0; i < matchday.Value.Count; i += 3)
+                foreach (var item in gameWeekFixture)
                 {
-                    var homeTeamName = this.FixClubName(matchday.Value[i]);
-                    var awayTeamname = this.FixClubName(matchday.Value[i + 2]);
-
+                    var matchInfo = item.QuerySelectorAll($"td").Select(x => x.TextContent.Trim()).ToList();
+                    var homeTeamName = this.FixClubName(matchInfo[0]);
+                    var awayTeamname = this.FixClubName(matchInfo[2]);
                     var currMatch = new FixtureDto
                     {
-                        Matchday = matchday.Key,
+                        Matchday = i,
+                        Result = matchInfo[1],
                         HomeTeamId = this.clubRepo.All().FirstOrDefault(t => t.Name == homeTeamName).Id,
-                        Result = matchday.Value[i + 1],
                         AwayTeamId = this.clubRepo.All().FirstOrDefault(t => t.Name == awayTeamname).Id,
+                        Finished = item.QuerySelector(".col-resultado").GetAttribute("class").Contains("finalizado"),
                     };
+                    currMatch.Started = currMatch.Finished == true ? true : !item.QuerySelector(".col-resultado").GetAttribute("class").Contains("no-comenzado");
 
                     allFixtureDto.Add(currMatch);
                 }
