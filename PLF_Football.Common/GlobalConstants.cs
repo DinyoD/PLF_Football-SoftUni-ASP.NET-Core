@@ -35,6 +35,8 @@
         // fixture scraper consts
         public const string FixtureSource = "https://en.as.com/resultados/futbol/inglaterra/calendario/";
 
+        public const int AllFixtureCount = 38;
+
         // game consts
         public const int UserBudget = 40_000_000;
     }
