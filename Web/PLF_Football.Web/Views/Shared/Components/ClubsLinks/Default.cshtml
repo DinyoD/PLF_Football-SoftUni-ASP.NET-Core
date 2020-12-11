@@ -7,7 +7,7 @@
         @foreach (var club in Model.Clubs)
         {
         <li hre>
-            <a asp-controller="Clubs" asp-action="ById" asp-route-id="@club.Id">
+            <a asp-area="" asp-controller="Clubs" asp-action="ById" asp-route-id="@club.Id">
                 <img src="@club.BadgeUrl" alt="Alternate Text" style="width:40px" />
             </a>
         </li>

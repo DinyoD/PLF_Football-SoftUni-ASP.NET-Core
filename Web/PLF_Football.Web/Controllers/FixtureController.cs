@@ -1,11 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace PLF_Football.Web.Controllers
+﻿namespace PLF_Football.Web.Controllers
 {
-    public class FixtureController
+    using PLF_Football.Services.Data;
+
+    public class FixtureController : BaseController
     {
+        private readonly IFixtureService fixtureService;
+
+        public FixtureController(IFixtureService fixtureService)
+        {
+            this.fixtureService = fixtureService;
+        }
+
+
     }
 }

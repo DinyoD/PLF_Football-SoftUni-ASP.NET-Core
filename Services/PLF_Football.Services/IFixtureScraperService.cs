@@ -9,6 +9,6 @@
     {
         Task ImportFixture();
 
-        Task<ICollection<FixtureDto>> GetFixture();
+        Task<ICollection<FixtureDto>> GetFixture(int nextNotStartedMatchday);
     }
 }

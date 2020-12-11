@@ -28,7 +28,7 @@
 
         public async Task ImportFixture()
         {
-            var allFixtures = await this.GetFixture();
+            var allFixtures = await this.GetFixture(GlobalConstants.AllFixtureCount);
             foreach (var fixtureDto in allFixtures)
             {
                 var fixture = new Fixture
@@ -45,13 +45,13 @@
             }
         }
 
-        public async Task<ICollection<FixtureDto>> GetFixture()
+        public async Task<ICollection<FixtureDto>> GetFixture(int nextNotStartedMatchday)
         {
             var document = await this.context.OpenAsync(GlobalConstants.FixtureSource);
 
             var allFixtureDto = new List<FixtureDto>();
 
-            for (int i = 1; i <= 38; i++)
+            for (int i = 1; i <= nextNotStartedMatchday; i++)
             {
                 var idName = "jornada-" + i;
 
