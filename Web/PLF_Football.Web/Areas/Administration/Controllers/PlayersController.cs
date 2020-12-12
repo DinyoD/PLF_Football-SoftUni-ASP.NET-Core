@@ -29,6 +29,7 @@
                 ItemsCount = this.playerService.GetCount(),
                 ItemsPerPage = GlobalConstants.PlayersPerPage,
                 CurrentFilter = currentFilter,
+                SortOrder = sortOrder,
                 PageNumber = page,
             };
 
@@ -52,24 +53,27 @@
 
             var newSortOrder = string.Empty;
 
-            switch (sortOrder)
+            if (viewModel.PageNumber == 1)
             {
-                case "name":
-                    newSortOrder = viewModel.CurrentFilter == "name" ? newSortOrder = "name_desc" : newSortOrder = "name";
-                    break;
-                case "price":
-                    newSortOrder = viewModel.CurrentFilter == "price" ? newSortOrder = "price_desc" : newSortOrder = "price";
-                    break;
-                case "clubName":
-                    newSortOrder = viewModel.CurrentFilter == "clubName" ? newSortOrder = "clubName_desc" : newSortOrder = "clubName";
-                    break;
-                default:
-                    newSortOrder = viewModel.CurrentFilter;
-                    break;
-            }
+                switch (sortOrder)
+                {
+                    case "name":
+                        newSortOrder = viewModel.CurrentFilter == "name" ? newSortOrder = "name_desc" : newSortOrder = "name";
+                        break;
+                    case "price":
+                        newSortOrder = viewModel.CurrentFilter == "price" ? newSortOrder = "price_desc" : newSortOrder = "price";
+                        break;
+                    case "clubName":
+                        newSortOrder = viewModel.CurrentFilter == "clubName" ? newSortOrder = "clubName_desc" : newSortOrder = "clubName";
+                        break;
+                    default:
+                        newSortOrder = viewModel.CurrentFilter;
+                        break;
+                }
 
-            viewModel.SortOrder = newSortOrder;
-            viewModel.CurrentFilter = newSortOrder;
+                viewModel.SortOrder = newSortOrder;
+                viewModel.CurrentFilter = newSortOrder;
+            }
 
             viewModel.AllPlayers = viewModel.SortOrder switch
             {
