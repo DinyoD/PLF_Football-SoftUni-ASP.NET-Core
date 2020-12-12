@@ -28,8 +28,18 @@
                 AllPlayers = this.playerService.GetAll<PlayerAdminViewModel>(),
                 ItemsCount = this.playerService.GetCount(),
                 ItemsPerPage = GlobalConstants.PlayersPerPage,
+                CurrentFilter = currentFilter,
                 PageNumber = page,
             };
+
+            if (viewModel.PageNumber < 1)
+            {
+                viewModel.PageNumber = 1;
+            }
+            else if (viewModel.PageNumber > viewModel.PagesCount)
+            {
+                viewModel.PageNumber = viewModel.PagesCount;
+            }
 
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -37,6 +47,7 @@
                 viewModel.PageNumber = 1;
                 viewModel.AllPlayers = viewModel.AllPlayers.Where(s => s.FullNameSequence.Contains(searchString)
                                                                         || s.ClubName.ToLower().Contains(searchString)).ToList();
+                viewModel.SearchString = searchString;
             }
 
             var newSortOrder = string.Empty;
@@ -44,20 +55,21 @@
             switch (sortOrder)
             {
                 case "name":
-                    newSortOrder = currentFilter == "name" ? newSortOrder = "name_desc" : newSortOrder = "name";
+                    newSortOrder = viewModel.CurrentFilter == "name" ? newSortOrder = "name_desc" : newSortOrder = "name";
                     break;
                 case "price":
-                    newSortOrder = currentFilter == "price" ? newSortOrder = "price_desc" : newSortOrder = "price";
+                    newSortOrder = viewModel.CurrentFilter == "price" ? newSortOrder = "price_desc" : newSortOrder = "price";
                     break;
                 case "clubName":
-                    newSortOrder = currentFilter == "clubName" ? newSortOrder = "clubName_desc" : newSortOrder = "clubName";
+                    newSortOrder = viewModel.CurrentFilter == "clubName" ? newSortOrder = "clubName_desc" : newSortOrder = "clubName";
                     break;
                 default:
-                    newSortOrder = currentFilter;
+                    newSortOrder = viewModel.CurrentFilter;
                     break;
             }
 
             viewModel.SortOrder = newSortOrder;
+            viewModel.CurrentFilter = newSortOrder;
 
             viewModel.AllPlayers = viewModel.SortOrder switch
             {

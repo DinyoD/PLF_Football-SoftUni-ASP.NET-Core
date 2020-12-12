@@ -8,11 +8,11 @@
     using PLF_Football.Data.Models;
     using PLF_Football.Services.Mapping;
 
-    public class PLayersService : IPlayersService
+    public class PlayersService : IPlayersService
     {
         private readonly IDeletableEntityRepository<Player> playersRepo;
 
-        public PLayersService(IDeletableEntityRepository<Player> playersRepo)
+        public PlayersService(IDeletableEntityRepository<Player> playersRepo)
         {
             this.playersRepo = playersRepo;
         }
@@ -21,9 +21,6 @@
         {
             return this.playersRepo
                 .All()
-                //.OrderBy(x => x.LastName)
-                //.Skip((pageNumber - 1) * playersPerPage)
-                //.Take(playersPerPage)
                 .To<T>()
                 .ToList();
         }

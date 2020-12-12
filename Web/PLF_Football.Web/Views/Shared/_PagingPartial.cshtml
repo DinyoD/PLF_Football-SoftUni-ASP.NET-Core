@@ -1,0 +1,27 @@
+﻿@model PLF_Football.Web.ViewModels.Players.AllPlayersCollectionAdminViewModel
+@{
+    this.ViewData["currPagesCount"] = (int)Math.Ceiling((double)Model.AllPlayers.Count() / Model.ItemsPerPage);
+}
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item">
+            <a class="page-link @if (!Model.HasPreviousPage) { <text>disabled</text> }" aria-label="Previous" 
+               asp-area="Administration" asp-controller="Players" asp-action="Index" 
+               asp-route-sortOrder="@Model.SortOrder" asp-route-currentFilter="@Model.CurrentFilter" asp-route-searchString="@Model.SearchString" asp-route-page="@Model.PreviousPageNumber">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="#">
+                @(Model.PagesCount < Model.PageNumber ? 0 : Model.PageNumber) of @ViewData["currPagesCount"]
+            </a>
+        </li>
+        <li class="page-item">
+            <a class="page-link @if (!Model.HasNextPage) { <text>disabled</text> }" aria-label="Next"
+               asp-area="Administration" asp-controller="Players" asp-action="Index" 
+               asp-route-sortOrder="@Model.SortOrder" asp-route-currentFilter="@Model.CurrentFilter" asp-route-searchString="@Model.SearchString" asp-route-page="@Model.NextPageNumber">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>

@@ -1,15 +1,18 @@
 ﻿@model PLF_Football.Web.ViewModels.Players.AllPlayersCollectionAdminViewModel
 @{
-    ViewData["currFilter"] = Model.SortOrder;
-    ViewData["currPageNums"] = (int)Math.Ceiling((double)Model.AllPlayers.Count() / Model.ItemsPerPage);
+    this.ViewData["currFilter"] = Model.SortOrder;
 }
+
 <div class="row">
     <form class="col-md-8" method="get">
         <input asp-route="searchString" type="text" name="searchString" value="" />
         <input type="submit" value="Search" />
     </form>
-    <span class="col-md-4">Page @(Model.PagesCount < Model.PageNumber ? 0 : Model.PageNumber) of @ViewData["currPageNums"]</span>
+    <span class="col-md-4">
+        <partial name="_PagingPartial" model="@Model" />
+    </span>
 </div>
+
 <table class="table table-striped">
     <thead>
         <tr>
@@ -66,4 +69,4 @@
 </table>
 <br />
 
-@*<partial name="_PagingPartial" model="@Model" />*@
+

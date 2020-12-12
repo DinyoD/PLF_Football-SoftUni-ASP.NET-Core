@@ -75,7 +75,7 @@
             services.AddTransient<ICountryScraperService, CountryScraperService>();
 
             services.AddTransient<IClubsService, ClubsService>();
-            services.AddTransient<IPlayersService, PLayersService>();
+            services.AddTransient<IPlayersService, PlayersService>();
             services.AddTransient<IUserGamesService, UserGamesService>();
             services.AddTransient<IFixtureService, FixtureService>();
 
