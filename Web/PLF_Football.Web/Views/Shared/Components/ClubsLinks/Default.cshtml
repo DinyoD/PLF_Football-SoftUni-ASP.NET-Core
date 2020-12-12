@@ -1,16 +1,15 @@
 ﻿@model PLF_Football.Web.ViewModels.ViewComponents.ClubLinksInListViewModel
 
-
 <div class="container col-12 container-clubs">
     <ul class="row list-inline justify-content-around">
 
         @foreach (var club in Model.Clubs)
-        {
-        <li hre>
-            <a asp-area="" asp-controller="Clubs" asp-action="ById" asp-route-id="@club.Id">
-                <img src="@club.BadgeUrl" alt="Alternate Text" style="width:40px" />
-            </a>
-        </li>
-        }
+         {
+            <li >
+                <a asp-area="" asp-controller="Clubs" asp-action="ById" asp-route-id="@club.Id">
+                    <img src="@club.BadgeUrl" alt="Alternate Text" style="width:40px" />
+                </a>
+            </li>
+         }
     </ul>
 </div>

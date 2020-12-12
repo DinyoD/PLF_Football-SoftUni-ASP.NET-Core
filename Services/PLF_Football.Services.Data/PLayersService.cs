@@ -1,6 +1,6 @@
-﻿
-namespace PLF_Football.Services.Data
+﻿namespace PLF_Football.Services.Data
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -17,9 +17,25 @@ namespace PLF_Football.Services.Data
             this.playersRepo = playersRepo;
         }
 
-        public Player GetPlayerById(int playerId)
+        public ICollection<T> GetAll<T>()
         {
-            return this.playersRepo.AllAsNoTracking().Where(x => x.Id == playerId).FirstOrDefault();
+            return this.playersRepo
+                .All()
+                //.OrderBy(x => x.LastName)
+                //.Skip((pageNumber - 1) * playersPerPage)
+                //.Take(playersPerPage)
+                .To<T>()
+                .ToList();
+        }
+
+        public int GetCount()
+        {
+            return this.playersRepo.All().Count();
+        }
+
+        public T GetPlayerById<T>(int? playerId)
+        {
+            return this.playersRepo.AllAsNoTracking().Where(x => x.Id == playerId).To<T>().FirstOrDefault();
         }
 
         public T GetPlayerStatsbyId<T>(int playerId)
@@ -29,6 +45,16 @@ namespace PLF_Football.Services.Data
                 .Select(x => x.PlayerStats)
                 .To<T>()
                 .FirstOrDefault();
+        }
+
+        public async Task UpdatePlayerPrice(int id, int price)
+        {
+            var player = this.playersRepo.All().Where(x => x.Id == id).FirstOrDefault();
+            if (player != null)
+            {
+                player.Price = price;
+                await this.playersRepo.SaveChangesAsync();
+            }
         }
     }
 }

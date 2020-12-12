@@ -61,6 +61,12 @@ body {
     align-items: end;
 }
 
+.container-clubs {
+    padding-bottom: 10px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid grey;
+}
+
 .container-player-profile {
     margin-top: 30px;
     background-color: gainsboro;
@@ -78,16 +84,25 @@ body {
     position: relative;
 }
 
+
+table .text {
+    font-size: large;
+}
+
+table .text-end {
+    text-align: end;
+}
+
 .bg:after {
-        content: "";
-        display: block;
-        position: absolute;
-        top: 0;
-        left: -15%;
-        background-image: url("https://e0.365dm.com/20/06/1600x900/skysports-premier-league-restart_5015502.jpg?20200617144146");
-        background-repeat: no-repeat;
-        width: 130%;
-        min-height: 83vh;
-        opacity: 0.3;
-        z-index: -1;
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: -15%;
+    background-image: url("https://e0.365dm.com/20/06/1600x900/skysports-premier-league-restart_5015502.jpg?20200617144146");
+    background-repeat: no-repeat;
+    width: 130%;
+    min-height: 83vh;
+    opacity: 0.3;
+    z-index: -1;
 }

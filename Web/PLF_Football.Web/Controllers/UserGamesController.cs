@@ -39,7 +39,7 @@
                 userGameId = await this.userGamesService.CreateUserGameAsync(user.Id, nextMatchday);
             }
 
-            var player = this.playersService.GetPlayerById(id);
+            var player = this.playersService.GetPlayerById<Player>(id);
             var playersInTeam = this.userGamesService.GetUserGameMatchTeamPlayers(userGameId);
             var teamPrice = playersInTeam.Sum(x => x.Price);
 

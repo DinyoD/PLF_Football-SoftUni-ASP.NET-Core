@@ -1,11 +1,18 @@
 ﻿namespace PLF_Football.Services.Data
 {
-    using PLF_Football.Data.Models;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     public interface IPlayersService
     {
         T GetPlayerStatsbyId<T>(int playerId);
 
-        Player GetPlayerById(int playerId);
+        T GetPlayerById<T>(int? playerId);
+
+        ICollection<T> GetAll<T>();
+
+        Task UpdatePlayerPrice(int id, int price);
+
+        int GetCount();
     }
 }

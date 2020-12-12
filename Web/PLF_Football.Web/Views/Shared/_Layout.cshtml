@@ -35,7 +35,19 @@
     </header>
 
 
-    @if (@User.Identity.IsAuthenticated)
+    @if (User.Identity.IsAuthenticated && User.IsInRole(GlobalConstants.AdministratorRoleName))
+    {
+        <cache>
+            <vc:clubs-links></vc:clubs-links>
+        </cache>
+        <div class="container bg">
+            <partial name="_CookieConsentPartial" />
+            <main role="main" class="pb-3">
+                @this.RenderBody()
+            </main>
+        </div>
+    }
+    else if (User.Identity.IsAuthenticated)
     {
         <cache>
             <vc:clubs-links></vc:clubs-links>

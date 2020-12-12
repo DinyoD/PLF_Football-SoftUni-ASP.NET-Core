@@ -2,8 +2,8 @@
 {
     using System.Collections.Generic;
 
-    public class AllPlayersCollectionAdminViewModel
+    public class AllPlayersCollectionAdminViewModel : PagingWithSearchAndSortViewModel
     {
-        public ICollection<PlayerAdminViewModel> AllPlayers { get; set; }
+        public IEnumerable<PlayerAdminViewModel> AllPlayers { get; set; }
     }
 }
