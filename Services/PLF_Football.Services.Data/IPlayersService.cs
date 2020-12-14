@@ -9,6 +9,8 @@
 
         T GetPlayerById<T>(int? playerId);
 
+        ICollection<T> GetPlayersBySearchingString<T>(string searchString);
+
         ICollection<T> GetAll<T>();
 
         Task UpdatePlayerPrice(int id, int price);

@@ -3,16 +3,17 @@
     this.ViewData["currFilter"] = Model.SortOrder;
 }
 
+<br />
 <div class="row">
-    <form class="col-md-8" method="get">
+    <form class="col-md-10" method="get">
         <input asp-route="searchString" type="text" name="searchString" value="" />
         <input type="submit" value="Search" />
     </form>
-    <span class="col-md-4">
+    <span class="col-md-2 ite">
         <partial name="_PagingPartial" model="@Model" />
     </span>
 </div>
-
+<br />
 <table class="table table-striped">
     <thead>
         <tr>

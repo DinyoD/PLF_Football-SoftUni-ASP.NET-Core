@@ -35,6 +35,15 @@
             return this.playersRepo.AllAsNoTracking().Where(x => x.Id == playerId).To<T>().FirstOrDefault();
         }
 
+        public ICollection<T> GetPlayersBySearchingString<T>(string searchString)
+        {
+            return this.playersRepo.All()
+                                   .Where(s => (s.FirstName.ToLower() + s.LastName.ToLower()).Contains(searchString)
+                                     || s.Club.Name.ToLower().Contains(searchString))
+                                   .To<T>()
+                                   .ToList();
+        }
+
         public T GetPlayerStatsbyId<T>(int playerId)
         {
             return this.playersRepo.AllAsNoTracking()

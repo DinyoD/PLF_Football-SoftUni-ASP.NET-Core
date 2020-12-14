@@ -68,7 +68,6 @@
                     this.logger.LogWarning("User account locked out.");
                     return this.RedirectToPage("./Lockout");
                 }
-
                 else
                 {
                     this.ModelState.AddModelError(string.Empty, "Invalid login attempt.");

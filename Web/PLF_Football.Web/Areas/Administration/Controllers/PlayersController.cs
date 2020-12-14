@@ -25,13 +25,25 @@
         {
             var viewModel = new AllPlayersCollectionAdminViewModel
             {
-                AllPlayers = this.playerService.GetAll<PlayerAdminViewModel>(),
-                ItemsCount = this.playerService.GetCount(),
                 ItemsPerPage = GlobalConstants.PlayersPerPage,
                 CurrentFilter = currentFilter,
                 SortOrder = sortOrder,
                 PageNumber = page,
             };
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                searchString = searchString.ToLower();
+                page = 1;
+                viewModel.AllPlayers = this.playerService.GetPlayersBySearchingString<PlayerAdminViewModel>(searchString);
+                viewModel.SearchString = searchString;
+            }
+            else
+            {
+                viewModel.AllPlayers = this.playerService.GetAll<PlayerAdminViewModel>();
+            }
+
+            viewModel.ItemsCount = viewModel.AllPlayers.Count();
 
             if (viewModel.PageNumber < 1)
             {
@@ -40,15 +52,6 @@
             else if (viewModel.PageNumber > viewModel.PagesCount)
             {
                 viewModel.PageNumber = viewModel.PagesCount;
-            }
-
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                searchString = searchString.ToLower();
-                viewModel.PageNumber = 1;
-                viewModel.AllPlayers = viewModel.AllPlayers.Where(s => s.FullNameSequence.Contains(searchString)
-                                                                        || s.ClubName.ToLower().Contains(searchString)).ToList();
-                viewModel.SearchString = searchString;
             }
 
             var newSortOrder = string.Empty;

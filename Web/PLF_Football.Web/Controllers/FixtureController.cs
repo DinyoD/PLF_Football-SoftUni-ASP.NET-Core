@@ -10,7 +10,5 @@
         {
             this.fixtureService = fixtureService;
         }
-
-
     }
 }

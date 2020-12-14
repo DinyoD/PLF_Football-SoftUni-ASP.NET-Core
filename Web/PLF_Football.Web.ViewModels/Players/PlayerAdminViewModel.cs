@@ -14,8 +14,6 @@
 
         public string LastName { get; set; }
 
-        public string FullNameSequence => (this.FirstName + this.LastName).ToLower();
-
         public string ClubName { get; set; }
 
         [Range(200_000, 8_000_000)]
