@@ -102,7 +102,7 @@
                     else
                     {
                         await this.signInManager.SignInAsync(user, isPersistent: false);
-                        return this.LocalRedirect(returnUrl);
+                        return this.LocalRedirect("/Users/Index");
                     }
                 }
 

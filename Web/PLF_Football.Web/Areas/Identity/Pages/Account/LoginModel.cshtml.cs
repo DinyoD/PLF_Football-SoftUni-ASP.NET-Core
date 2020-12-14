@@ -14,6 +14,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.Extensions.Logging;
+    using PLF_Football.Common;
     using PLF_Football.Data.Models;
 
     [AllowAnonymous]
@@ -55,7 +56,13 @@
                 if (result.Succeeded)
                 {
                     this.logger.LogInformation("User logged in.");
-                    return this.LocalRedirect(returnUrl);
+                    var user = await this.userManager.FindByNameAsync(this.Input.UserName);
+                    if (user.ClubId == null)
+                    {
+                        return this.LocalRedirect(returnUrl);
+                    }
+
+                    return this.LocalRedirect("/Users/Index");
                 }
 
                 if (result.RequiresTwoFactor)

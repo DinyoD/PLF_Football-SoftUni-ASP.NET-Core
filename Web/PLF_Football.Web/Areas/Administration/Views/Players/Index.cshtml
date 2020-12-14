@@ -2,72 +2,72 @@
 @{
     this.ViewData["currFilter"] = Model.SortOrder;
 }
-
-<br />
-<div class="row">
-    <form class="col-md-10" method="get">
-        <input asp-route="searchString" type="text" name="searchString" value="" />
-        <input type="submit" value="Search" />
-    </form>
-    <span class="col-md-2 ite">
-        <partial name="_PagingPartial" model="@Model" />
-    </span>
-</div>
-<br />
-<table class="table table-striped">
-    <thead>
-        <tr>
-
-        <tr>
-            <th>
-                First Name
-            </th>
-            <th>
-                <a asp-area="Administration" asp-controller="Players" asp-action="Index" asp-route-sortOrder="name" 
-                   asp-route-currentFilter="@ViewData["currFilter"]">
-                    Last Name
-                </a>
-            </th>
-            <th>
-                <a asp-area="Administration" asp-controller="Players" asp-action="Index" asp-route-sortOrder="clubName" 
-                   asp-route-currentFilter="@ViewData["currFilter"]">
-                    Club
-                </a>
-            </th>
-            <th class="text-end">
-                <a asp-area="Administration" asp-controller="Players" asp-action="Index" asp-route-sortOrder="price"
-                   asp-route-currentFilter="@ViewData["currFilter"]">
-                    Price
-                </a>
-            </th>
-            <th class="text-end">
-                Action
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.AllPlayers.Skip((Model.PageNumber-1)*Model.ItemsPerPage).Take(Model.ItemsPerPage))
-        {
+<div class="bg">
+    <br />
+    <div class="row">
+        <form class="col-md-10" method="get">
+            <input asp-route="searchString" type="text" name="searchString" value="" />
+            <input type="submit" value="Search" />
+        </form>
+        <span class="col-md-2 ite">
+            <partial name="_PagingPartial" model="@Model" />
+        </span>
+    </div>
+    <br />
+    <table class="table table-striped">
+        <thead>
             <tr>
-                <td class="text">
-                    @Html.DisplayFor(modelItem => item.FirstName)
-                </td>
-                <td class="text">
-                    @Html.DisplayFor(modelItem => item.LastName)
-                </td>
-                <td class="text">
-                    @Html.DisplayFor(modelItem => item.ClubName)
-                </td>
-                <td class="text text-end">
-                    @Html.DisplayFor(modelItem => item.PriceAtString)
-                </td>
-                <td class="text text-end">
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-<br />
 
+            <tr>
+                <th>
+                    First Name
+                </th>
+                <th>
+                    <a asp-area="Administration" asp-controller="Players" asp-action="Index" asp-route-sortOrder="name"
+                       asp-route-currentFilter="@ViewData["currFilter"]">
+                        Last Name
+                    </a>
+                </th>
+                <th>
+                    <a asp-area="Administration" asp-controller="Players" asp-action="Index" asp-route-sortOrder="clubName"
+                       asp-route-currentFilter="@ViewData["currFilter"]">
+                        Club
+                    </a>
+                </th>
+                <th class="text-end">
+                    <a asp-area="Administration" asp-controller="Players" asp-action="Index" asp-route-sortOrder="price"
+                       asp-route-currentFilter="@ViewData["currFilter"]">
+                        Price
+                    </a>
+                </th>
+                <th class="text-end">
+                    Action
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.AllPlayers.Skip((Model.PageNumber - 1) * Model.ItemsPerPage).Take(Model.ItemsPerPage))
+            {
+                <tr>
+                    <td class="text">
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td class="text">
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td class="text">
+                        @Html.DisplayFor(modelItem => item.ClubName)
+                    </td>
+                    <td class="text text-end">
+                        @Html.DisplayFor(modelItem => item.PriceAtString)
+                    </td>
+                    <td class="text text-end">
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+</div>
 

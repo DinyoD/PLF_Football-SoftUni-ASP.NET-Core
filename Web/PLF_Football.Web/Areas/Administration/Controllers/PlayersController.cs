@@ -90,27 +90,6 @@
             return this.View(viewModel);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public IActionResult Index(
-            string searchString,
-            AllPlayersCollectionAdminViewModel viewModel)
-        {
-            if (searchString != null)
-            {
-                viewModel.PageNumber = 1;
-            }
-
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                viewModel.AllPlayers = viewModel.AllPlayers.Where(s => s.LastName.Contains(searchString)
-                                       || s.FirstName.Contains(searchString)).ToList();
-            }
-
-            return this.View(viewModel);
-        }
-
         public IActionResult Edit(int? id)
         {
             if (id == null)
@@ -129,7 +108,6 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> Edit(int id, PlayerAdminViewModel player)
         {
             if (id != player.Id)

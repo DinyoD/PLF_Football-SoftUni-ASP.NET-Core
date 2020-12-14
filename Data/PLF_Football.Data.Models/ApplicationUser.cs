@@ -5,6 +5,7 @@ namespace PLF_Football.Data.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
+
     using Microsoft.AspNetCore.Identity;
     using PLF_Football.Data.Common.Models;
 

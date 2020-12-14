@@ -1,8 +1,10 @@
 ﻿namespace PLF_Football.Services.Data
 {
+    using System.Linq;
+
     using PLF_Football.Data.Common.Repositories;
     using PLF_Football.Data.Models;
-    using System.Linq;
+    using PLF_Football.Services.Mapping;
 
     public class UsersService : IUsersService
     {
@@ -13,8 +15,12 @@
             this.userRepo = userRepo;
         }
 
-        public void AddPlayerToUserClub(string userId)
+        // public void AddPlayerToUserClub(string userId)
+        // {
+        // }
+        public T GetUserById<T>(string userId)
         {
+            return this.userRepo.AllAsNoTracking().Where(x => x.Id == userId).To<T>().FirstOrDefault();
         }
     }
 }
