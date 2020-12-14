@@ -39,7 +39,7 @@
                 userGameId = await this.userGamesService.CreateUserGameAsync(user.Id, nextMatchday);
             }
 
-            var player = this.playersService.GetPlayerById<Player>(id);
+            var player = this.playersService.GetPlayerById(id);
             var playersInTeam = this.userGamesService.GetUserGameMatchTeamPlayers(userGameId);
             var teamPrice = playersInTeam.Sum(x => x.Price);
 
@@ -63,29 +63,29 @@
             }
 
             // Gk
-            else if (player.PositionId == 1
-                && playersInTeam.Where(x => x.PositionId == 1).Count() >= 1)
+            else if (player.PositionId == 4
+                && playersInTeam.Where(x => x.PositionId == 4).Count() >= 1)
             {
                 return this.RedirectToPage("Error - already one GK");
             }
 
             // Def
-            else if (player.PositionId == 2
-                && playersInTeam.Where(x => x.PositionId == 2).Count() >= 4)
+            else if (player.PositionId == 3
+                && playersInTeam.Where(x => x.PositionId == 3).Count() >= 4)
             {
                 return this.RedirectToPage("Error - already 4 Defs");
             }
 
             // Midf
-            else if (player.PositionId == 3
-                && playersInTeam.Where(x => x.PositionId == 3).Count() >= 4)
+            else if (player.PositionId == 2
+                && playersInTeam.Where(x => x.PositionId == 2).Count() >= 4)
             {
                 return this.RedirectToPage("Error - already 4 Midf");
             }
 
             // Forw
-            else if (player.PositionId == 4
-                && playersInTeam.Where(x => x.PositionId == 4).Count() >= 2)
+            else if (player.PositionId == 1
+                && playersInTeam.Where(x => x.PositionId == 1).Count() >= 2)
             {
                 return this.RedirectToPage("Error - already 2 Forw");
             }

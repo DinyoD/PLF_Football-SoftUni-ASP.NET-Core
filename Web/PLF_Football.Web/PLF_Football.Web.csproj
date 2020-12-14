@@ -51,6 +51,9 @@
     <Content Update="wwwroot\image\Club\arsenal.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="wwwroot\image\Club\aston villa.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\image\Club\chelsea.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

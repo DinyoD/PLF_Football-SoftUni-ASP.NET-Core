@@ -3,11 +3,15 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using PLF_Football.Data.Models;
+
     public interface IPlayersService
     {
         T GetPlayerStatsbyId<T>(int playerId);
 
         T GetPlayerById<T>(int? playerId);
+
+        Player GetPlayerById(int playerId);
 
         ICollection<T> GetPlayersBySearchingString<T>(string searchString);
 

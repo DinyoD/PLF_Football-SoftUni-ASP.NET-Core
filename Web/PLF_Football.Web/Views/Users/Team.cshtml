@@ -1,20 +1,18 @@
 ﻿@using PLF_Football.Common
 @model PLF_Football.Web.ViewModels.UserGame.UserGameTeamViewModel
-@{
-    ViewData["Title"] = $"{Model.UserUserName} - {Model.UserFavoriteTeamName} Team ";
-}
+
 
 <div class="container">
     <div class="row">
-        <h1>@ViewData["Title"]</h1>
+
     </div>
 
     <div class="row">
-        <span>TotalPoints :@Model.UserTotalPoints</span>
-        <span>Available budget :@(GlobalConstants.UserBudget- Model.MatchdayTeam.Sum(x => x.Price))</span>
-        <span>Teame price :  @Model.MatchdayTeam.Sum(x => x.Price)</span>
+
+        <span>Available budget :@Model.FreeBudget</span>
+        <span>Teame price :  @Model.TeamSum</span>
     </div>
-    @foreach (var player in Model.MatchdayTeam.OrderBy(x=>x.Position.Id))
+    @foreach (var player in Model.Team.OrderBy(x=>x.Position.Id))
     {
         <div>
             <img src="@player.ImageUrl" alt="Alternate Text" />

@@ -15,9 +15,6 @@
             this.userRepo = userRepo;
         }
 
-        // public void AddPlayerToUserClub(string userId)
-        // {
-        // }
         public T GetUserById<T>(string userId)
         {
             return this.userRepo.AllAsNoTracking().Where(x => x.Id == userId).To<T>().FirstOrDefault();
