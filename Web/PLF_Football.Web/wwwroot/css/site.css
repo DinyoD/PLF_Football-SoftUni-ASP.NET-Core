@@ -98,11 +98,11 @@ table .text-end {
     display: block;
     position: absolute;
     top: 0;
-    left: -15%;
+    left: -10%;
     background-image: url("https://e0.365dm.com/20/06/1600x900/skysports-premier-league-restart_5015502.jpg?20200617144146");
     background-repeat: no-repeat;
-    width: 130%;
-    min-height: 83vh;
+    width: 120%;
+    min-height: 84vh;
     opacity: 0.3;
     z-index: -1;
 }

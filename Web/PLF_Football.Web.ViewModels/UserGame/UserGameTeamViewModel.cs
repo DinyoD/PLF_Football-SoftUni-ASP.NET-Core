@@ -18,6 +18,8 @@
 
         public int Matchday { get; set; }
 
+        public bool IsMatchdayStarted { get; set; }
+
         public int Points { get; set; }
 
         public virtual ICollection<UserTeamPlayerViewModel> Team { get; set; }

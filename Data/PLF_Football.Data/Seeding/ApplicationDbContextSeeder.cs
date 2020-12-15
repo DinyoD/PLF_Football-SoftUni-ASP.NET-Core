@@ -25,13 +25,13 @@
 
             var seeders = new List<ISeeder>
                           {
-                              new RolesSeeder(),
+                              // new RolesSeeder(),
                               new UsersSeeder(),
 
                               new ClubsSeeder(),
                               new FixtureSeeder(),
 
-                              new PositionSeeder(),
+                              // new PositionSeeder(),
                               new CountrySeeder(),
 
                               new PlayersByClubSeeder(),
