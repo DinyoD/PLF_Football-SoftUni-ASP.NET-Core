@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
     using PLF_Football.Common;
     using PLF_Football.Data.Common.Repositories;
     using PLF_Football.Data.Models;
@@ -42,9 +43,26 @@
             return day;
         }
 
-        public Task UpdateNewFinishedFixture(ICollection<FixtureForUpdateDto> fixturesForUpdate)
+        public async Task<ICollection<int>> UpdateFixtureAsync(ICollection<FixtureForUpdateDto> fixtures)
         {
-            return null;
+            var clubsIds = new List<int>();
+            foreach (var fixture in fixtures)
+            {
+                var currFixture = this.fixturesRepo.All().Where(x => x.Id == fixture.Id).FirstOrDefault();
+                if (currFixture.Finished != fixture.Finished && fixture.Finished == true)
+                {
+                    clubsIds.Add(fixture.HomeTeamId);
+                    clubsIds.Add(fixture.AwayTeamId);
+                }
+
+                currFixture.Started = fixture.Started;
+                currFixture.Finished = fixture.Finished;
+                currFixture.Result = fixture.Result;
+            }
+
+            await this.fixturesRepo.SaveChangesAsync();
+
+            return clubsIds;
         }
     }
 }

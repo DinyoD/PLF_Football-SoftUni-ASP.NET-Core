@@ -20,5 +20,7 @@
         Task UpdatePlayerPrice(int id, int price);
 
         int GetCount();
+
+        ICollection<T> GetPlayersByClubsId<T>(ICollection<int> clubsIds);
     }
 }

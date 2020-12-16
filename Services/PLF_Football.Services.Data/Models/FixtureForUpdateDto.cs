@@ -5,11 +5,11 @@
 
     public class FixtureForUpdateDto : IMapFrom<Fixture>
     {
-        public int Matchday { get; set; }
+        public int Id { get; set; }
 
-        public Club HomeTeam { get; set; }
+        public int HomeTeamId { get; set; }
 
-        public Club AwayTeam { get; set; }
+        public int AwayTeamId { get; set; }
 
         public string Result { get; set; }
 

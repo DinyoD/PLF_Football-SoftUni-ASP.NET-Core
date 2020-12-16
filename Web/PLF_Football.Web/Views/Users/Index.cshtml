@@ -1,6 +1,7 @@
 ﻿@model PLF_Football.Web.ViewModels.ApplicationUsers.UserProfileViewModel
 @{
     this.ViewData["ClubImg"] = @Model.FavoriteTeamName.ToLower();
+    this.ViewData["Title"] = @Model.UserName +"'s "+ @Model.FavoriteTeamName + " Fantasy Teams";
 }
 <style>
     .bg-team::after {
@@ -20,25 +21,35 @@
 </style>
 <div class="bg-team">
     <br />
-    <div class="d-flex justify-content-center">
-        <h2>@Model.UserName - @Model.FavoriteTeamName Fantasy Teams</h2>
+    <div class="d-flex justify-content-between">
+        <span  style="font-weight:bolder; font-style:italic">TotalPoints: @Model.TotalPoints</span>
+        <h2>@this.ViewData["Title"]</h2>
     </div>
     <br />
     <hr />
     <div>
-        <div class="col-md-12">
+        <div class="col-md-12 text-center" style="font-weight:bolder">
             @foreach (var team in Model.Teams.OrderByDescending(x => x.Matchday))
             {
-             <div class="row">
-             
-                 <span class="col-md-3">Matchday: @team.Matchday </span>
-                 <span class="col-md-5">Team Price: @team.TeamSumAsString </span>
-                 <span class="col-md-3">Points: @team.Points</span>
-                 <a class="btn alert-secondary" asp-controller="Users" asp-action="Team" asp-route-userId="@Model.Id"
-                         asp-route-matchday="@team.Matchday">
-                     Details
-                 </a>
-             </div>
+            <div class="row align-items-center">
+
+                <span class="col-md-2">Matchday: @team.Matchday </span>
+                @if (team.IsMatchdayStarted)
+                {
+                    <span class="col-md-2 alert-danger ">Status: Started</span>                   
+                }
+                else
+                {
+            <span class="col-md-2 alert-success ">Status: Not Started</span>
+                }
+                <span></span>
+                <span class="col-md-4">Team Price: @team.TeamSumAsString </span>
+                <span class="col-md-3">Points: @team.Points</span>
+                <a class="btn btn-dark alert-secondary" style="font-weight:bolder" asp-controller="Users" asp-action="Team" asp-route-userId="@Model.Id"
+                   asp-route-matchday="@team.Matchday">
+                    Details
+                </a>
+            </div>
                 <br />
                 <div class="col-md-12 d-flex justify-content-between">
                     @foreach (var player in team.Team.OrderByDescending(x => x.Position.Id))

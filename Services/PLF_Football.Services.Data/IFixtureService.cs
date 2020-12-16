@@ -11,6 +11,6 @@
 
         ICollection<T> GetFixtures<T>(int nextNotStartedMatchday);
 
-        Task UpdateNewFinishedFixture(ICollection<FixtureForUpdateDto> fixturesForUpdate);
+        Task<ICollection<int>> UpdateFixtureAsync(ICollection<FixtureForUpdateDto> fixtures);
     }
 }

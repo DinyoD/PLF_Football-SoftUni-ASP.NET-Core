@@ -40,6 +40,11 @@
             return this.playersRepo.All().Where(x => x.Id == playerId).FirstOrDefault();
         }
 
+        public ICollection<T> GetPlayersByClubsId<T>(ICollection<int> clubsIds)
+        {
+            return this.playersRepo.All().Where(x => clubsIds.Contains(x.ClubId)).To<T>().ToList();
+        }
+
         public ICollection<T> GetPlayersBySearchingString<T>(string searchString)
         {
             return this.playersRepo.All()

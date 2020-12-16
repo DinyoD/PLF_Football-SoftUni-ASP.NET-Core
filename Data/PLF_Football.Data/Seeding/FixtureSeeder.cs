@@ -17,7 +17,7 @@
             }
 
             var fixturexScraperService = serviceProvider.GetRequiredService<IFixtureScraperService>();
-            await fixturexScraperService.ImportFixture();
+            await fixturexScraperService.ImportFixturesAsync();
         }
     }
 }

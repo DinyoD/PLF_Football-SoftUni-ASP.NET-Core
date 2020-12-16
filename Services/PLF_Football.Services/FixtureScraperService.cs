@@ -26,9 +26,9 @@
             this.clubRepo = clubRepo;
         }
 
-        public async Task ImportFixture()
+        public async Task ImportFixturesAsync()
         {
-            var allFixtures = await this.GetFixture(GlobalConstants.AllFixtureCount);
+            var allFixtures = await this.GetFixturesAsync(GlobalConstants.AllFixtureCount);
             foreach (var fixtureDto in allFixtures)
             {
                 var fixture = new Fixture
@@ -45,7 +45,7 @@
             }
         }
 
-        public async Task<ICollection<FixtureDto>> GetFixture(int nextNotStartedMatchday)
+        public async Task<ICollection<FixtureDto>> GetFixturesAsync(int nextNotStartedMatchday)
         {
             var document = await this.context.OpenAsync(GlobalConstants.FixtureSource);
 
@@ -77,6 +77,42 @@
             }
 
             return allFixtureDto;
+        }
+
+        public async Task<int> GetFirstNotStartedMatchdayAsync()
+        {
+            var document = await this.context.OpenAsync(GlobalConstants.FixtureSource);
+
+            var matchdaysGames = new Dictionary<int, List<bool>>();
+
+            for (int i = 1; i <= 38; i++)
+            {
+                var idName = "jornada-" + i;
+
+                var gameWeekFixture = document.QuerySelectorAll($"#{idName} tbody tr");
+
+                foreach (var item in gameWeekFixture)
+                {
+                    var matchInfo = item.QuerySelectorAll($"td").Select(x => x.TextContent.Trim()).ToList();
+
+                    var finished = item.QuerySelector(".col-resultado").GetAttribute("class").Contains("finalizado");
+                    var started = finished == true || !item.QuerySelector(".col-resultado").GetAttribute("class").Contains("no-comenzado");
+
+                    matchdaysGames[i].Add(started);
+                }
+            }
+
+            var matchday = 38;
+            for (int i = 1; i <= 38; i++)
+            {
+                if (matchdaysGames[i].All(x => x == false))
+                {
+                    matchday = i;
+                    break;
+                }
+            }
+
+            return matchday;
         }
 
         private string FixClubName(string v)

@@ -37,6 +37,6 @@
 
         public int? Tackles { get; set; }
 
-        // public int PlayerId { get; set; }
+        public int PlayerId { get; set; }
     }
 }

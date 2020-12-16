@@ -7,8 +7,10 @@
 
     public interface IFixtureScraperService
     {
-        Task ImportFixture();
+        Task ImportFixturesAsync();
 
-        Task<ICollection<FixtureDto>> GetFixture(int nextNotStartedMatchday);
+        Task<ICollection<FixtureDto>> GetFixturesAsync(int nextNotStartedMatchday);
+
+        Task<int> GetFirstNotStartedMatchdayAsync();
     }
 }

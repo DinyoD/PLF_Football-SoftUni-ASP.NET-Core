@@ -20,6 +20,8 @@
 
         public ICollection<UserGameTeamViewModel> Teams { get; set; }
 
+        public int TotalPoints => this.Teams.Sum(x => x.Points);
+
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<ApplicationUser, UserProfileViewModel>()

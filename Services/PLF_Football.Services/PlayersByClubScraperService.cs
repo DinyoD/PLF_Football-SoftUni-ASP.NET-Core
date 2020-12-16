@@ -42,6 +42,35 @@
             }
         }
 
+        public async Task<ICollection<PlayerInfoForUpdateDto>> GetPlayersNewStatsAsync(ICollection<int> clubsId)
+        {
+            var players = new List<PlayerInfoForUpdateDto>();
+            foreach (var clubId in clubsId)
+            {
+                var club = this.clubRepo.AllAsNoTracking().Where(x => x.Id == clubId).FirstOrDefault();
+
+                var clubSquadPage = await this.context.OpenAsync(club.PLSquadLink);
+
+                var playersInClub = clubSquadPage.QuerySelectorAll(".squadList > li > a");
+
+                foreach (var player in playersInClub)
+                {
+                    var playerInfoForUpdateDto = new PlayerInfoForUpdateDto
+                    {
+                        PLOverviewLink = GlobalConstants.PremierLeagueLink
+                                                            .Replace("/clubs", string.Empty) + player.GetAttribute("href"),
+                        ClubId = clubId,
+                        SquadNumber = player.QuerySelector(".number")?.TextContent,
+                    };
+                    playerInfoForUpdateDto.PremierLeagueRecordTotal = await this.GetPlayerStatsAsync(playerInfoForUpdateDto.PLTotalStatsLink);
+
+                    players.Add(playerInfoForUpdateDto);
+                }
+            }
+
+            return players;
+        }
+
         private async Task<ICollection<Player>> GetClubPlayersAsync(Club club)
         {
             var playersDtoByClub = await this.GetPlayersDtoByClub(club);
@@ -131,13 +160,12 @@
                 .Replace("/clubs", string.Empty) + item.GetAttribute("href");
 
             playerDto.PositionName = item.QuerySelector(".position")?.TextContent;
+            playerDto.SquadNumber = item.QuerySelector(".number")?.TextContent;
 
             var playerData = item.QuerySelector(".squadPlayerHeader > img").GetAttribute("data-player");
             playerDto.ImageUrl = GlobalConstants.PlayerImgLink + playerData + ".png";
 
             var playerPage = await this.context.OpenAsync(playerDto.PLOverviewLink);
-
-            playerDto.SquadNumber = playerPage.QuerySelector(".playerDetails > .number")?.TextContent;
 
             var fullName = playerPage.QuerySelector(".playerDetails  .name")?.TextContent;
 
@@ -173,7 +201,7 @@
                 playerDto.Height = int.Parse(playerBodyStats[0]?.TextContent.Replace("cm", string.Empty));
             }
 
-            playerDto.PremierLeagueRecordTotal = await this.GetPlayerStatsAsync(playerDto);
+            playerDto.PremierLeagueRecordTotal = await this.GetPlayerStatsAsync(playerDto.PLTotalStatsLink);
             playerDto.SocialLinks = await this.GetPlayerSocialLinksAsync(playerDto);
 
             return playerDto;
@@ -193,9 +221,9 @@
             return socilaLinksDto;
         }
 
-        private async Task<PlayerStatsDto> GetPlayerStatsAsync(PlayerDto playerDto)
+        private async Task<PlayerStatsDto> GetPlayerStatsAsync(string playerStatsLink)
         {
-            var playerStatsPage = await this.context.OpenAsync(playerDto.PLTotalStatsLink);
+            var playerStatsPage = await this.context.OpenAsync(playerStatsLink);
 
             var cleanSheets = playerStatsPage.QuerySelector(".statclean_sheet")?.TextContent.Trim().Replace(",", string.Empty);
             var goalsConc = playerStatsPage.QuerySelector(".statgoals_conceded")?.TextContent.Trim().Replace(",", string.Empty);
@@ -283,5 +311,6 @@
 
             return player;
         }
+
     }
 }
