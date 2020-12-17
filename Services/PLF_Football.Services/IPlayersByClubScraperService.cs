@@ -9,6 +9,6 @@
     {
         Task ImportPlayersAsync();
 
-        Task<ICollection<PlayerInfoForUpdateDto>> GetPlayersNewStatsAsync(ICollection<int> clubsId);
+        Task<ICollection<UpdatedPlayerDto>> GetPlayersInClubNewStatsAsync(int clubId);
     }
 }

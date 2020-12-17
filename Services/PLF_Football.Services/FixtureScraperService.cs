@@ -13,12 +13,12 @@
     public class FixtureScraperService : IFixtureScraperService
     {
         private readonly IBrowsingContext context;
-        private readonly IRepository<Fixture> fixtureRepo;
-        private readonly IRepository<Club> clubRepo;
+        private readonly IDeletableEntityRepository<Fixture> fixtureRepo;
+        private readonly IDeletableEntityRepository<Club> clubRepo;
 
         public FixtureScraperService(
-            IRepository<Fixture> fixtureRepo,
-            IRepository<Club> clubRepo)
+            IDeletableEntityRepository<Fixture> fixtureRepo,
+            IDeletableEntityRepository<Club> clubRepo)
         {
             var config = Configuration.Default.WithDefaultLoader();
             this.context = BrowsingContext.New(config);
@@ -45,13 +45,13 @@
             }
         }
 
-        public async Task<ICollection<FixtureDto>> GetFixturesAsync(int nextNotStartedMatchday)
+        public async Task<ICollection<FixtureDto>> GetFixturesAsync(int currMatchday)
         {
             var document = await this.context.OpenAsync(GlobalConstants.FixtureSource);
 
             var allFixtureDto = new List<FixtureDto>();
 
-            for (int i = 1; i <= nextNotStartedMatchday; i++)
+            for (int i = 1; i <= currMatchday; i++)
             {
                 var idName = "jornada-" + i;
 
@@ -91,6 +91,8 @@
 
                 var gameWeekFixture = document.QuerySelectorAll($"#{idName} tbody tr");
 
+                var matchsAreStarted = new List<bool>();
+
                 foreach (var item in gameWeekFixture)
                 {
                     var matchInfo = item.QuerySelectorAll($"td").Select(x => x.TextContent.Trim()).ToList();
@@ -98,11 +100,13 @@
                     var finished = item.QuerySelector(".col-resultado").GetAttribute("class").Contains("finalizado");
                     var started = finished == true || !item.QuerySelector(".col-resultado").GetAttribute("class").Contains("no-comenzado");
 
-                    matchdaysGames[i].Add(started);
+                    matchsAreStarted.Add(started);
                 }
+
+                matchdaysGames[i] = matchsAreStarted;
             }
 
-            var matchday = 38;
+            var matchday = 39;
             for (int i = 1; i <= 38; i++)
             {
                 if (matchdaysGames[i].All(x => x == false))

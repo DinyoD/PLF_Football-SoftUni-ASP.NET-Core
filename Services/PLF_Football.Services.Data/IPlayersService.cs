@@ -21,6 +21,8 @@
 
         int GetCount();
 
-        ICollection<T> GetPlayersByClubsId<T>(ICollection<int> clubsIds);
+        ICollection<T> GetPlayersByClubId<T>(int clubId);
+
+        ICollection<Player> GetPlayersByClubId(int clubId);
     }
 }

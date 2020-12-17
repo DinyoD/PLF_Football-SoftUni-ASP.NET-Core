@@ -6,11 +6,9 @@
     {
         public int PlayerId { get; set; }
 
-        public Player Player { get; set; }
+        public virtual Player Player { get; set; }
 
-        public int FixtureId { get; set; }
-
-        public Fixture Fixture { get; set; }
+        public int Matchday { get; set; }
 
         public int Points { get; set; }
     }

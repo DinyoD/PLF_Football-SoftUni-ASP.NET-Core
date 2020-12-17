@@ -16,14 +16,14 @@
     public class PlayersByClubScraperService : IPlayersByClubScraperService
     {
         private readonly IBrowsingContext context;
-        private readonly IRepository<Club> clubRepo;
+        private readonly IDeletableEntityRepository<Club> clubRepo;
         private readonly IRepository<Position> positionRepo;
-        private readonly IRepository<Country> countryRepo;
+        private readonly IDeletableEntityRepository<Country> countryRepo;
 
         public PlayersByClubScraperService(
-            IRepository<Club> clubRepo,
+            IDeletableEntityRepository<Club> clubRepo,
             IRepository<Position> positionRepo,
-            IRepository<Country> countryRepo)
+            IDeletableEntityRepository<Country> countryRepo)
         {
             var config = Configuration.Default.WithDefaultLoader();
             this.context = BrowsingContext.New(config);
@@ -42,30 +42,28 @@
             }
         }
 
-        public async Task<ICollection<PlayerInfoForUpdateDto>> GetPlayersNewStatsAsync(ICollection<int> clubsId)
+        public async Task<ICollection<UpdatedPlayerDto>> GetPlayersInClubNewStatsAsync(int clubId)
         {
-            var players = new List<PlayerInfoForUpdateDto>();
-            foreach (var clubId in clubsId)
+            var players = new List<UpdatedPlayerDto>();
+
+            var club = this.clubRepo.AllAsNoTracking().Where(x => x.Id == clubId).FirstOrDefault();
+
+            var clubSquadPage = await this.context.OpenAsync(club.PLSquadLink);
+
+            var playersInClub = clubSquadPage.QuerySelectorAll(".squadList > li > a");
+
+            foreach (var player in playersInClub)
             {
-                var club = this.clubRepo.AllAsNoTracking().Where(x => x.Id == clubId).FirstOrDefault();
-
-                var clubSquadPage = await this.context.OpenAsync(club.PLSquadLink);
-
-                var playersInClub = clubSquadPage.QuerySelectorAll(".squadList > li > a");
-
-                foreach (var player in playersInClub)
+                var playerInfoForUpdateDto = new UpdatedPlayerDto
                 {
-                    var playerInfoForUpdateDto = new PlayerInfoForUpdateDto
-                    {
-                        PLOverviewLink = GlobalConstants.PremierLeagueLink
-                                                            .Replace("/clubs", string.Empty) + player.GetAttribute("href"),
-                        ClubId = clubId,
-                        SquadNumber = player.QuerySelector(".number")?.TextContent,
-                    };
-                    playerInfoForUpdateDto.PremierLeagueRecordTotal = await this.GetPlayerStatsAsync(playerInfoForUpdateDto.PLTotalStatsLink);
+                    PLOverviewLink = GlobalConstants.PremierLeagueLink
+                                                        .Replace("/clubs", string.Empty) + player.GetAttribute("href"),
+                    ClubId = clubId,
+                    SquadNumber = player.QuerySelector(".number")?.TextContent,
+                };
+                playerInfoForUpdateDto.PremierLeagueRecordTotal = await this.GetPlayerStatsAsync(playerInfoForUpdateDto.PLTotalStatsLink);
 
-                    players.Add(playerInfoForUpdateDto);
-                }
+                players.Add(playerInfoForUpdateDto);
             }
 
             return players;

@@ -9,9 +9,9 @@
 
     public class ClubsService : IClubsService
     {
-        private readonly IRepository<Club> clubsRepo;
+        private readonly IDeletableEntityRepository<Club> clubsRepo;
 
-        public ClubsService(IRepository<Club> clubsRepo)
+        public ClubsService(IDeletableEntityRepository<Club> clubsRepo)
         {
             this.clubsRepo = clubsRepo;
         }

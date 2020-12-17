@@ -1,6 +1,6 @@
 ﻿namespace PLF_Football.Services.Model
 {
-    public class FixtureDto : IMapFrom<>
+    public class FixtureDto
     {
         public int Matchday { get; set; }
 

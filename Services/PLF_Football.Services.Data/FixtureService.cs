@@ -4,56 +4,34 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using PLF_Football.Common;
     using PLF_Football.Data.Common.Repositories;
     using PLF_Football.Data.Models;
-    using PLF_Football.Services.Data.Models;
     using PLF_Football.Services.Mapping;
+    using PLF_Football.Web.ViewModels.Fixtures;
 
     public class FixtureService : IFixtureService
     {
         private readonly IRepository<Fixture> fixturesRepo;
 
-        public FixtureService(IRepository<Fixture> fixturesRepo)
+        public FixtureService(IDeletableEntityRepository<Fixture> fixturesRepo)
         {
             this.fixturesRepo = fixturesRepo;
         }
 
-        public ICollection<T> GetFixtures<T>(int nextNotStartedMatchday)
+        public ICollection<T> GetFixtures<T>(int currMatchday)
         {
             return this.fixturesRepo
-                      .All()
-                      .Where(x => x.Matchday < nextNotStartedMatchday)
-                      .To<T>()
-                      .ToList();
+                        .All()
+                        .Where(x => x.Matchday <= currMatchday)
+                        .To<T>()
+                        .ToList();
         }
 
-        public int GetNextMatchday()
+        public async Task UpdateFixtureAsync(ICollection<FixtureForUpdateDto> fixtures)
         {
-            int day = 0;
-            for (int i = 1; i <= GlobalConstants.AllFixtureCount; i++)
-            {
-                if (this.fixturesRepo.All().Where(x => x.Matchday == i).All(x => x.Started == false))
-                {
-                    day = i;
-                    break;
-                }
-            }
-
-            return day;
-        }
-
-        public async Task<ICollection<int>> UpdateFixtureAsync(ICollection<FixtureForUpdateDto> fixtures)
-        {
-            var clubsIds = new List<int>();
             foreach (var fixture in fixtures)
             {
                 var currFixture = this.fixturesRepo.All().Where(x => x.Id == fixture.Id).FirstOrDefault();
-                if (currFixture.Finished != fixture.Finished && fixture.Finished == true)
-                {
-                    clubsIds.Add(fixture.HomeTeamId);
-                    clubsIds.Add(fixture.AwayTeamId);
-                }
 
                 currFixture.Started = fixture.Started;
                 currFixture.Finished = fixture.Finished;
@@ -61,8 +39,6 @@
             }
 
             await this.fixturesRepo.SaveChangesAsync();
-
-            return clubsIds;
         }
     }
 }

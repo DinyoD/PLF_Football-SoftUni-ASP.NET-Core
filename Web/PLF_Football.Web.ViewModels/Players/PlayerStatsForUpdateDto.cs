@@ -1,10 +1,9 @@
-﻿namespace PLF_Football.Data.Models
+﻿namespace PLF_Football.Web.ViewModels.Players
 {
-    using System.ComponentModel.DataAnnotations.Schema;
+    using PLF_Football.Data.Models;
+    using PLF_Football.Services.Mapping;
 
-    using PLF_Football.Data.Common.Models;
-
-    public class PlayerStats : BaseDeletableModel<int>
+    public class PlayerStatsForUpdateDto : IMapFrom<PlayerStats>
     {
         public int Appearances { get; set; }
 
@@ -12,7 +11,7 @@
 
         public int Losses { get; set; }
 
-        public int? CleanSheets{ get; set; }
+        public int? CleanSheets { get; set; }
 
         public int? GoalsConceded { get; set; }
 
@@ -39,8 +38,5 @@
         public int? Tackles { get; set; }
 
         public int PlayerId { get; set; }
-
-        [ForeignKey("PlayerId")]
-        public Player Player { get; set; }
     }
 }

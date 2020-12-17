@@ -7,6 +7,7 @@
     using Microsoft.AspNetCore.Mvc;
     using PLF_Football.Common;
     using PLF_Football.Data.Models;
+    using PLF_Football.Services;
     using PLF_Football.Services.Data;
 
     public class UserGamesController : BaseController
@@ -15,23 +16,26 @@
         private readonly IUserGamesService userGamesService;
         private readonly IFixtureService fixtureService;
         private readonly IPlayersService playersService;
+        private readonly IFixtureScraperService fixtureScraperService;
 
         public UserGamesController(
             UserManager<ApplicationUser> userManager,
             IUserGamesService userGamesService,
             IFixtureService fixtureService,
-            IPlayersService playersService)
+            IPlayersService playersService,
+            IFixtureScraperService fixtureScraperService)
         {
             this.userManager = userManager;
             this.userGamesService = userGamesService;
             this.fixtureService = fixtureService;
             this.playersService = playersService;
+            this.fixtureScraperService = fixtureScraperService;
         }
 
         public async Task<IActionResult> AddPlayer(int id)
         {
             var user = await this.userManager.GetUserAsync(this.User);
-            var nextMatchday = this.fixtureService.GetNextMatchday();
+            var nextMatchday = await this.fixtureScraperService.GetFirstNotStartedMatchdayAsync();
 
             var userGameId = this.userGamesService.GetUserGameIdByUserAndMatchday(user.Id, nextMatchday);
             if (userGameId == 0)

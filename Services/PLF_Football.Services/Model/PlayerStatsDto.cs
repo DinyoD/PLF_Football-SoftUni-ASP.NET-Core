@@ -1,9 +1,7 @@
 ﻿namespace PLF_Football.Services.Model
 {
-    using PLF_Football.Data.Models;
-    using PLF_Football.Services.Mapping;
 
-    public class PlayerStatsDto : IMapTo<PlayerStats>
+    public class PlayerStatsDto
     {
         public int Appearances { get; set; }
 

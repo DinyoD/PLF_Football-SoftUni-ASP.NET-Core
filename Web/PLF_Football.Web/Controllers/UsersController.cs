@@ -1,8 +1,10 @@
 ﻿namespace PLF_Football.Web.Controllers
 {
     using System.Security.Claims;
+    using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
+    using PLF_Football.Services;
     using PLF_Football.Services.Data;
     using PLF_Football.Web.ViewModels.ApplicationUsers;
     using PLF_Football.Web.ViewModels.UserGame;
@@ -12,22 +14,25 @@
         private readonly IUserGamesService userGamesService;
         private readonly IUsersService usersService;
         private readonly IFixtureService fixtureService;
+        private readonly IFixtureScraperService fixtureScraperService;
 
         public UsersController(
             IUserGamesService userGamesService,
             IUsersService usersService,
-            IFixtureService fixtureService)
+            IFixtureService fixtureService,
+            IFixtureScraperService fixtureScraperService)
         {
             this.userGamesService = userGamesService;
             this.usersService = usersService;
             this.fixtureService = fixtureService;
+            this.fixtureScraperService = fixtureScraperService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var viewModel = this.usersService.GetUserById<UserProfileViewModel>(userId);
-            var nextMatchday = this.fixtureService.GetNextMatchday();
+            var nextMatchday = await this.fixtureScraperService.GetFirstNotStartedMatchdayAsync();
             foreach (var matchday in viewModel.Teams)
             {
                 if (matchday.Matchday >= nextMatchday)

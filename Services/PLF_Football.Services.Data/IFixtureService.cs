@@ -3,14 +3,12 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    using PLF_Football.Services.Data.Models;
+    using PLF_Football.Web.ViewModels.Fixtures;
 
     public interface IFixtureService
     {
-        int GetNextMatchday();
+        ICollection<T> GetFixtures<T>(int currMatchday);
 
-        ICollection<T> GetFixtures<T>(int nextNotStartedMatchday);
-
-        Task<ICollection<int>> UpdateFixtureAsync(ICollection<FixtureForUpdateDto> fixtures);
+        Task UpdateFixtureAsync(ICollection<FixtureForUpdateDto> fixtures);
     }
 }

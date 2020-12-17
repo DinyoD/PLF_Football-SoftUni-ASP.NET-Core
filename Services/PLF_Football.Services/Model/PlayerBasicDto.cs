@@ -4,7 +4,6 @@
 
     public abstract class PlayerBasicDto
     {
-
         public string SquadNumber { get; set; }
 
         public PlayerStatsDto PremierLeagueRecordTotal { get; set; }

@@ -16,18 +16,18 @@
     public class PLClubsScraperService : IPLClubsScraperService
     {
         private readonly IBrowsingContext context;
-        private readonly IRepository<Club> clubRepo;
+        private readonly IDeletableEntityRepository<Club> clubRepo;
         private readonly IDeletableEntityRepository<SocialLinks> sociallinksRepo;
         private readonly IRepository<Stadium> stadiumRepo;
         private readonly IRepository<Position> positionRepo;
-        private readonly IRepository<Country> countryRepo;
+        private readonly IDeletableEntityRepository<Country> countryRepo;
 
         public PLClubsScraperService(
-            IRepository<Club> clubRepo,
+            IDeletableEntityRepository<Club> clubRepo,
             IDeletableEntityRepository<SocialLinks> sociallinksRepo,
             IRepository<Stadium> stadiumRepo,
             IRepository<Position> positionRepo,
-            IRepository<Country> countryRepo)
+            IDeletableEntityRepository<Country> countryRepo)
         {
             var config = Configuration.Default.WithDefaultLoader();
             this.context = BrowsingContext.New(config);

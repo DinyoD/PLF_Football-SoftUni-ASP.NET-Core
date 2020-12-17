@@ -1,4 +1,4 @@
-﻿namespace PLF_Football.Services.Data.Models
+﻿namespace PLF_Football.Web.ViewModels.Fixtures
 {
     using PLF_Football.Data.Models;
     using PLF_Football.Services.Mapping;
@@ -6,6 +6,8 @@
     public class FixtureForUpdateDto : IMapFrom<Fixture>
     {
         public int Id { get; set; }
+
+        public int Matchday { get; set; }
 
         public int HomeTeamId { get; set; }
 
