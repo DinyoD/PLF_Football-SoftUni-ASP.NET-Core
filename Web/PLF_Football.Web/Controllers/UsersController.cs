@@ -46,11 +46,6 @@
                 }
             }
 
-            foreach (var player in viewModel.Teams.Select(x => x.Team))
-            {
-
-            }
-
             return this.View(viewModel);
         }
 

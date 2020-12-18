@@ -309,6 +309,5 @@
 
             return player;
         }
-
     }
 }

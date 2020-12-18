@@ -10,6 +10,7 @@
     using PLF_Football.Services;
     using PLF_Football.Services.Data;
     using PLF_Football.Services.Model;
+    using PLF_Football.Web.ViewModels.Administration;
     using PLF_Football.Web.ViewModels.Fixtures;
     using PLF_Football.Web.ViewModels.Players;
 
@@ -57,6 +58,7 @@
             var clubsIdAndMatchdayPairsInFixtureForUpdate = this.GetClubsIdAndMatchdayPairs(fixtureForUpdateDtoList);
             var clubsId = clubsIdAndMatchdayPairsInFixtureForUpdate.Keys;
 
+            var totalUpdatedPlayers = 0;
             foreach (var clubId in clubsId)
             {
                 var players = await this.playersScraperService.GetPlayersInClubNewStatsAsync(clubId);
@@ -65,19 +67,31 @@
                 var playersForUpdate = this.playersService
                     .GetPlayersByClubId<PlayerForUpdateDto>(clubId);
 
-                await this.UpdatePlayersAsync(updatedPlayers, playersForUpdate, clubsIdAndMatchdayPairsInFixtureForUpdate);
+                var updatedPlayersInClubCount = await this.UpdatePlayersAsync(updatedPlayers, playersForUpdate, clubsIdAndMatchdayPairsInFixtureForUpdate);
+
+                totalUpdatedPlayers += updatedPlayersInClubCount;
             }
 
-            await this.fixtureService.UpdateFixtureAsync(fixtureForUpdateDtoList);
+            if (fixtureForUpdateDtoList.Count > 0)
+            {
+                await this.fixtureService.UpdateFixtureAsync(fixtureForUpdateDtoList);
+            }
 
-            return this.Redirect("/");
+            var viewModel = new UpdateCountViewModel
+            {
+                UpdatedFixturesCount = fixtureForUpdateDtoList.Count,
+                UpdatedPlayersCount = totalUpdatedPlayers,
+            };
+
+            return this.View(viewModel);
         }
 
-        private async Task UpdatePlayersAsync(
+        private async Task<int> UpdatePlayersAsync(
             List<UpdatedPlayerDto> updatedPlayers,
             ICollection<PlayerForUpdateDto> playersForUpdate,
             IDictionary<int, int> clubsIdAndMatchdayPairsInFixtureForUpdate)
         {
+            var playersInClubCount = 0;
             var playersWithPoints = new List<PlayersPointsInMatchdayDto>();
             foreach (var updatedPlayer in updatedPlayers)
             {
@@ -93,8 +107,12 @@
 
                     await this.UpdatePlayerPointsAsync(playerInDb, clubsIdAndMatchdayPairsInFixtureForUpdate);
                     await this.UpdatePlayerStatsAsync(playerInDb, updatedPlayer);
+
+                    playersInClubCount++;
                 }
             }
+
+            return playersInClubCount;
         }
 
         private int GetPlayerPoints(PlayerForUpdateDto playerInDb, UpdatedPlayerDto updatedPlayer)

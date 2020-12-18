@@ -40,6 +40,6 @@
         // game consts
         public const int UserBudget = 40_000_000;
 
-        public const int PlayersPerPage = 10;
+        public const int PlayersPerPage = 9;
     }
 }

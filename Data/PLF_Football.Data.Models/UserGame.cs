@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
+    using System.Linq;
 
     using PLF_Football.Data.Common.Models;
 
@@ -19,7 +20,11 @@
 
         public int Matchday { get; set; }
 
-        public int Points { get; set; }
+        public int Points => this.MatchdayTeam
+                                        .Sum(x => x.Player.PlayerPoints
+                                                    .Where(y => y.Matchday == this.Matchday)
+                                                    .Select(z => z.Points)
+                                                    .FirstOrDefault());
 
         public virtual ICollection<PlayerUserGame> MatchdayTeam { get; set; }
     }

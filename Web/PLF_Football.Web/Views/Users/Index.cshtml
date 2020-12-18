@@ -22,7 +22,7 @@
 <div class="bg-team">
     <br />
     <div class="d-flex justify-content-between">
-        <span  style="font-weight:bolder; font-style:italic">TotalPoints: @Model.TotalPoints</span>
+        <span  style="font-weight:bolder; font-style:italic">@Model.UserName Total Points: @Model.TotalPoints</span>
         <h2>@this.ViewData["Title"]</h2>
     </div>
     <br />
@@ -36,11 +36,11 @@
                 <span class="col-md-2">Matchday: @team.Matchday </span>
                 @if (team.IsMatchdayStarted)
                 {
-                    <span class="col-md-2 alert-danger ">Status: Started</span>                   
+            <span class="col-md-2 alert-danger ">Status: Closed</span>                   
                 }
                 else
                 {
-            <span class="col-md-2 alert-success ">Status: Not Started</span>
+            <span class="col-md-2 alert-success ">Status: Open</span>
                 }
                 <span></span>
                 <span class="col-md-4">Team Price: @team.TeamSumAsString </span>

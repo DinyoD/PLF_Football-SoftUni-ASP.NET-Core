@@ -20,7 +20,11 @@
 
         public bool IsMatchdayStarted { get; set; }
 
-        public int Points { get; set; }
+        public int Points => this.Team
+                                        .Sum(x => x.PlayerPoints
+                                                    .Where(y => y.Matchday == this.Matchday)
+                                                    .Select(z => z.Points)
+                                                    .FirstOrDefault());
 
         public virtual ICollection<UserTeamPlayerViewModel> Team { get; set; }
 
