@@ -53,11 +53,24 @@
                 <br />
                 <div class="col-md-12 d-flex justify-content-between">
                     @foreach (var player in team.Team.OrderByDescending(x => x.Position.Id))
-                    {
-                        <a>
-                            <img style="height:100px" src="@player.ImageUrl" alt="Alternate Text" />
-                        </a>
-                    }
+                     {
+                     <a>
+                        <img style="height:100px" src="@player.ImageUrl" alt="Alternate Text" />
+                        @if (player.PlayerPoints.Any(x => x.Matchday == team.Matchday))
+                        {
+                            <p>
+                                @player.PlayerPoints.Where(x => x.Matchday == team.Matchday).Select(x => x.Points).FirstOrDefault() pts.
+                            </p>
+                        }
+                        else 
+                        {
+                            <p>
+                               0 pts.
+                            </p>
+                        }
+
+                     </a>
+                     }
                 </div>
                 <hr />
             }

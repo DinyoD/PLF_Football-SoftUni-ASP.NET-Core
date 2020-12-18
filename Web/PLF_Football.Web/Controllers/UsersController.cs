@@ -1,5 +1,6 @@
 ﻿namespace PLF_Football.Web.Controllers
 {
+    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -43,6 +44,11 @@
                 {
                     matchday.IsMatchdayStarted = true;
                 }
+            }
+
+            foreach (var player in viewModel.Teams.Select(x => x.Team))
+            {
+
             }
 
             return this.View(viewModel);

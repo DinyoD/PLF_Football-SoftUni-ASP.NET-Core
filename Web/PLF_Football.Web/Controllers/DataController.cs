@@ -91,8 +91,8 @@
                     var playerPoints = this.GetPlayerPoints(playerInDb, updatedPlayer);
                     playerInDb.Points = playerPoints;
 
-                    await this.UpdatePlayerStatsAsync(playerInDb, updatedPlayer);
                     await this.UpdatePlayerPointsAsync(playerInDb, clubsIdAndMatchdayPairsInFixtureForUpdate);
+                    await this.UpdatePlayerStatsAsync(playerInDb, updatedPlayer);
                 }
             }
         }
