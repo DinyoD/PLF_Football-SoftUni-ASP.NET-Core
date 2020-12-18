@@ -25,6 +25,15 @@
                 .ToList();
         }
 
+        public string GetClubNameByPLayerId(int playerId)
+        {
+            return this.playersRepo
+                .AllAsNoTracking()
+                .Where(x => x.Id == playerId)
+                .Select(x => x.Club.Name)
+                .FirstOrDefault();
+        }
+
         public int GetCount()
         {
             return this.playersRepo.All().Count();

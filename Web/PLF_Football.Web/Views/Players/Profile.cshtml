@@ -1,0 +1,73 @@
+﻿@model PLF_Football.Web.ViewModels.Players.PlayerProfileViewModel
+@{
+    this.ViewData["ClubImg"] = @Model.ClubName.ToLower();
+}
+<style>
+    .bg-team::after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-image: url('/image/Club/@(this.ViewData["ClubImg"]).png');
+        width: 100%;
+        height: 100%;
+        background-position: center;
+        background-size: 100%;
+        opacity: 0.3;
+        z-index: -1;
+    }
+
+    .bg-profile-text{
+        background-color: rgba(255, 255, 255, 0.5);
+    }
+</style>
+
+<br />
+<div class="container bg-team row justify-content-between">
+        
+    
+        <div class="col-md-6 col justify-content-between bg-profile-text">
+            <h2 class="display-2">@Model.FirstName</h2>
+            <h1 class="display-2">@Model.LastName</h1>
+            <ul class="">
+                <li>
+                    <a href="@Model.SocialLinks.FacebookLink">
+                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="@Model.SocialLinks.TweeterLink">
+                        <i class="fa fa-twitter" aria-hidden="true"></i>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="@Model.SocialLinks.InstagramLink">
+                        <i class="fa fa-instagram" aria-hidden="true"></i>
+                    </a>
+                </li>
+            </ul>
+            <p>DoB: @Model.DoBAsString <span style="color:brown">( @Model.Age )</span></p>
+            <p>@Model.Country.Name</p>
+            <p>@Model.PositionName</p>
+            <p>@Model.PriceAtString</p>
+            @if (@Model.Weight != null)
+            {
+                <p>@Model.Weight kg.</p>
+            }
+            @if (@Model.Height != null)
+            {
+                <p>@Model.Height cm.</p>
+            }
+
+            <p>
+                <a class="btn btn-dark" asp-controller="Players" asp-action="Statistics" asp-route-id="@Model.Id">
+                    Premier League Record
+            </a>
+        </p>
+    </div>
+
+        <img class="col-md-5" style="width:330px" src="@Model.ImageUrl" alt="Alternate Text" />
+
+</div>

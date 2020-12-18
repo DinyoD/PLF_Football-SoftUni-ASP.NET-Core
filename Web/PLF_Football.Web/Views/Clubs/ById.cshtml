@@ -96,8 +96,8 @@
                             <p class="display-3">@player.PositionName <i style="color: grey"> @player.Country.Name</i></p>
 
                             <p>
-                                <a asp-controller="Players" asp-action="Statistics" asp-route-id="@player.Id">
-                                    Premier League Record
+                                <a class="btn btn-secondary alert-secondary" asp-controller="Players" asp-action="Profile" asp-route-id="@player.Id">
+                                    Profile
                                 </a>
                             </p>
                             <ul class="follow-us clearfix">

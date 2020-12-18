@@ -92,5 +92,8 @@
         public int PlayerId { get; set; }
 
         public PlayerInClubMainVewModel Player { get; set; }
+
+        public string ClubName { get; set; }
+
     }
 }
