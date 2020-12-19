@@ -36,11 +36,7 @@
             var nextMatchday = await this.fixtureScraperService.GetFirstNotStartedMatchdayAsync();
             foreach (var matchday in viewModel.Teams)
             {
-                if (matchday.Matchday >= nextMatchday)
-                {
-                    matchday.IsMatchdayStarted = false;
-                }
-                else
+                if (matchday.Matchday < nextMatchday)
                 {
                     matchday.IsMatchdayStarted = true;
                 }
@@ -49,9 +45,15 @@
             return this.View(viewModel);
         }
 
-        public IActionResult Team(string userId, int matchday)
+        public async Task<IActionResult> Team(string userId, int matchday)
         {
             var viewModel = this.userGamesService.GetUserGame<UserGameTeamViewModel>(userId, matchday);
+            var nextMatchday = await this.fixtureScraperService.GetFirstNotStartedMatchdayAsync();
+            if (viewModel.Matchday < nextMatchday)
+            {
+                viewModel.IsMatchdayStarted = true;
+            }
+
             return this.View(viewModel);
         }
     }

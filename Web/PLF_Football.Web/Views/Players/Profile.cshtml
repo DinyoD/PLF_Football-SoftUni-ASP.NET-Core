@@ -21,16 +21,26 @@
     .bg-profile-text{
         background-color: rgba(255, 255, 255, 0.5);
     }
+
+    .follow-us li .fa {
+        margin: 10px 10px 20px 20px;
+        font-size: 35px;
+        color: #767676;
+    }
+
+    .follow-us li .fa:hover {
+        color: #025a8e;
+    }
 </style>
 
 <br />
 <div class="container bg-team row justify-content-between">
         
     
-        <div class="col-md-6 col justify-content-between bg-profile-text">
+        <div class="col-md-7 col justify-content-between bg-profile-text">
             <h2 class="display-2">@Model.FirstName</h2>
             <h1 class="display-2">@Model.LastName</h1>
-            <ul class="">
+            <ul class="row  follow-us clearfix">
                 <li>
                     <a href="@Model.SocialLinks.FacebookLink">
                         <i class="fa fa-facebook" aria-hidden="true"></i>
@@ -48,26 +58,34 @@
                     </a>
                 </li>
             </ul>
-            <p>DoB: @Model.DoBAsString <span style="color:brown">( @Model.Age )</span></p>
-            <p>@Model.Country.Name</p>
-            <p>@Model.PositionName</p>
-            <p>@Model.PriceAtString</p>
+            <p>Date of Birth: 
+                 <span style="font-weight: bold">@Model.DoBAsString</span>
+                 <span style="color:brown; font-weight: bold">( @Model.Age )</span>
+            </p>
+            <p>Nationality: <span style="font-weight: bold">@Model.Country.Name</span>
+            </p>
+            <p>Position: <span style="font-weight: bold">@Model.PositionName</span></p>
+            <p>Price: <span style="font-weight: bold">@Model.PriceAtString</span></p>
             @if (@Model.Weight != null)
             {
-                <p>@Model.Weight kg.</p>
+                <p>Weight: <span style="font-weight: bold">@Model.Weight kg.</span></p>
             }
             @if (@Model.Height != null)
             {
-                <p>@Model.Height cm.</p>
+                <p>Height: <span style="font-weight: bold">@Model.Height cm.</span></p>
             }
 
-            <p>
+            <div>
                 <a class="btn btn-dark" asp-controller="Players" asp-action="Statistics" asp-route-id="@Model.Id">
                     Premier League Record
-            </a>
-        </p>
+                </a>
+                <a class="btn btn-success" style="margin-left: 20px" asp-controller="UserGames" asp-action="AddPlayer" asp-route-id="@Model.Id">
+                    Buy
+                </a>
+            </div>
+            <br />
     </div>
 
-        <img class="col-md-5" style="width:330px" src="@Model.ImageUrl" alt="Alternate Text" />
+        <img class="col-md-5" style="width:280px" src="@Model.ImageUrl" alt="" onerror="this.src = 'https://resources.premierleague.com/premierleague/photos/players/110x140/Photo-Missing.png'" />
 
 </div>

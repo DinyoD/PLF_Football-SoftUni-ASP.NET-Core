@@ -1,25 +1,202 @@
 ﻿@using PLF_Football.Common
 @model PLF_Football.Web.ViewModels.UserGame.UserGameTeamViewModel
 
-<div class="container">
-    <div class="row">
+    
+<style>
+    .bg-pitch {
 
-    </div>
+        margin-top: 10px;
+        background-image: url("/image/Common/pitch.png");
 
-    <div class="row">
-
-        <span>Available budget :@Model.FreeBudget</span>
-        <span>Teame price :  @Model.TeamSum</span>
-    </div>
-    @foreach (var player in Model.Team.OrderBy(x => x.Position.Id))
-    {
-        <div>
-            <img src="@player.ImageUrl" alt="Alternate Text" />
-        </div>
-        <div>
-            <span>@player.FullName</span>
-            <span>@player.PositionName</span>
-            <span>@player.PriceAtString</span>
-        </div>
+        overflow: hidden;
+        background-size: cover;
+        background-position: center;
     }
+    .budget{
+        font-style:italic;
+    }
+    .budget-amount{
+        font-weight: bold;
+        font-size: 20px;
+        color:firebrick;
+    }
+    .player {
+        background-color: rgba(255, 255, 255, 0.1);
+        margin: 3px;
+        border-radius: 10px;
+    }
+
+</style>
+
+<div class="bg-pitch">
+    <br />
+    <div class="row justify-content-center" style="min-height:20vh">
+
+        <div class="col-md-3 jua">
+            <div class="text-center budget">Available budget :</div>
+            <div class="text-center budget-amount">@Model.FreeBudgetAsString</div>
+        </div>
+
+        @foreach (var player in Model.Team.Where(x => x.Position.Id == 1).OrderBy(x => x.LastName))
+        {
+
+            <div class="col-md-2 player">
+
+                <div class="text-center" style="font-weight: bold; color: darkslategrey">@player.PriceAtString</div>
+                <div class="row justify-content-between align-items-center">
+                    @if (!Model.IsMatchdayStarted)
+                    {
+
+                        <a class="btn" asp-controller="UserGames" asp-action="Remove" asp-route-playerId="@player.Id" asp-route-userGameId="@Model.Id" asp-route-userId="@Model.UserId">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    }
+                    else
+                    {
+                        <div style="padding-left:8px">
+                            pts:
+                            <span style="color:firebrick; font-weight:bold">
+                                @player.PlayerPoints.Where(x => x.Matchday == Model.Matchday).Select(x => x.Points).FirstOrDefault()
+                            </span>
+                        </div>
+                    }
+                    <a class="btn" asp-controller="Players" asp-action="Statistics" asp-route-id="@player.Id">
+                        <i class="fa fa-info-circle"></i>
+                    </a>
+                </div>
+                <div>
+                    <img style="width: 85px; display:block; margin: 0 auto;" src="@player.ImageUrl" alt="Alternate       Text" />
+                </div>
+                <p class="text-center" style="font-weight:bold">@player.LastName</p>
+
+            </div>
+        }
+
+        <div class="col-md-3">
+            <div class="text-center budget">Team price :</div>
+            <div class="text-center budget-amount">@Model.TeamSumAsString</div>
+        </div>
+
+    </div>
+
+    <div class="row  justify-content-center" style="min-height:20vh">
+
+
+        @foreach (var player in Model.Team.Where(x => x.Position.Id == 2).OrderBy(x => x.LastName))
+        {
+
+            <div class="col-md-2 player">
+
+                <div class="text-center" style="font-weight: bold; color: darkslategrey">@player.PriceAtString</div>
+                <div class="row justify-content-between align-items-center">
+                    @if (!Model.IsMatchdayStarted)
+                    {
+
+                        <a class="btn" asp-controller="UserGames" asp-action="Remove" asp-route-playerId="@player.Id" asp-route-userGameId="@Model.Id" asp-route-userId="@Model.UserId">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    }
+                    else
+                    {
+                        <div style="padding-left:8px">
+                            pts:
+                            <span style="color:firebrick; font-weight:bold">
+                                @player.PlayerPoints.Where(x => x.Matchday == Model.Matchday).Select(x => x.Points).FirstOrDefault()
+                            </span>
+                        </div>
+                    }
+                    <a class="btn" asp-controller="Players" asp-action="Statistics" asp-route-id="@player.Id">
+                        <i class="fa fa-info-circle"></i>
+                    </a>
+                </div>
+                <div>
+                    <img style="width: 85px; display:block; margin: 0 auto;" src="@player.ImageUrl" alt="Alternate       Text" />
+                </div>
+                <p class="text-center" style="font-weight:bold">@player.LastName</p>
+
+            </div>
+        }
+
+    </div>
+
+    <div class="row  justify-content-center" style="min-height:20vh">
+
+
+        @foreach (var player in Model.Team.Where(x => x.Position.Id == 3).OrderBy(x => x.LastName))
+        {
+
+            <div class="col-md-2 player">
+
+                <div class="text-center" style="font-weight: bold; color: darkslategrey">@player.PriceAtString</div>
+                <div class="row justify-content-between align-items-center">
+                    @if (!Model.IsMatchdayStarted)
+                    {
+
+                        <a class="btn" asp-controller="UserGames" asp-action="Remove" asp-route-playerId="@player.Id" asp-route-userGameId="@Model.Id" asp-route-userId="@Model.UserId">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    }
+                    else
+                    {
+                        <div style="padding-left:8px">
+                            pts:
+                            <span style="color:firebrick; font-weight:bold">
+                                @player.PlayerPoints.Where(x => x.Matchday == Model.Matchday).Select(x => x.Points).FirstOrDefault()
+                            </span>
+                        </div>
+                    }
+                    <a class="btn" asp-controller="Players" asp-action="Statistics" asp-route-id="@player.Id">
+                        <i class="fa fa-info-circle"></i>
+                    </a>
+                </div>
+                <div>
+                    <img style="width: 85px; display:block; margin: 0 auto;" src="@player.ImageUrl" alt="Alternate       Text" />
+                </div>
+                <p class="text-center" style="font-weight:bold">@player.LastName</p>
+
+            </div>
+        }
+
+    </div>
+
+    <div class="row  justify-content-center" style="min-height:20vh">
+
+
+        @foreach (var player in Model.Team.Where(x => x.Position.Id == 4).OrderBy(x => x.LastName))
+        {
+
+            <div class="col-md-2 player">
+
+                <div class="text-center" style="font-weight: bold; color: darkslategrey">@player.PriceAtString</div>
+                <div class="row justify-content-between align-items-center">
+                    @if (!Model.IsMatchdayStarted)
+                    {
+
+                        <a class="btn" asp-controller="UserGames" asp-action="Remove" asp-route-playerId="@player.Id" asp-route-userGameId="@Model.Id" asp-route-userId="@Model.UserId">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    }
+                    else
+                    {
+                        <div style="padding-left:8px">
+                            pts:
+                            <span style="color:firebrick; font-weight:bold">
+                                @player.PlayerPoints.Where(x => x.Matchday == Model.Matchday).Select(x => x.Points).FirstOrDefault()
+                            </span>
+                        </div>
+                    }
+                    <a class="btn" asp-controller="Players" asp-action="Statistics" asp-route-id="@player.Id">
+                        <i class="fa fa-info-circle"></i>
+                    </a>
+                </div>
+                <div>
+                    <img style="width: 85px; display:block; margin: 0 auto;" src="@player.ImageUrl" alt="Alternate       Text" />
+                </div>
+                <p class="text-center" style="font-weight:bold">@player.LastName</p>
+
+            </div>
+        }
+
+    </div>
+    
 </div>

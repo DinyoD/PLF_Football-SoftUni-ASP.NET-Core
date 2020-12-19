@@ -34,6 +34,8 @@
 
         public int FreeBudget => GlobalConstants.UserBudget - this.TeamSum;
 
+        public string FreeBudgetAsString => this.FreeBudget.ToString("C0", CultureInfo.CreateSpecificCulture("en-GB"));
+
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<UserGame, UserGameTeamViewModel>()

@@ -13,13 +13,16 @@
     {
         private readonly IDeletableEntityRepository<UserGame> userGamesRepo;
         private readonly IDeletableEntityRepository<Player> playersRepo;
+        private readonly IRepository<PlayerUserGame> playersUserGamesRepo;
 
         public UserGamesService(
             IDeletableEntityRepository<UserGame> userGamesRepo,
-            IDeletableEntityRepository<Player> playersRepo)
+            IDeletableEntityRepository<Player> playersRepo,
+            IRepository<PlayerUserGame> playersUserGamesRepo)
         {
             this.userGamesRepo = userGamesRepo;
             this.playersRepo = playersRepo;
+            this.playersUserGamesRepo = playersUserGamesRepo;
         }
 
         public async Task AddPlayerToUserGameAsync(int playerId, int userGameId)
@@ -70,6 +73,43 @@
 
             return team.SelectMany(x => this.playersRepo.All().Where(y => y.Id == x.PlayerId))
                 .ToList();
+        }
+
+        public async Task RemovePlayerFromUserGameAsync(int playerId, int userGameId)
+        {
+            var userGame = this.userGamesRepo.All().Where(x => x.Id == userGameId).FirstOrDefault();
+            var player = this.playersRepo.All().Where(x => x.Id == playerId).FirstOrDefault();
+            if (userGame != null && player != null)
+            {
+                var playerUserGame = this.playersUserGamesRepo
+                    .All()
+                    .Where(x => x.PlayerId == playerId && x.UserGameId == userGameId)
+                    .FirstOrDefault();
+
+                userGame.MatchdayTeam.Remove(playerUserGame);
+                this.playersUserGamesRepo.Delete(playerUserGame);
+            }
+
+            await this.userGamesRepo.SaveChangesAsync();
+            await this.playersUserGamesRepo.SaveChangesAsync();
+        }
+
+        public int GetMatchdayByuserGameId(int userGameId)
+        {
+            return this.userGamesRepo
+                .AllAsNoTracking()
+                .Where(x => x.Id == userGameId)
+                .Select(x => x.Matchday)
+                .FirstOrDefault();
+        }
+
+        public string GetUserIdByUserGameId(int userGameId)
+        {
+            return this.userGamesRepo
+                .AllAsNoTracking()
+                .Where(x => x.Id == userGameId)
+                .Select(x => x.UserId)
+                .FirstOrDefault();
         }
     }
 }

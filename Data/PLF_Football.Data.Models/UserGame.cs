@@ -20,6 +20,7 @@
 
         public int Matchday { get; set; }
 
+        [NotMapped]
         public int Points => this.MatchdayTeam
                                         .Sum(x => x.Player.PlayerPoints
                                                     .Where(y => y.Matchday == this.Matchday)

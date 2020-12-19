@@ -1,6 +1,8 @@
 ﻿namespace PLF_Football.Data.Models
 {
-    public class PlayerUserGame
+    using PLF_Football.Data.Common.Models;
+
+    public class PlayerUserGame : BaseModel<int>
     {
         public int PlayerId { get; set; }
 

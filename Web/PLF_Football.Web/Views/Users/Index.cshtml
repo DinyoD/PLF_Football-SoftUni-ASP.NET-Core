@@ -29,7 +29,7 @@
     <hr />
     <div>
         <div class="col-md-12 text-center" style="font-weight:bolder">
-            @foreach (var team in Model.Teams.OrderByDescending(x => x.Matchday))
+            @foreach (var team in Model.Teams.Where(z=>z.Team.Count > 0 ).OrderByDescending(x => x.Matchday))
             {
             <div class="row align-items-center">
 
@@ -54,7 +54,7 @@
                 <div class="col-md-12 d-flex justify-content-between">
                     @foreach (var player in team.Team.OrderByDescending(x => x.Position.Id))
                      {
-                     <a>
+                     <a asp-controller="Players" asp-action="Profile" asp-route-id="@player.Id">
                         <img style="height:100px" src="@player.ImageUrl" alt="Alternate Text" />
                         @if (player.PlayerPoints.Any(x => x.Matchday == team.Matchday))
                         {

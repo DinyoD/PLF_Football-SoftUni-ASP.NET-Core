@@ -3,6 +3,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using PLF_Football.Common;
@@ -32,6 +33,7 @@
             this.fixtureScraperService = fixtureScraperService;
         }
 
+        [Authorize]
         public async Task<IActionResult> AddPlayer(int id)
         {
             var user = await this.userManager.GetUserAsync(this.User);
@@ -102,6 +104,21 @@
                 await this.userGamesService.AddPlayerToUserGameAsync(id, userGameId);
                 return this.Redirect($"/Users/Team/?userId={user.Id}&matchday={nextMatchday}");
             }
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Remove(int playerId, int userGameId, string userId)
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            if (user.Id != userId)
+            {
+                return this.Unauthorized();
+            }
+
+            await this.userGamesService.RemovePlayerFromUserGameAsync(playerId, userGameId);
+            var matchday = this.userGamesService.GetMatchdayByuserGameId(userGameId);
+            return this.Redirect($"/Users/Team/?userId={userId}&matchday=15");
         }
     }
 }
