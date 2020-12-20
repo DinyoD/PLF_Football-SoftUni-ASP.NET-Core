@@ -1,12 +1,9 @@
 ﻿namespace PLF_Football.Services.Data
 {
     using System.Collections.Generic;
-    using System.Threading.Tasks;
 
-    public interface IClubsService
+    public interface IPositionService
     {
         ICollection<T> GetAll<T>();
-
-        T GetById<T>(int id);
     }
 }

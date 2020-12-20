@@ -2,10 +2,12 @@
 {
     using System.Globalization;
 
-    using PLF_Football.Web.ViewModels.Country;
+    using PLF_Football.Data.Models;
+    using PLF_Football.Services.Mapping;
+    using PLF_Football.Web.ViewModels.Clubs;
     using PLF_Football.Web.ViewModels.Position;
 
-    public abstract class PlayerBasicViewModel
+    public class PlayerForAllPlayersViewModel : IMapFrom<Player>
     {
         public int Id { get; set; }
 
@@ -13,20 +15,13 @@
 
         public string LastName { get; set; }
 
-        public string FullName =>
-            (this.LastName.Length + (string.IsNullOrEmpty(this.FirstName) ? 0 : this.FirstName.Length)) > 18
-            ? this.LastName
-            : this.FirstName + " " + this.LastName;
+        public string FullName => this.FirstName + " " + this.LastName;
 
         public string ImageUrl { get; set; }
 
-        public string SquadNumber { get; set; }
-
-        public string PositionName { get; set; }
+        public ClubBasicViewModel Club { get; set; }
 
         public PositionBasicViewModel Position { get; set; }
-
-        public virtual CountryViewModel Country { get; set; }
 
         public int Price { get; set; }
 

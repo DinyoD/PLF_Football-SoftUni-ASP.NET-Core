@@ -5,9 +5,9 @@
 <nav aria-label="Page navigation example">
     <ul class="pagination">
         <li class="page-item">
-            <a class="page-link @if (Model.PageNumber == 1) { <text>disabled</text> }" aria-label="Previous" 
-               asp-area="Administration" asp-controller="Players" asp-action="Index" 
-               asp-route-sortOrder="@Model.SortOrder" asp-route-currentFilter="@Model.CurrentFilter" asp-route-searchString="@Model.SearchString" asp-route-page="@Model.PreviousPageNumber">
+            <a class="page-link @if (Model.PageNumber == 1) { <text>disabled</text> }" aria-label="Previous"
+               asp-area="" asp-controller="Players" asp-action="All"
+               asp-route-clubId="@Model.ClubSearch" asp-route-positionId="@Model.PositionSearch" asp-route-searchString="@Model. SearchString" asp-route-page="@Model.PreviousPageNumber">
                 <span aria-hidden="true">&laquo;</span>
             </a>
         </li>
@@ -18,8 +18,8 @@
         </li>
         <li class="page-item">
             <a class="page-link @if (Model.PageNumber == Model.PagesCount) { <text>disabled</text> }" aria-label="Next"
-               asp-area="Administration" asp-controller="Players" asp-action="Index" 
-               asp-route-sortOrder="@Model.SortOrder" asp-route-currentFilter="@Model.CurrentFilter" asp-route-searchString="@Model.SearchString" asp-route-page="@Model.NextPageNumber">
+               asp-area="" asp-controller="Players" asp-action="All"
+               asp-route-clubId="@Model.ClubSearch" asp-route-positionId="@Model.PositionSearch" asp-route-searchString="@Model. SearchString" asp-route-page="@Model.NextPageNumber">
                 <span aria-hidden="true">&raquo;</span>
             </a>
         </li>

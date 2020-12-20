@@ -1,0 +1,132 @@
+﻿@model PLF_Football.Web.ViewModels.Players.AllPlayersCollectionViewModel
+@{
+
+}
+
+<style>
+    form label{
+        margin-bottom: 0;
+        margin-top: .4rem;
+    }
+    form select {
+        width : 200px;
+        border-radius: 10px;
+        padding-left: 5px;
+    }
+    form input {
+        border-radius: 10px;
+    }
+    form input[type="text"] {
+        padding-left: 5px;
+        width: 200px
+    }
+
+    form input[type="submit"] {
+        color: white;
+        background-color: #6c757d;
+        width: 80px
+    }
+
+    form select, input:focus{
+       outline : none;
+    }
+
+    .btn-small {
+        padding:5px 10px;
+        background-color: #6c757d;
+        color: white;
+        border-radius: 3px;
+    }
+
+    .btn-small-buy {
+        padding: 5px 20px;
+        background-color: forestgreen;
+    }
+
+    .btn-small-buy:focus {
+        color: black;
+    }
+</style>
+
+<div class="bg">
+
+    <br />
+
+    <div class="row justify-content-between">
+        <form class="row justify-content-around col-md-10" method="get">
+
+            <label for="positionId">Position: </label>
+            <select asp-route="positionId" , name="positionId"
+                    asp-items="@Model.Positions.Select(x=> new SelectListItem (x.Name, x.Id.ToString()))">
+            </select>
+
+            <label for="clubId">Club: </label>
+            <select asp-route="clubId" , name="clubId"
+                    asp-items="@Model.Clubs.Select(x=> new SelectListItem (x.Name, x.Id.ToString()))">
+            </select>
+
+            <label for=" searchString">Player: </label>
+            <input type="text" asp-route=" searchString" , name="searchString" placeholder="name" />
+
+            <input type="submit" value="Search" />
+        </form>
+        <span class="col-md-2">
+            <partial name="_PagingPartialAllPlayers" model="@Model" />  
+        </span>
+    </div>
+
+    <br />
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+
+            <tr>
+                <th>
+                    First Name
+                </th>
+                <th>
+                    Last Name
+                </th>
+                <th>
+                    Position
+                </th>
+                <th>
+                    Club
+                </th>
+                <th class="text-end">
+                    Price
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.AllPlayers.Skip((Model.PageNumber - 1) * Model.ItemsPerPage).Take(Model.ItemsPerPage))
+            {
+            <tr>
+                <td class="text">
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td class="text">
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td class="text">
+                    @Html.DisplayFor(modelItem => item.Position.Name)
+                </td>
+                <td class="text">
+                    @Html.DisplayFor(modelItem => item.Club.Name)
+                </td>
+                <td class="text text-end">
+                    @Html.DisplayFor(modelItem => item.PriceAtString)
+                </td>
+                <td class="text text-end">
+                    <a class="btn-small" asp-action="Profile" asp-route-id="@item.Id">Profile</a>
+                </td>
+                <td class="text text-end">
+                    <a class="btn-small btn-small-buy" asp-controller="UserGames" asp-action="AddPlayer" asp-route-id="@item.Id">Buy</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

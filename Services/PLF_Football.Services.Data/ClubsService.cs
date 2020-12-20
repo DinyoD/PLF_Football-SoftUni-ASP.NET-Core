@@ -16,7 +16,7 @@
             this.clubsRepo = clubsRepo;
         }
 
-        public IEnumerable<T> GetAll<T>()
+        public ICollection<T> GetAll<T>()
         {
             return this.clubsRepo.AllAsNoTracking().OrderBy(x => x.Name).To<T>().ToList();
         }

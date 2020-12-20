@@ -1,9 +1,9 @@
-﻿namespace PLF_Football.Web.ViewModels.Position
+﻿namespace PLF_Football.Web.ViewModels.Clubs
 {
     using PLF_Football.Data.Models;
     using PLF_Football.Services.Mapping;
 
-    public class PositionViewModel : IMapFrom<Position>
+    public class ClubBasicViewModel : IMapFrom<Club>
     {
         public int Id { get; set; }
 

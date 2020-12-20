@@ -21,6 +21,7 @@
         {
             return this.playersRepo
                 .All()
+                .OrderByDescending(x => x.Price)
                 .To<T>()
                 .ToList();
         }

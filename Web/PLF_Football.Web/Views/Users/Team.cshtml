@@ -1,31 +1,50 @@
 ﻿@using PLF_Football.Common
 @model PLF_Football.Web.ViewModels.UserGame.UserGameTeamViewModel
 
-    
+
 <style>
     .bg-pitch {
-
         margin-top: 10px;
         background-image: url("/image/Common/pitch.png");
-
         overflow: hidden;
         background-size: cover;
         background-position: center;
     }
-    .budget{
-        font-style:italic;
+
+    .budget {
+        font-style: italic;
     }
-    .budget-amount{
+
+    .budget-amount {
         font-weight: bold;
         font-size: 20px;
-        color:firebrick;
+        color: firebrick;
     }
+
     .player {
         background-color: rgba(255, 255, 255, 0.1);
         margin: 3px;
         border-radius: 10px;
     }
 
+    .player-price {
+        font-weight: bold;
+        color: firebrick;
+    }
+
+    .player-points {
+        font-weight: bold;
+        font-size: 22px;
+
+    }
+    .player-name {
+        font-weight: bold;
+        font-size: 20px;
+    }
+
+    a .fa {
+        font-size: 22px;
+    }
 </style>
 
 <div class="bg-pitch">
@@ -42,34 +61,36 @@
 
             <div class="col-md-2 player">
 
-                <div class="text-center" style="font-weight: bold; color: darkslategrey">@player.PriceAtString</div>
+                <div class="text-center player-price" >@player.PriceAtString</div>
                 <div class="row justify-content-between align-items-center">
                     @if (!Model.IsMatchdayStarted)
                     {
 
-                        <a class="btn" asp-controller="UserGames" asp-action="Remove" asp-route-playerId="@player.Id" asp-route-userGameId="@Model.Id" asp-route-userId="@Model.UserId">
+                        <a class="btn" title="Remove Player" asp-controller="UserGames" asp-action="Remove" asp-route-playerId="@player.Id" asp-route-userGameId="@Model.Id" asp-route-userId="@Model.UserId">
                             <i class="fa fa-trash"></i>
                         </a>
                     }
                     else
                     {
                         <div style="padding-left:8px">
-                            pts:
-                            <span style="color:firebrick; font-weight:bold">
+
+                            <span class="player-points">
                                 @player.PlayerPoints.Where(x => x.Matchday == Model.Matchday).Select(x => x.Points).FirstOrDefault()
                             </span>
+                            pts:
                         </div>
                     }
-                    <a class="btn" asp-controller="Players" asp-action="Statistics" asp-route-id="@player.Id">
+                    <a class="btn" title="View Player Stats" asp-controller="Players" asp-action="Statistics" asp-route-id="@player.Id">
                         <i class="fa fa-info-circle"></i>
                     </a>
                 </div>
                 <div>
                     <img style="width: 85px; display:block; margin: 0 auto;" src="@player.ImageUrl" alt="Alternate       Text" />
                 </div>
-                <p class="text-center" style="font-weight:bold">@player.LastName</p>
+                <p class="text-center player-name">@player.LastName</p>
 
             </div>
+
         }
 
         <div class="col-md-3">
@@ -87,34 +108,36 @@
 
             <div class="col-md-2 player">
 
-                <div class="text-center" style="font-weight: bold; color: darkslategrey">@player.PriceAtString</div>
+                <div class="text-center player-price">@player.PriceAtString</div>
                 <div class="row justify-content-between align-items-center">
                     @if (!Model.IsMatchdayStarted)
                     {
 
-                        <a class="btn" asp-controller="UserGames" asp-action="Remove" asp-route-playerId="@player.Id" asp-route-userGameId="@Model.Id" asp-route-userId="@Model.UserId">
+                        <a class="btn" title="Remove Player" asp-controller="UserGames" asp-action="Remove" asp-route-playerId="@player.Id" asp-route-userGameId="@Model.Id" asp-route-userId="@Model.UserId">
                             <i class="fa fa-trash"></i>
                         </a>
                     }
                     else
                     {
                         <div style="padding-left:8px">
-                            pts:
-                            <span style="color:firebrick; font-weight:bold">
+
+                            <span class="player-points">
                                 @player.PlayerPoints.Where(x => x.Matchday == Model.Matchday).Select(x => x.Points).FirstOrDefault()
                             </span>
+                            pts:
                         </div>
                     }
-                    <a class="btn" asp-controller="Players" asp-action="Statistics" asp-route-id="@player.Id">
+                    <a class="btn" title="View Player Stats" asp-controller="Players" asp-action="Statistics" asp-route-id="@player.Id">
                         <i class="fa fa-info-circle"></i>
                     </a>
                 </div>
                 <div>
                     <img style="width: 85px; display:block; margin: 0 auto;" src="@player.ImageUrl" alt="Alternate       Text" />
                 </div>
-                <p class="text-center" style="font-weight:bold">@player.LastName</p>
+                <p class="text-center player-name">@player.LastName</p>
 
             </div>
+
         }
 
     </div>
@@ -127,34 +150,36 @@
 
             <div class="col-md-2 player">
 
-                <div class="text-center" style="font-weight: bold; color: darkslategrey">@player.PriceAtString</div>
+                <div class="text-center player-price">@player.PriceAtString</div>
                 <div class="row justify-content-between align-items-center">
                     @if (!Model.IsMatchdayStarted)
                     {
 
-                        <a class="btn" asp-controller="UserGames" asp-action="Remove" asp-route-playerId="@player.Id" asp-route-userGameId="@Model.Id" asp-route-userId="@Model.UserId">
+                        <a class="btn" title="Remove Player" asp-controller="UserGames" asp-action="Remove" asp-route-playerId="@player.Id" asp-route-userGameId="@Model.Id" asp-route-userId="@Model.UserId">
                             <i class="fa fa-trash"></i>
                         </a>
                     }
                     else
                     {
                         <div style="padding-left:8px">
-                            pts:
-                            <span style="color:firebrick; font-weight:bold">
+
+                            <span class="player-points">
                                 @player.PlayerPoints.Where(x => x.Matchday == Model.Matchday).Select(x => x.Points).FirstOrDefault()
                             </span>
+                            pts:
                         </div>
                     }
-                    <a class="btn" asp-controller="Players" asp-action="Statistics" asp-route-id="@player.Id">
+                    <a class="btn" title="View Player Stats" asp-controller="Players" asp-action="Statistics" asp-route-id="@player.Id">
                         <i class="fa fa-info-circle"></i>
                     </a>
                 </div>
                 <div>
                     <img style="width: 85px; display:block; margin: 0 auto;" src="@player.ImageUrl" alt="Alternate       Text" />
                 </div>
-                <p class="text-center" style="font-weight:bold">@player.LastName</p>
+                <p class="text-center player-name">@player.LastName</p>
 
             </div>
+
         }
 
     </div>
@@ -167,36 +192,38 @@
 
             <div class="col-md-2 player">
 
-                <div class="text-center" style="font-weight: bold; color: darkslategrey">@player.PriceAtString</div>
+                <div class="text-center player-price">@player.PriceAtString</div>
                 <div class="row justify-content-between align-items-center">
                     @if (!Model.IsMatchdayStarted)
                     {
 
-                        <a class="btn" asp-controller="UserGames" asp-action="Remove" asp-route-playerId="@player.Id" asp-route-userGameId="@Model.Id" asp-route-userId="@Model.UserId">
+                        <a class="btn" title="Remove Player" asp-controller="UserGames" asp-action="Remove" asp-route-playerId="@player.Id" asp-route-userGameId="@Model.Id" asp-route-userId="@Model.UserId">
                             <i class="fa fa-trash"></i>
                         </a>
                     }
                     else
                     {
                         <div style="padding-left:8px">
-                            pts:
-                            <span style="color:firebrick; font-weight:bold">
+
+                            <span class="player-points">
                                 @player.PlayerPoints.Where(x => x.Matchday == Model.Matchday).Select(x => x.Points).FirstOrDefault()
                             </span>
+                            pts:
                         </div>
                     }
-                    <a class="btn" asp-controller="Players" asp-action="Statistics" asp-route-id="@player.Id">
+                    <a class="btn" title="View Player Stats" asp-controller="Players" asp-action="Statistics" asp-route-id="@player.Id">
                         <i class="fa fa-info-circle"></i>
                     </a>
                 </div>
                 <div>
                     <img style="width: 85px; display:block; margin: 0 auto;" src="@player.ImageUrl" alt="Alternate       Text" />
                 </div>
-                <p class="text-center" style="font-weight:bold">@player.LastName</p>
+                <p class="text-center player-name">@player.LastName</p>
 
             </div>
+
         }
 
     </div>
-    
+
 </div>
