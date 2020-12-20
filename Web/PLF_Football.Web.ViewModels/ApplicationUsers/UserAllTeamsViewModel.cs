@@ -8,7 +8,7 @@
     using PLF_Football.Services.Mapping;
     using PLF_Football.Web.ViewModels.UserGame;
 
-    public class UserProfileViewModel : IMapFrom<ApplicationUser>, IHaveCustomMappings
+    public class UserAllTeamsViewModel : IMapFrom<ApplicationUser>, IHaveCustomMappings
     {
         public string Id { get; set; }
 
@@ -24,7 +24,7 @@
 
         public void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<ApplicationUser, UserProfileViewModel>()
+            configuration.CreateMap<ApplicationUser, UserAllTeamsViewModel>()
                  .ForMember(x => x.Teams, op => op.MapFrom(x => x.Games));
         }
     }

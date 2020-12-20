@@ -111,5 +111,14 @@
                 .Select(x => x.UserId)
                 .FirstOrDefault();
         }
+
+        public ICollection<T> GetUserGamesByUserIdAfterSpecificMatchday<T>(string userId, int matchday)
+        {
+            return this.userGamesRepo
+                .AllAsNoTracking()
+                .Where(x => x.UserId == userId && x.Matchday > matchday)
+                .To<T>()
+                .ToList();
+        }
     }
 }

@@ -32,7 +32,30 @@
         public async Task<IActionResult> Index()
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var viewModel = this.usersService.GetUserById<UserProfileViewModel>(userId);
+            var nextMatchday = await this.fixtureScraperService.GetFirstNotStartedMatchdayAsync();
+            var lastOfOldMatchdays = nextMatchday - 3;
+            var viewModel = new UserIndexPageViewModel
+            {
+                Id = userId,
+                Teams = this.userGamesService.GetUserGamesByUserIdAfterSpecificMatchday<UserGameTeamViewModel>(userId, lastOfOldMatchdays),
+                LastStartedMatchday = nextMatchday - 1,
+            };
+
+            foreach (var matchday in viewModel.Teams)
+            {
+                if (matchday.Matchday < nextMatchday)
+                {
+                    matchday.IsMatchdayStarted = true;
+                }
+            }
+
+            return this.View(viewModel);
+        }
+
+        public async Task<IActionResult> AllTeams()
+        {
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var viewModel = this.usersService.GetUserById<UserAllTeamsViewModel>(userId);
             var nextMatchday = await this.fixtureScraperService.GetFirstNotStartedMatchdayAsync();
             foreach (var matchday in viewModel.Teams)
             {

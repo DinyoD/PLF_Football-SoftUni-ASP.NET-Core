@@ -1,0 +1,80 @@
+﻿@model PLF_Football.Web.ViewModels.ApplicationUsers.UserAllTeamsViewModel
+@{
+    this.ViewData["ClubImg"] = @Model.FavoriteTeamName.ToLower();
+    this.ViewData["Title"] = @Model.UserName +"'s "+ @Model.FavoriteTeamName + " Fantasy Teams";
+}
+<style>
+    .bg-team::after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-image: url('/image/Club/@(this.ViewData["ClubImg"]).png');
+        width: 100%;
+        height: 100%;
+        background-position: center;
+        background-size: 100%;
+        opacity: 0.3;
+        z-index: -1;
+    }
+</style>
+<div class="bg-team">
+    <br />
+    <div class="d-flex justify-content-between">
+        <span  style="font-weight:bolder; font-style:italic">@Model.UserName Total Points: @Model.TotalPoints</span>
+        <h2>@this.ViewData["Title"]</h2>
+    </div>
+    <br />
+    <hr />
+    <div>
+        <div class="col-md-12 text-center" style="font-weight:bolder">
+            @foreach (var team in Model.Teams.Where(z=>z.Team.Count > 0 ).OrderByDescending(x => x.Matchday))
+            {
+            <div class="row align-items-center">
+
+                <span class="col-md-2">Matchday: @team.Matchday </span>
+                @if (team.IsMatchdayStarted)
+                {
+            <span class="col-md-2 alert-danger ">Status: Closed</span>                   
+                }
+                else
+                {
+            <span class="col-md-2 alert-success ">Status: Open</span>
+                }
+                <span></span>
+                <span class="col-md-4">Team Price: @team.TeamSumAsString </span>
+                <span class="col-md-3">Points: @team.Points</span>
+                <a class="btn btn-dark alert-secondary" style="font-weight:bolder" asp-controller="Users" asp-action="Team" asp-route-userId="@Model.Id"
+                   asp-route-matchday="@team.Matchday">
+                    Details
+                </a>
+            </div>
+                <br />
+                <div class="col-md-12 d-flex justify-content-between">
+                    @foreach (var player in team.Team.OrderByDescending(x => x.Position.Id))
+                     {
+                     <a title="Player Profile" asp-controller="Players" asp-action="Profile" asp-route-id="@player.Id">
+                        <img style="height:100px" src="@player.ImageUrl" alt="Alternate Text" />
+
+                        @if (player.PlayerPoints.Any(x => x.Matchday == team.Matchday))
+                        {
+                            <p>
+                                @player.PlayerPoints.Where(x => x.Matchday == team.Matchday).Select(x => x.Points).FirstOrDefault() pts.
+                            </p>
+                        }
+                        else 
+                        {
+                            <p>
+                               0 pts.
+                            </p>
+                        }
+
+                     </a>
+                     }
+                </div>
+                <hr />
+            }
+        </div>
+    </div>
+</div>

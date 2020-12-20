@@ -41,22 +41,32 @@
             <h2 class="display-2">@Model.FirstName</h2>
             <h1 class="display-2">@Model.LastName</h1>
             <ul class="row  follow-us clearfix">
-                <li>
-                    <a href="@Model.SocialLinks.FacebookLink">
-                        <i class="fa fa-facebook" aria-hidden="true"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="@Model.SocialLinks.TweeterLink">
-                        <i class="fa fa-twitter" aria-hidden="true"></i>
-                    </a>
-                </li>
 
-                <li>
-                    <a href="@Model.SocialLinks.InstagramLink">
-                        <i class="fa fa-instagram" aria-hidden="true"></i>
-                    </a>
-                </li>
+                @if (@Model.SocialLinks.FacebookLink != null)
+                {
+                    <li>
+                        <a href="@Model.SocialLinks.FacebookLink">
+                            <i class="fa fa-facebook" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                }
+                @if (@Model.SocialLinks.TweeterLink != null)
+                {
+                    <li>
+                        <a href="@Model.SocialLinks.TweeterLink">
+                            <i class="fa fa-twitter" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                }
+                @if (@Model.SocialLinks.InstagramLink != null)
+                {
+                    <li>
+                        <a href="@Model.SocialLinks.InstagramLink">
+                            <i class="fa fa-instagram" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                }
+                
             </ul>
             <p>Date of Birth: 
                  <span style="font-weight: bold">@Model.DoBAsString</span>

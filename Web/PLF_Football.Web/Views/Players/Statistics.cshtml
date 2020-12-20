@@ -9,20 +9,25 @@
         position: absolute;
         top: 0;
         left: 0;
-        background-image: url('/image/Club/@(this.ViewData["ClubImg"]).png');
+        background-image: url('/image/Common/tactics.png');
         width: 100%;
         height: 100%;
         background-position: center;
         background-size: 100%;
-        opacity: 0.3;
+        opacity: 0.5;
         z-index: -1;
     }
 
 </style>
 <div class="container-player-profile bg-team">
     <figure class="row">
+
         <img src="@Model.Player.ImageUrl" class="img-responsive" alt="" onerror="this.src = 'https://resources.premierleague.com/premierleague/photos/players/110x140/Photo-Missing.png'">
-        <a class="display-2" asp-controller="Players" asp-action="Profile" asp-route-id="@Model.PlayerId">@Model.Player.FullName</a>
+
+        <a class="display-2" title="Player Profile" asp-controller="Players" asp-action="Profile" asp-route-id="@Model.PlayerId">
+            @Model.Player.FullName
+        </a>
+
     </figure>
     <div class="row">
         <p class="display-4">@Model.Player.PositionName</p>

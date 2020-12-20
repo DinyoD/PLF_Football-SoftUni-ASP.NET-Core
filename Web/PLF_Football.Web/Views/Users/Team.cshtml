@@ -54,6 +54,15 @@
         <div class="col-md-3 jua">
             <div class="text-center budget">Available budget :</div>
             <div class="text-center budget-amount">@Model.FreeBudgetAsString</div>
+            <br />
+            @if (!Model.IsMatchdayStarted && Model.Team.Count < 11)
+            {
+                <div class="row justify-content-center">
+                    <a class="btn btn-primary alert-secondary" style="font-weight:bolder" asp-controller="Players" asp-action="All">
+                        Add New Player
+                    </a>
+                </div>
+            }
         </div>
 
         @foreach (var player in Model.Team.Where(x => x.Position.Id == 1).OrderBy(x => x.LastName))
@@ -93,10 +102,16 @@
 
         }
 
-        <div class="col-md-3">
-            <div class="text-center budget">Team price :</div>
-            <div class="text-center budget-amount">@Model.TeamSumAsString</div>
+    <div class="col-md-3">
+        <div class="text-center budget">Team price :</div>
+        <div class="text-center budget-amount">@Model.TeamSumAsString</div>
+        <br />
+        <div class="row justify-content-center">
+            <a class="btn btn-primary alert-secondary" style="font-weight:bolder" asp-controller="Users" asp-action="Index">
+                My Last Teams
+            </a>
         </div>
+    </div>
 
     </div>
 
