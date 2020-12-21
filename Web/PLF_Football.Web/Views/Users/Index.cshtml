@@ -4,94 +4,199 @@
     this.ViewData["1"] = "Current";
     this.ViewData["2"] = "Next";
 }
-    <style>
-        .matchday{
-            background-color: lightgreen;
-            color: dimgray;
-            text-decoration: double;
+<style>
+        .bg-user::after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-image: url('/image/Common/tactics.png');
+        width: 100%;
+        height: 100%;
+        background-position: center;
+        background-size: 100%;
+        opacity: 0.3;
+        z-index: -1;
+        }
+        .buttons{
+            position: absolute;
+            top: 150px;
+            right:  120px;
+        }
+        .matchday {
+            background-color: grey;
+            color: black;
+            font-weight: bold;
+            height: 30px;
+            border-radius: 10px;
+            margin:10px 0;
+            padding-top: 3px;
         }
         .team {
-            padding: 5px;
+            padding: 10px 0px 15px 25px;
             width: 350px;
-            height: 300px;
-            background-color: green;
+            height: 430px;
+            background-color: forestgreen;
+            border-radius:10px;
         }
         .btn-small{
             font-size: 16px;
             padding: 3px 5px;
             border-radius: 3px;
         }
-    </style>
-<div class="row justify-content-center">
-    <a class="btn btn-primary alert-secondary" style="font-weight:bolder" asp-controller="Users" asp-action="AllTeams">
-        My All Teams
-    </a>
-</div>
-<div class="row">
-    @for (int i = 0; i < 3; i++)
-    {
-        <div class="col-md-4">
+</style>
 
-            <div class="text-center matchday">Matchday: @(Model.LastStartedMatchday-1+i) (@this.ViewData[$"{i}"])</div>
+    <div class="bg-user">
 
-            <div class="team">
-                @if (Model.Teams.Any(x => x.Matchday == Model.LastStartedMatchday - 1 + i))
-                {
-                    <div class="row align-items-center">
-
-                        <span class="col-md-6">Team: @Model.Teams.Where(x => x.Matchday == Model.LastStartedMatchday - 1 + i).FirstOrDefault().TeamSumAsString </span>
-                        <span class="col-md-3">Points: @Model.Teams.Where(x => x.Matchday == Model.LastStartedMatchday - 1 + i).FirstOrDefault().Points</span>
-                        <a class="btn-small alert-success" style="font-weight:bolder" asp-controller="Users" asp-action="Team" asp-route-userId="@Model.Id" asp-route-matchday="@(Model.LastStartedMatchday-1+i)">
-                            Details
-                        </a>
-                    </div>
-
-                    <div class="row col-md-4 justify-content-center">
-
-                        @foreach (var player in Model.Teams.Where(x => x.Matchday == Model.LastStartedMatchday - 1 + i).FirstOrDefault().Team.Where(x => x.Position.Id == 1))
-                        {
-                            <a title="Player Profile" asp-controller="Players" asp-action="Profile" asp-route-id="@player.Id">
-                                <img style="height:50px" src="@player.ImageUrl" alt="Alternate Text" />
-
-                                @if (player.PlayerPoints.Any(x => x.Matchday == Model.LastStartedMatchday - 1 + i))
-                                {
-                                    <p>
-                                        @player.PlayerPoints.Where(x => x.Matchday == Model.LastStartedMatchday - 1 + i).Select(x => x.Points).FirstOrDefault() pts.
-                                    </p>
-                                }
-                                else
-                                {
-                                    <p>
-                                        0 pts.
-                                    </p>
-                                }
-
-                            </a>
-
-                        }
-
-                    </div>
-
-                    
-                }
-                else
-                {
-                    <span>Sorry, You Don`t Have a Team for this Matchday!</span>
-                }
-            </div>
-
-            <div class="fixture col-md-12">
-                <div class="row fixture-item"><span>aaaa</span><span>0:3</span><span>bbbbbbbbb</span></div>
-                <div class="row fixture-item"><span>aaaa</span><span>0:3</span><span>bbbbbbbbb</span></div>
-                <div class="row fixture-item"><span>aaaa</span><span>0:3</span><span>bbbbbbbbb</span></div>
-                <div class="row fixture-item"><span>aaaa</span><span>0:3</span><span>bbbbbbbbb</span></div>
-                <div class="row fixture-item"><span>aaaa</span><span>0:3</span><span>bbbbbbbbb</span></div>
-                <div class="row fixture-item"><span>aaaa</span><span>0:3</span><span>bbbbbbbbb</span></div>
-                <div class="row fixture-item"><span>aaaa</span><span>0:3</span><span>bbbbbbbbb</span></div>
-                <div class="row fixture-item"><span>aaaa</span><span>0:3</span><span>bbbbbbbbb</span></div>
-                <div class="row fixture-item"><span>aaaa</span><span>0:3</span><span>bbbbbbbbb</span></div>
-                <div class="row fixture-item"><span>aaaa</span><span>0:3</span><span>bbbbbbbbb</span></div>
-            </div>
+        <div class="row justify-content-center buttons">
+            <a class="btn btn-primary alert-secondary" style="font-weight:bolder" asp-controller="Users" asp-action="AllTeams">
+                My All Teams
+            </a>
         </div>
-    }
-</div>
+        
+        <div class="row">
+            @for (int i = 0; i < 3; i++)
+            {
+                <div class="col-md-4">
+
+                    <div class="text-center matchday">Matchday: @(Model.LastStartedMatchday-1+i) (@this.ViewData[$"{i}"])</div>
+
+                    <div class="team">
+                        @if (Model.Teams.Any(x => x.Matchday == Model.LastStartedMatchday - 1 + i))
+                        {
+                            <div class="row align-items-center">
+
+                                <span class="col-md-6">Team: @Model.Teams.Where(x => x.Matchday == Model.LastStartedMatchday - 1 + i).FirstOrDefault().TeamSumAsString </span>
+                                <span class="col-md-3">Pts: @Model.Teams.Where(x => x.Matchday == Model.LastStartedMatchday - 1 + i).FirstOrDefault().Points</span>
+                                <a class="btn-small alert-success" style="font-weight:bolder" asp-controller="Users" asp-action="Team" asp-route-userId="@Model.Id" asp-route-matchday="@(Model.LastStartedMatchday-1+i)">
+                                    Details
+                                </a>
+                            </div>
+                            <br />
+                            <div class="row col-md-12 justify-content-around" style="min-height:70px">
+
+                                @foreach (var player in Model.Teams.Where(x => x.Matchday == Model.LastStartedMatchday - 1 + i).FirstOrDefault().Team.Where(x => x.Position.Id == 1))
+                                {
+                                    <a class="row" title="@player.LastName" asp-controller="Players" asp-action="Profile" asp-route-id="@player.Id">
+                                        <img style="height:70px" src="@player.ImageUrl" alt="Alternate Text" />
+
+                                        @if (player.PlayerPoints.Any(x => x.Matchday == Model.LastStartedMatchday - 1 + i))
+                                        {
+                                            <p>
+                                                @player.PlayerPoints.Where(x => x.Matchday == Model.LastStartedMatchday - 1 + i).Select(x => x.Points).FirstOrDefault()
+                                            </p>
+                                        }
+                                        else
+                                        {
+                                            <p>
+                                                0
+                                            </p>
+                                        }
+
+                                    </a>
+
+                                }
+
+                            </div>
+                            <br />
+                            <div class="row col-md-12 justify-content-around" style="min-height:70px">
+
+                                @foreach (var player in Model.Teams.Where(x => x.Matchday == Model.LastStartedMatchday - 1 + i).FirstOrDefault().Team.Where(x => x.Position.Id == 2))
+                                {
+                                    <a class="row" title="@player.LastName" asp-controller="Players" asp-action="Profile" asp-route-id="@player.Id">
+                                        <img style="height:70px" src="@player.ImageUrl" alt="Alternate Text" />
+
+                                        @if (player.PlayerPoints.Any(x => x.Matchday == Model.LastStartedMatchday - 1 + i))
+                                        {
+                                            <p>
+                                                @player.PlayerPoints.Where(x => x.Matchday == Model.LastStartedMatchday - 1 + i).Select(x => x.Points).FirstOrDefault()
+                                            </p>
+                                        }
+                                        else
+                                        {
+                                            <p>
+                                                0
+                                            </p>
+                                        }
+
+                                    </a>
+
+                                }
+
+                            </div>
+                            <br />
+                            <div class="row col-md-12 justify-content-around" style="min-height:70px">
+
+                                @foreach (var player in Model.Teams.Where(x => x.Matchday == Model.LastStartedMatchday - 1 + i).FirstOrDefault().Team.Where(x => x.Position.Id == 3))
+                                {
+                                    <a class="row" title="@player.LastName" asp-controller="Players" asp-action="Profile" asp-route-id="@player.Id">
+                                        <img style="height:70px" src="@player.ImageUrl" alt="Alternate Text" />
+
+                                        @if (player.PlayerPoints.Any(x => x.Matchday == Model.LastStartedMatchday - 1 + i))
+                                        {
+                                            <p>
+                                                @player.PlayerPoints.Where(x => x.Matchday == Model.LastStartedMatchday - 1 + i).Select(x => x.Points).FirstOrDefault()
+                                            </p>
+                                        }
+                                        else
+                                        {
+                                            <p>
+                                                0
+                                            </p>
+                                        }
+
+                                    </a>
+
+                                }
+
+                            </div>
+                            <br />
+                            <div class="row col-md-12 justify-content-around" style="min-height:70px">
+
+                                @foreach (var player in Model.Teams.Where(x => x.Matchday == Model.LastStartedMatchday - 1 + i).FirstOrDefault().Team.Where(x => x.Position.Id == 4))
+                                {
+                                    <a class="row" title="@player.LastName" asp-controller="Players" asp-action="Profile" asp-route-id="@player.Id">
+                                        <img style="height:70px" src="@player.ImageUrl" alt="Alternate Text" />
+
+                                        @if (player.PlayerPoints.Any(x => x.Matchday == Model.LastStartedMatchday - 1 + i))
+                                        {
+                                            <p>
+                                                @player.PlayerPoints.Where(x => x.Matchday == Model.LastStartedMatchday - 1 + i).Select(x => x.Points).FirstOrDefault()
+                                            </p>
+                                        }
+                                        else
+                                        {
+                                            <p>
+                                                0
+                                            </p>
+                                        }
+
+                                    </a>
+
+                                }
+
+                            </div>
+                        }
+                        else
+                        {
+                            <span>Sorry, You Don`t Have a Team for this Matchday!</span>
+                        }
+                    </div>
+
+                    <div class="fixture col-md-12">
+                        <div class="row fixture-item"><span>aaaa</span><span>0:3</span><span>bbbbbbbbb</span></div>
+                        <div class="row fixture-item"><span>aaaa</span><span>0:3</span><span>bbbbbbbbb</span></div>
+                        <div class="row fixture-item"><span>aaaa</span><span>0:3</span><span>bbbbbbbbb</span></div>
+                        <div class="row fixture-item"><span>aaaa</span><span>0:3</span><span>bbbbbbbbb</span></div>
+                        <div class="row fixture-item"><span>aaaa</span><span>0:3</span><span>bbbbbbbbb</span></div>
+                        <div class="row fixture-item"><span>aaaa</span><span>0:3</span><span>bbbbbbbbb</span></div>
+                        <div class="row fixture-item"><span>aaaa</span><span>0:3</span><span>bbbbbbbbb</span></div>
+                        <div class="row fixture-item"><span>aaaa</span><span>0:3</span><span>bbbbbbbbb</span></div>
+                        <div class="row fixture-item"><span>aaaa</span><span>0:3</span><span>bbbbbbbbb</span></div>
+                        <div class="row fixture-item"><span>aaaa</span><span>0:3</span><span>bbbbbbbbb</span></div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>

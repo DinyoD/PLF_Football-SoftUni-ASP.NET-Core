@@ -5,7 +5,7 @@
 
     using PLF_Football.Web.ViewModels.UserGame;
 
-    public class UserIndexPageViewModel 
+    public class UserIndexPageViewModel
     {
         public string Id { get; set; }
 
