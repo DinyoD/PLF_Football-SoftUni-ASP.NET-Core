@@ -62,8 +62,8 @@
                     asp-items="@Model.Clubs.Select(x=> new SelectListItem (x.Name, x.Id.ToString()))">
             </select>
 
-            <label for=" searchString">Player: </label>
-            <input type="text" asp-route=" searchString" , name="searchString" placeholder="name" />
+            <label for="searchString">Player: </label>
+            <input type="text" asp-route="searchString" , name="searchString" placeholder="name" />
 
             <input type="submit" value="Search" />
         </form>

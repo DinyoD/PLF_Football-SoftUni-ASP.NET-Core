@@ -5,7 +5,7 @@
     this.ViewData["2"] = "Next";
 }
 <style>
-        .bg-user::after {
+    .bg-user::after {
         content: "";
         display: block;
         position: absolute;
@@ -19,12 +19,18 @@
         opacity: 0.3;
         z-index: -1;
         }
-        .buttons{
+
+    .buttons{
             position: absolute;
-            top: 150px;
+            top: 190px;
             right:  120px;
+            display: flex;
+            flex-direction: column;
         }
-        .matchday {
+    .buttons a{
+            margin-bottom: 10px;
+        }
+    .matchday {
             background-color: grey;
             color: black;
             font-weight: bold;
@@ -33,26 +39,83 @@
             margin:10px 0;
             padding-top: 3px;
         }
-        .team {
+    .team {
             padding: 10px 0px 15px 25px;
             width: 350px;
             height: 430px;
             background-color: forestgreen;
             border-radius:10px;
         }
-        .btn-small{
+    .team-info{
+        color: lightgreen;
+    }
+    .btn-small{
             font-size: 16px;
             padding: 3px 5px;
             border-radius: 3px;
         }
+     div a p{
+            color: lightgreen;
+            font-size: 20px;
+        }
+    .span-center{
+        margin: 120px 60px;
+        font-size: 22px;
+        color: lightgreen;
+        text-align: center;
+    }
+    .fixture {
+        margin-top: 10px;
+        background-color: grey;
+        border-radius: 10px;    
+        padding-top: 8px;
+    }
+    .fixture .row{
+        min-height: 45px;
+        align-items: center;
+        
+    }
+    .fixture-team{
+        font-size: 15px;
+        color: black;
+        font-weight: bold;
+    }
+    .fixture-result{
+        font-size: 14px;
+        font-weight: bold;  
+        color: white;
+        padding: 0 0;
+    }
+    .right{
+        text-align: end;
+    }
+    hr{
+        margin: 8px 16px;
+    }
+
 </style>
 
     <div class="bg-user">
 
-        <div class="row justify-content-center buttons">
+        <div class="buttons">
             <a class="btn btn-primary alert-secondary" style="font-weight:bolder" asp-controller="Users" asp-action="AllTeams">
-                My All Teams
+                All Teams
             </a>
+
+            @if (Model.Teams.Where(x => x.Matchday == Model.LastStartedMatchday + 1).FirstOrDefault().Team.Count() < 11)
+            {
+                <a class="btn btn-primary alert-secondary" style="font-weight:bolder" asp-controller="Players" asp-action="All">
+                    Add Player
+                </a>
+            }
+            @if (Model.Teams.Where(x => x.Matchday == Model.LastStartedMatchday + 1).FirstOrDefault().Team.Count() > 0)
+            {
+                <a class="btn btn-primary alert-secondary" style="font-weight:bolder" asp-controller="Users" asp-action="Team" asp-route-userId="@Model.Id" asp-route-matchday="@(Model.LastStartedMatchday +1)">
+                    Remove Player
+                </a>
+            }
+                
+
         </div>
         
         <div class="row">
@@ -67,8 +130,8 @@
                         {
                             <div class="row align-items-center">
 
-                                <span class="col-md-6">Team: @Model.Teams.Where(x => x.Matchday == Model.LastStartedMatchday - 1 + i).FirstOrDefault().TeamSumAsString </span>
-                                <span class="col-md-3">Pts: @Model.Teams.Where(x => x.Matchday == Model.LastStartedMatchday - 1 + i).FirstOrDefault().Points</span>
+                                <span class="col-md-6 team-info">Team: @Model.Teams.Where(x => x.Matchday == Model.LastStartedMatchday - 1 + i).FirstOrDefault().TeamSumAsString </span>
+                                <span class="col-md-3 team-info">Pts: @Model.Teams.Where(x => x.Matchday == Model.LastStartedMatchday - 1 + i).FirstOrDefault().Points</span>
                                 <a class="btn-small alert-success" style="font-weight:bolder" asp-controller="Users" asp-action="Team" asp-route-userId="@Model.Id" asp-route-matchday="@(Model.LastStartedMatchday-1+i)">
                                     Details
                                 </a>
@@ -180,21 +243,35 @@
                         }
                         else
                         {
-                            <span>Sorry, You Don`t Have a Team for this Matchday!</span>
+                            <div class="span-center">Sorry, you don`t have a team for this matchday!</div>
                         }
                     </div>
 
                     <div class="fixture col-md-12">
-                        <div class="row fixture-item"><span>aaaa</span><span>0:3</span><span>bbbbbbbbb</span></div>
-                        <div class="row fixture-item"><span>aaaa</span><span>0:3</span><span>bbbbbbbbb</span></div>
-                        <div class="row fixture-item"><span>aaaa</span><span>0:3</span><span>bbbbbbbbb</span></div>
-                        <div class="row fixture-item"><span>aaaa</span><span>0:3</span><span>bbbbbbbbb</span></div>
-                        <div class="row fixture-item"><span>aaaa</span><span>0:3</span><span>bbbbbbbbb</span></div>
-                        <div class="row fixture-item"><span>aaaa</span><span>0:3</span><span>bbbbbbbbb</span></div>
-                        <div class="row fixture-item"><span>aaaa</span><span>0:3</span><span>bbbbbbbbb</span></div>
-                        <div class="row fixture-item"><span>aaaa</span><span>0:3</span><span>bbbbbbbbb</span></div>
-                        <div class="row fixture-item"><span>aaaa</span><span>0:3</span><span>bbbbbbbbb</span></div>
-                        <div class="row fixture-item"><span>aaaa</span><span>0:3</span><span>bbbbbbbbb</span></div>
+                        @if (Model.Fixtures.Any(x => x.Matchday == Model.LastStartedMatchday - 1 + i))
+                        {
+                            foreach (var fix in Model.Fixtures.Where(x=>x.Matchday == Model.LastStartedMatchday - 1 + i).ToList())
+                            {
+                                <div class="row" @if (Model.FavoriteTeamId == fix.AwayTeamId || Model.FavoriteTeamId== fix.HomeTeamId) {<text> style="background-color: forestgreen" </text> }>
+                                    <a class="col-md-5 fixture-team left" asp-controller="Clubs" asp-action="ById" asp-route-id="@fix.HomeTeamId" >
+                                        @fix.HomeTeamName
+                                    </a>
+
+                                    <span class="col-md-2 fixture-result text-center" @if (!fix.Finished) {<text>                style="color:darkgray" </text> }>
+                                        @fix.Result
+                                    </span>
+
+                                    <a  class="col-md-5 fixture-team right" asp-controller="Clubs" asp-action="ById" asp-route-id="@fix.AwayTeamId">
+                                        @fix.AwayTeamName
+                                    </a>
+                                </div>
+                                <hr />
+                            }
+                        }
+                        else
+                        {
+                            <div class="span-center">Not fixture in this matchday!</div>
+                        }
                     </div>
                 </div>
             }

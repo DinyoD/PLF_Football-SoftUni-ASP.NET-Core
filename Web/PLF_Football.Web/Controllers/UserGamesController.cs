@@ -40,7 +40,7 @@
             var nextMatchday = await this.fixtureScraperService.GetFirstNotStartedMatchdayAsync();
 
             var userGameId = this.userGamesService.GetUserGameIdByUserAndMatchday(user.Id, nextMatchday);
-            if (userGameId == 0)
+            if (userGameId == 0 && nextMatchday < 39)
             {
                 userGameId = await this.userGamesService.CreateUserGameAsync(user.Id, nextMatchday);
             }
@@ -55,7 +55,7 @@
             }
             else if (playersInTeam.Contains(player))
             {
-                return this.RedirectToPage("Error - player already in team");
+                return this.RedirectToAction("User", "Error");
             }
             else if (user.ClubId == player.ClubId
                 && playersInTeam.Where(x => x.ClubId == user.ClubId).Count() >= 5)
@@ -118,7 +118,7 @@
 
             await this.userGamesService.RemovePlayerFromUserGameAsync(playerId, userGameId);
             var matchday = this.userGamesService.GetMatchdayByuserGameId(userGameId);
-            return this.Redirect($"/Users/Team/?userId={userId}&matchday=15");
+            return this.Redirect($"/Users/Team/?userId={userId}&matchday={matchday}");
         }
     }
 }

@@ -8,6 +8,7 @@
     using PLF_Football.Services;
     using PLF_Football.Services.Data;
     using PLF_Football.Web.ViewModels.ApplicationUsers;
+    using PLF_Football.Web.ViewModels.Fixtures;
     using PLF_Football.Web.ViewModels.UserGame;
 
     public class UsersController : BaseController
@@ -33,13 +34,14 @@
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var nextMatchday = await this.fixtureScraperService.GetFirstNotStartedMatchdayAsync();
+
             var lastOfOldMatchdays = nextMatchday - 3;
-            var viewModel = new UserIndexPageViewModel
-            {
-                Id = userId,
-                Teams = this.userGamesService.GetUserGamesByUserIdAfterSpecificMatchday<UserGameTeamViewModel>(userId, lastOfOldMatchdays),
-                LastStartedMatchday = nextMatchday - 1,
-            };
+            var viewModel = this.usersService.GetUserById<UserIndexPageViewModel>(userId);
+
+            viewModel.Id = userId;
+            viewModel.Teams = this.userGamesService
+                        .GetUserGamesByUserIdAfterSpecificMatchday<UserGameTeamViewModel>(userId, lastOfOldMatchdays);
+            viewModel.LastStartedMatchday = nextMatchday - 1;
 
             foreach (var matchday in viewModel.Teams)
             {
@@ -48,6 +50,10 @@
                     matchday.IsMatchdayStarted = true;
                 }
             }
+
+            var fixtures = this.fixtureService.GetFixturesBetweenSpecificAndNextMatchday<FixtureBasicViewModel>(lastOfOldMatchdays, nextMatchday);
+
+            viewModel.Fixtures = fixtures;
 
             return this.View(viewModel);
         }

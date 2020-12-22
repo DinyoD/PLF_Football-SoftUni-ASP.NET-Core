@@ -25,9 +25,9 @@
 
         public virtual ICollection<PlayerInClubMainVewModel> Players { get; set; }
 
-        public virtual ICollection<FixtureInClubMainViewModel> HomeMatches { get; set; }
+        public virtual ICollection<FixtureBasicViewModel> HomeMatches { get; set; }
 
-        public virtual ICollection<FixtureInClubMainViewModel> AwayMatches { get; set; }
+        public virtual ICollection<FixtureBasicViewModel> AwayMatches { get; set; }
 
         public virtual ICollection<SupporterViewModel> Supporters { get; set; }
     }

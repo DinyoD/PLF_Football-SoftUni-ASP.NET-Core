@@ -7,7 +7,9 @@
 
     public interface IFixtureService
     {
-        ICollection<T> GetFixtures<T>(int currMatchday);
+        ICollection<T> GetFixturesOnAndBeforeSpecificMatchday<T>(int matchday);
+
+        ICollection<T> GetFixturesBetweenSpecificAndNextMatchday<T>(int matchday, int nextmatchday);
 
         Task UpdateFixtureAsync(ICollection<FixtureForUpdateDto> fixtures);
     }

@@ -47,10 +47,11 @@
             var pastOrCurrentMatchdayFixtures = await this.fixtureScraperService
                                                                     .GetFixturesAsync(currFixture);
 
-            var pastOrCurrentMatchdayNotFinishedFixtureInDb = this.fixtureService
-                                                                    .GetFixtures<FixtureForUpdateDto>(currFixture)
-                                                                    .Where(x => x.Finished == false)
-                                                                    .ToList();
+            var pastOrCurrentMatchdayNotFinishedFixtureInDb =
+                this.fixtureService
+                       .GetFixturesOnAndBeforeSpecificMatchday<FixtureForUpdateDto>(currFixture)
+                       .Where(x => x.Finished == false)
+                       .ToList();
 
             var fixtureForUpdateDtoList = this.GetAllChangedFixture(
                                                       pastOrCurrentMatchdayFixtures,
