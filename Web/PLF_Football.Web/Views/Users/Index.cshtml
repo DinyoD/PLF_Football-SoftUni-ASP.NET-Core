@@ -23,12 +23,13 @@
     .buttons{
             position: absolute;
             top: 190px;
-            right:  120px;
+            right:  40px;
             display: flex;
             flex-direction: column;
         }
     .buttons a{
             margin-bottom: 10px;
+            width: 200px;
         }
     .matchday {
             background-color: grey;
@@ -98,23 +99,40 @@
     <div class="bg-user">
 
         <div class="buttons">
+
+            <a class="btn btn-primary alert-secondary" style="font-weight:bolder" asp-controller="Users" asp-action="Ranking">
+                Total Pts: @Model.TotalPoints
+            </a>
+            <hr />
+            <hr />
+            <br />
             <a class="btn btn-primary alert-secondary" style="font-weight:bolder" asp-controller="Users" asp-action="AllTeams">
                 All Teams
             </a>
 
-            @if (Model.Teams.Where(x => x.Matchday == Model.LastStartedMatchday + 1).FirstOrDefault().Team.Count() < 11)
+            @if (Model.Teams.Where(x => x.Matchday == Model.LastStartedMatchday + 1).FirstOrDefault()== null || Model.Teams.Where(x => x.Matchday == Model.LastStartedMatchday + 1).FirstOrDefault()?.Team.Count() < 11)
             {
                 <a class="btn btn-primary alert-secondary" style="font-weight:bolder" asp-controller="Players" asp-action="All">
                     Add Player
                 </a>
             }
-            @if (Model.Teams.Where(x => x.Matchday == Model.LastStartedMatchday + 1).FirstOrDefault().Team.Count() > 0)
+            @if (Model.Teams.Where(x => x.Matchday == Model.LastStartedMatchday + 1).FirstOrDefault()?.Team.Count() > 0)
             {
                 <a class="btn btn-primary alert-secondary" style="font-weight:bolder" asp-controller="Users" asp-action="Team" asp-route-userId="@Model.Id" asp-route-matchday="@(Model.LastStartedMatchday +1)">
                     Remove Player
                 </a>
             }
-                
+            <hr />
+            <a class="btn btn-primary alert-secondary" style="font-weight:bolder" asp-controller="Users" asp-action="Chat">
+                Chat
+            </a>
+            <hr />
+            <hr />
+            <br />
+            <a class="btn btn-primary alert-secondary" style="font-weight:bolder" asp-controller="Teams" asp-action="Fixture" asp-route-teamId="@Model.FavoriteTeamId">
+                <div>@Model.FavoriteTeamName</div>
+                <div>Fixtures</div>
+            </a>
 
         </div>
         

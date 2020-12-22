@@ -14,6 +14,8 @@
 
         public int FavoriteTeamId { get; set; }
 
+        public string FavoriteTeamName { get; set; }
+
         public int LastStartedMatchday { get; set; }
 
         public ICollection<UserGameTeamViewModel> Teams { get; set; }
