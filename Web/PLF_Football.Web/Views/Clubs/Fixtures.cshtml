@@ -1,0 +1,67 @@
+﻿@model PLF_Football.Web.ViewModels.Fixtures.CollectionOfFixturesViewModel
+
+    <style>
+        .container{
+            margin: 0 15px;
+            max-width: 95vw;
+        }
+        .container-fixture{
+            max-height: 1000px;
+            display: flex;
+            flex-direction: column;
+            flex-wrap:wrap;
+            padding-top: 30px;
+        }
+        .fixture {
+            min-height: 60px;
+            margin: 0 10px;
+            align-items: center;
+            background-color: lightgray;
+            border-radius: 10px;
+        }
+        .fixture-team {
+            font-size: 14px;
+            color: black;
+            font-weight: bold;
+        }
+
+        .fixture-result {
+            font-size: 20px;
+            font-weight: bold;
+            color: firebrick;
+            padding: 0 0;
+        }
+
+        .right {
+            text-align: end;
+        }
+        hr{
+            margin: 5px 25px;
+        }
+    </style>
+    <div class="col container-fixture">
+        @foreach (var fix in Model.AllFixtures.OrderBy(x => x.Matchday))
+        {
+            <div class="row col-md-4 fixture">
+                <a class="col-md-5 fixture-team left" asp-controller="Clubs" asp-action="Index" asp-route-id="@fix.HomeTeamId">
+                    @fix.HomeTeamName
+                </a>
+
+                <span class="col-md-2 text-center fixture-result" @if (!fix.Finished) { <text> style="color:green" </text> }>
+                    @if (fix.Result.Contains(":"))
+                     {
+                        <text> M: </text> @fix.Matchday
+                    }
+                    else
+                    {
+                        @fix.Result
+                    }
+                </span>
+
+                <a class="col-md-5 fixture-team right" asp-controller="Clubs" asp-action="Index" asp-route-id="@fix.AwayTeamId">
+                    @fix.AwayTeamName
+                </a>
+            </div>
+            <hr />
+        }
+    </div>

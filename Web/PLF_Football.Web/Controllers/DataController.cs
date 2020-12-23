@@ -42,21 +42,22 @@
 
         public async Task<IActionResult> Update()
         {
-            var currFixture = await this.fixtureScraperService.GetFirstNotStartedMatchdayAsync() - 1;
+            var nextMatchday = await this.fixtureScraperService.GetFirstNotStartedMatchdayAsync();
+            var currMatchday = nextMatchday - 1;
 
             var pastOrCurrentMatchdayFixtures = await this.fixtureScraperService
-                                                                    .GetFixturesAsync(currFixture);
+                                                                    .GetFixturesOnAndBeforeMatchdayAsync(currMatchday);
 
             var pastOrCurrentMatchdayNotFinishedFixtureInDb =
                 this.fixtureService
-                       .GetFixturesOnAndBeforeSpecificMatchday<FixtureForUpdateDto>(currFixture)
+                       .GetFixturesOnAndBeforeSpecificMatchday<FixtureForUpdateDto>(currMatchday)
                        .Where(x => x.Finished == false)
                        .ToList();
 
-            var fixtureForUpdateDtoList = this.GetAllChangedFixture(
+            var updatedFixtureDto = this.GetAllChangedFixture(
                                                       pastOrCurrentMatchdayFixtures,
                                                       pastOrCurrentMatchdayNotFinishedFixtureInDb);
-            var clubsIdAndMatchdayPairsInFixtureForUpdate = this.GetClubsIdAndMatchdayPairs(fixtureForUpdateDtoList);
+            var clubsIdAndMatchdayPairsInFixtureForUpdate = this.GetClubsIdAndMatchdayPairs(updatedFixtureDto);
             var clubsId = clubsIdAndMatchdayPairsInFixtureForUpdate.Keys;
 
             var totalUpdatedPlayers = 0;
@@ -73,18 +74,41 @@
                 totalUpdatedPlayers += updatedPlayersInClubCount;
             }
 
-            if (fixtureForUpdateDtoList.Count > 0)
+            if (updatedFixtureDto.Count > 0)
             {
-                await this.fixtureService.UpdateFixtureAsync(fixtureForUpdateDtoList);
+                await this.fixtureService.UpdateFixtureAsync(updatedFixtureDto);
             }
+
+            var nextMatcdayFixture = await this.fixtureScraperService.GetFixturesOnMatchdayAsync(nextMatchday);
+            var nextMatcdayFixtureInDb = this.fixtureService
+                .GetFixturesAfterSpecificAndBeforeOrOnNextMatchday<FixtureForUpdateDto>(nextMatchday - 1, nextMatchday);
+
+            var updatedFixtureTimeDtoList = this.UpdateNextMatchdayFixtureTime(nextMatcdayFixture, nextMatcdayFixtureInDb);
+            await this.fixtureService.UpdateFixtureAsync(updatedFixtureTimeDtoList);
 
             var viewModel = new UpdateCountViewModel
             {
-                UpdatedFixturesCount = fixtureForUpdateDtoList.Count,
+                UpdatedFixturesCount = updatedFixtureDto.Count,
                 UpdatedPlayersCount = totalUpdatedPlayers,
             };
 
             return this.View(viewModel);
+        }
+
+        private ICollection<FixtureForUpdateDto> UpdateNextMatchdayFixtureTime(
+            ICollection<FixtureDto> nextMatcdayFixture,
+            ICollection<FixtureForUpdateDto> nextMatcdayFixtureInDb)
+        {
+            var updatedFixDto = new List<FixtureForUpdateDto>();
+
+            foreach (var dbFix in nextMatcdayFixtureInDb)
+            {
+                var fixture = nextMatcdayFixture.Where(x => x.HomeTeamId == dbFix.HomeTeamId && x.AwayTeamId == dbFix.AwayTeamId).FirstOrDefault();
+                dbFix.Result = fixture.Result;
+                updatedFixDto.Add(dbFix);
+            }
+
+            return updatedFixDto;
         }
 
         private async Task<int> UpdatePlayersAsync(
@@ -206,7 +230,7 @@
                                  ICollection<FixtureDto> pastOrCurrentMatchdayFixtures,
                                  ICollection<FixtureForUpdateDto> pastOrCurrentMatchdayNotFinishedFixtureInDb)
         {
-            var fixtureForUpdateDtoList = new List<FixtureForUpdateDto>();
+            var updatedFixtureDto = new List<FixtureForUpdateDto>();
             foreach (var fixtureinDb in pastOrCurrentMatchdayNotFinishedFixtureInDb)
             {
                 var fixture = pastOrCurrentMatchdayFixtures
@@ -225,11 +249,11 @@
                         Started = fixture.Started,
                     };
 
-                    fixtureForUpdateDtoList.Add(fixtureForUpdateDto);
+                    updatedFixtureDto.Add(fixtureForUpdateDto);
                 }
             }
 
-            return fixtureForUpdateDtoList;
+            return updatedFixtureDto;
         }
 
         private IDictionary<int, int> GetClubsIdAndMatchdayPairs(ICollection<FixtureForUpdateDto> fixtureForUpdateDtoList)

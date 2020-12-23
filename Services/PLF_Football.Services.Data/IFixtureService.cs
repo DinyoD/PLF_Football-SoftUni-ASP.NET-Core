@@ -9,7 +9,9 @@
     {
         ICollection<T> GetFixturesOnAndBeforeSpecificMatchday<T>(int matchday);
 
-        ICollection<T> GetFixturesBetweenSpecificAndNextMatchday<T>(int matchday, int nextmatchday);
+        ICollection<T> GetFixturesOnAndBeforeSpecificMatchdayByClub<T>(int matchday, int clubId);
+
+        ICollection<T> GetFixturesAfterSpecificAndBeforeOrOnNextMatchday<T>(int matchday, int nextmatchday);
 
         Task UpdateFixtureAsync(ICollection<FixtureForUpdateDto> fixtures);
     }

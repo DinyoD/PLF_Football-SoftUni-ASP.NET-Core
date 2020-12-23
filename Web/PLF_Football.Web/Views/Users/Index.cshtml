@@ -23,13 +23,13 @@
     .buttons{
             position: absolute;
             top: 190px;
-            right:  40px;
+            right:  25px;
             display: flex;
             flex-direction: column;
         }
     .buttons a{
             margin-bottom: 10px;
-            width: 200px;
+            width: 160px;
         }
     .matchday {
             background-color: grey;
@@ -129,7 +129,7 @@
             <hr />
             <hr />
             <br />
-            <a class="btn btn-primary alert-secondary" style="font-weight:bolder" asp-controller="Teams" asp-action="Fixture" asp-route-teamId="@Model.FavoriteTeamId">
+            <a class="btn btn-primary alert-secondary" style="font-weight:bolder" asp-controller="Clubs" asp-action="Fixtures" asp-route-teamId="@Model.FavoriteTeamId">
                 <div>@Model.FavoriteTeamName</div>
                 <div>Fixtures</div>
             </a>
@@ -268,18 +268,19 @@
                     <div class="fixture col-md-12">
                         @if (Model.Fixtures.Any(x => x.Matchday == Model.LastStartedMatchday - 1 + i))
                         {
-                            foreach (var fix in Model.Fixtures.Where(x=>x.Matchday == Model.LastStartedMatchday - 1 + i).ToList())
+                            foreach (var fix in Model.Fixtures.Where(x=>x.Matchday == Model.LastStartedMatchday - 1 + i).OrderBy    (x=>x.Result).ToList())
                             {
                                 <div class="row" @if (Model.FavoriteTeamId == fix.AwayTeamId || Model.FavoriteTeamId== fix.HomeTeamId) {<text> style="background-color: forestgreen" </text> }>
-                                    <a class="col-md-5 fixture-team left" asp-controller="Clubs" asp-action="ById" asp-route-id="@fix.HomeTeamId" >
+                                    <a class="col-md-5 fixture-team left" asp-controller="Clubs" asp-action="Index" asp-route-id="@fix.HomeTeamId" >
                                         @fix.HomeTeamName
                                     </a>
 
-                                    <span class="col-md-2 fixture-result text-center" @if (!fix.Finished) {<text>                style="color:darkgray" </text> }>
+                                    <div class="col-md-2 fixture-result text-center" @if (!fix.Finished) {<text>                style="color:darkgray" </text> }>
                                         @fix.Result
-                                    </span>
+                                        @if (fix.Result.Contains(":")) { <div>(CET)</div> }
+                                    </div>
 
-                                    <a  class="col-md-5 fixture-team right" asp-controller="Clubs" asp-action="ById" asp-route-id="@fix.AwayTeamId">
+                                    <a  class="col-md-5 fixture-team right" asp-controller="Clubs" asp-action="Index" asp-route-id="@fix.AwayTeamId">
                                         @fix.AwayTeamName
                                     </a>
                                 </div>

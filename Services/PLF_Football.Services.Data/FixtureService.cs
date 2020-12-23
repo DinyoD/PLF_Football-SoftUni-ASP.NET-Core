@@ -18,7 +18,7 @@
             this.fixturesRepo = fixturesRepo;
         }
 
-        public ICollection<T> GetFixturesBetweenSpecificAndNextMatchday<T>(int matchday, int nextMatchday)
+        public ICollection<T> GetFixturesAfterSpecificAndBeforeOrOnNextMatchday<T>(int matchday, int nextMatchday)
         {
             if (nextMatchday > 38)
             {
@@ -37,6 +37,15 @@
             return this.fixturesRepo
                         .All()
                         .Where(x => x.Matchday <= matchday)
+                        .To<T>()
+                        .ToList();
+        }
+
+        public ICollection<T> GetFixturesOnAndBeforeSpecificMatchdayByClub<T>(int matchday, int clubId)
+        {
+            return this.fixturesRepo
+                        .All()
+                        .Where(x => x.Matchday <= matchday && (x.HomeTeamId == clubId || x.AwayTeamId == clubId))
                         .To<T>()
                         .ToList();
         }

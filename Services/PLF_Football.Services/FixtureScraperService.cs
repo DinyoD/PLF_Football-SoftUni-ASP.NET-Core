@@ -28,7 +28,7 @@
 
         public async Task ImportFixturesAsync()
         {
-            var allFixtures = await this.GetFixturesAsync(GlobalConstants.AllFixtureCount);
+            var allFixtures = await this.GetFixturesOnAndBeforeMatchdayAsync(GlobalConstants.AllFixtureCount);
             foreach (var fixtureDto in allFixtures)
             {
                 var fixture = new Fixture
@@ -45,13 +45,13 @@
             }
         }
 
-        public async Task<ICollection<FixtureDto>> GetFixturesAsync(int currMatchday)
+        public async Task<ICollection<FixtureDto>> GetFixturesOnAndBeforeMatchdayAsync(int matchday)
         {
             var document = await this.context.OpenAsync(GlobalConstants.FixtureSource);
 
             var allFixtureDto = new List<FixtureDto>();
 
-            for (int i = 1; i <= currMatchday; i++)
+            for (int i = 1; i <= matchday; i++)
             {
                 var idName = "jornada-" + i;
 
@@ -74,6 +74,37 @@
 
                     allFixtureDto.Add(currMatch);
                 }
+            }
+
+            return allFixtureDto;
+        }
+
+        public async Task<ICollection<FixtureDto>> GetFixturesOnMatchdayAsync(int matchday)
+        {
+            var document = await this.context.OpenAsync(GlobalConstants.FixtureSource);
+
+            var allFixtureDto = new List<FixtureDto>();
+
+            var idName = "jornada-" + matchday;
+
+            var gameWeekFixture = document.QuerySelectorAll($"#{idName} tbody tr");
+
+            foreach (var item in gameWeekFixture)
+            {
+                var matchInfo = item.QuerySelectorAll($"td").Select(x => x.TextContent.Trim()).ToList();
+                var homeTeamName = this.FixClubName(matchInfo[0]);
+                var awayTeamname = this.FixClubName(matchInfo[2]);
+                var currMatch = new FixtureDto
+                {
+                    Matchday = matchday,
+                    Result = matchInfo[1],
+                    HomeTeamId = this.clubRepo.All().FirstOrDefault(t => t.Name == homeTeamName).Id,
+                    AwayTeamId = this.clubRepo.All().FirstOrDefault(t => t.Name == awayTeamname).Id,
+                    Finished = item.QuerySelector(".col-resultado").GetAttribute("class").Contains("finalizado"),
+                };
+                currMatch.Started = currMatch.Finished == true ? true : !item.QuerySelector(".col-resultado").GetAttribute("class").Contains("no-comenzado");
+
+                allFixtureDto.Add(currMatch);
             }
 
             return allFixtureDto;

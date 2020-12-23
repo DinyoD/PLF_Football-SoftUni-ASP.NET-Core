@@ -9,7 +9,9 @@
     {
         Task ImportFixturesAsync();
 
-        Task<ICollection<FixtureDto>> GetFixturesAsync(int nextNotStartedMatchday);
+        Task<ICollection<FixtureDto>> GetFixturesOnAndBeforeMatchdayAsync(int matchday);
+
+        Task<ICollection<FixtureDto>> GetFixturesOnMatchdayAsync(int matchday);
 
         Task<int> GetFirstNotStartedMatchdayAsync();
     }

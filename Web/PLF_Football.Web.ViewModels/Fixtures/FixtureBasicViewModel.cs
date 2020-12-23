@@ -5,6 +5,8 @@
 
     public class FixtureBasicViewModel : IMapFrom<Fixture>
     {
+        public int Id { get; set; }
+
         public int Matchday { get; set; }
 
         public string HomeTeamName { get; set; }

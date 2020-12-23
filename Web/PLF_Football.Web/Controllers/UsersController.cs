@@ -51,7 +51,7 @@
                 }
             }
 
-            var fixtures = this.fixtureService.GetFixturesBetweenSpecificAndNextMatchday<FixtureBasicViewModel>(lastOfOldMatchdays, nextMatchday);
+            var fixtures = this.fixtureService.GetFixturesAfterSpecificAndBeforeOrOnNextMatchday<FixtureBasicViewModel>(lastOfOldMatchdays, nextMatchday);
 
             viewModel.Fixtures = fixtures;
 
