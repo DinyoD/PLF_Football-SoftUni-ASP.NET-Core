@@ -2,11 +2,11 @@
 {
     using PLF_Football.Services.Data;
 
-    public class FixtureController : BaseController
+    public class FixturesController : BaseController
     {
         private readonly IFixtureService fixtureService;
 
-        public FixtureController(IFixtureService fixtureService)
+        public FixturesController(IFixtureService fixtureService)
         {
             this.fixtureService = fixtureService;
         }

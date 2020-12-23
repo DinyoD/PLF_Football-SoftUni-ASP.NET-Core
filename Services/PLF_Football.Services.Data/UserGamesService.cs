@@ -120,5 +120,10 @@
                 .To<T>()
                 .ToList();
         }
+
+        public ICollection<int> GetPlayersIdsByUserGameId(int userGameId)
+        {
+            return this.userGamesRepo.AllAsNoTracking().Where(x => x.Id == userGameId).SelectMany(x => x.MatchdayTeam.Select(x => x.PlayerId)).ToList();
+        }
     }
 }

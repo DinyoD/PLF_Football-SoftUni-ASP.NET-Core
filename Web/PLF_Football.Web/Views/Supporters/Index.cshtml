@@ -1,0 +1,22 @@
+﻿@model PLF_Football.Web.ViewModels.Supporters.CollectionOfSupporterViewModel
+
+
+<div>
+
+    @foreach (var supp in Model.AllSupporters)
+     {
+
+          <div>@supp.UserName - @supp.FavoriteTeamName</div>
+          <div>
+              supp.TotalPoints: @supp.TotalPoints (
+              @foreach (var item in supp.Games)
+              {
+                  <span>  @item.Matchday-@item.Points </span>
+              }
+              )
+          </div>
+          <hr />
+
+     }
+
+</div>

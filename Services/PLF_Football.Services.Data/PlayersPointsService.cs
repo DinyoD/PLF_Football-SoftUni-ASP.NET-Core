@@ -1,5 +1,7 @@
 ﻿namespace PLF_Football.Services.Data
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using PLF_Football.Data.Common.Repositories;
@@ -26,6 +28,13 @@
 
             await this.playersPointsRepo.AddAsync(playersPoints);
             await this.playersPointsRepo.SaveChangesAsync();
+        }
+
+        public int GetPointsByMatchdayAndPlayerIdCollection(int matchday, ICollection<int> playersId)
+        {
+            return this.playersPointsRepo.AllAsNoTracking()
+               .Where(x => x.Matchday == matchday && playersId.Contains(x.PlayerId))
+               .Sum(x => x.Points);
         }
     }
 }

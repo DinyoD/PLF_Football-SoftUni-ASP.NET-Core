@@ -8,6 +8,7 @@
     using PLF_Football.Web.ViewModels.Fixtures;
     using PLF_Football.Web.ViewModels.Players;
     using PLF_Football.Web.ViewModels.SocialLinks;
+    using PLF_Football.Web.ViewModels.Supporters;
 
     public class ClubMainVewModel : IMapFrom<Club>
     {
@@ -25,10 +26,5 @@
 
         public virtual ICollection<PlayerInClubMainVewModel> Players { get; set; }
 
-        public virtual ICollection<FixtureBasicViewModel> HomeMatches { get; set; }
-
-        public virtual ICollection<FixtureBasicViewModel> AwayMatches { get; set; }
-
-        public virtual ICollection<SupporterViewModel> Supporters { get; set; }
     }
 }

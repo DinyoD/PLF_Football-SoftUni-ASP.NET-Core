@@ -97,4 +97,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Fixtures\" />
+  </ItemGroup>
 </Project>

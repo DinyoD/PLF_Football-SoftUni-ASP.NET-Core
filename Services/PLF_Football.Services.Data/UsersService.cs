@@ -1,7 +1,8 @@
 ﻿namespace PLF_Football.Services.Data
 {
+    using System.Collections.Generic;
     using System.Linq;
-
+    using PLF_Football.Common;
     using PLF_Football.Data.Common.Repositories;
     using PLF_Football.Data.Models;
     using PLF_Football.Services.Mapping;
@@ -13,6 +14,11 @@
         public UsersService(IDeletableEntityRepository<ApplicationUser> userRepo)
         {
             this.userRepo = userRepo;
+        }
+
+        public ICollection<T> GetAllUsers<T>()
+        {
+            return this.userRepo.AllAsNoTracking().Where(x => x.FavoriteTeam != null).To<T>().ToList();
         }
 
         public T GetUserById<T>(string userId)

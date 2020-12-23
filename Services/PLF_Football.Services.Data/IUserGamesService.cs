@@ -24,5 +24,7 @@
         T GetUserGame<T>(string userId, int matchday);
 
         ICollection<T> GetUserGamesByUserIdAfterSpecificMatchday<T>(string userId, int matchday);
+
+        ICollection<int> GetPlayersIdsByUserGameId(int userGameId);
     }
 }
