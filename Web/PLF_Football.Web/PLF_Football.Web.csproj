@@ -90,6 +90,9 @@
     <Content Update="wwwroot\image\Club\west bromwich albion.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="wwwroot\image\Common\fans.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\image\Common\pitch.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

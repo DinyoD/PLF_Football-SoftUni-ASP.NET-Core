@@ -1,22 +1,168 @@
 ﻿@model PLF_Football.Web.ViewModels.Supporters.CollectionOfSupporterViewModel
 
+<style>
+    .container-supp {
+        position: relative;
+        padding-top: 100px;
+    }
+    .container-supp:after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: -13%;
+        background-image: url('/image/Common/fans.png');
+        width: 128.5%;
+        height: 82vh;
+        background-position: top;
+        background-size: 100%;
+        opacity: 0.3;
+        z-index: -1;
+    }
+    table{
+        background-color: rgba(255,255,255,0.5);
+        border-radius: 10px;
 
-<div>
+    }
+    .table-title {
+        height: 30px;
+        margin-bottom: 10px;
+        background-color: rgba(128, 128, 128, 0.5);
+        border-radius: 10px;
+        text-align: center;
+        color: white;
+        font-weight: bold;
+    }
+    .table-title a{
+        color: white;
+    }
 
-    @foreach (var supp in Model.AllSupporters)
-     {
+    td a {
+        color: black;
+    }
+    td img {
+        width: 30px;
+    }
+    td{
+        text-align: center;
+        font-weight: bold;
+    }
+</style>
 
-          <div>@supp.UserName - @supp.FavoriteTeamName</div>
-          <div>
-              supp.TotalPoints: @supp.TotalPoints (
-              @foreach (var item in supp.Games)
-              {
-                  <span>  @item.Matchday-@item.Points </span>
-              }
-              )
-          </div>
-          <hr />
+<div class="row col-md-12 container-supp">
 
-     }
+    <div class="rank-total col-md-6">
+
+        <div class="table-title">
+            Top Five by total points
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Club
+                    </th>
+                    <th>
+                        Supporter
+                    </th>
+                    <th>
+                        Points
+                    </th>
+                    <th>
+                        Games
+                    </th>
+                    <th>
+                        Avarage Team Price
+                    </th>
+                </tr>
+            </thead>
+            @foreach (var supp in Model.AllSupporters.OrderByDescending(x => x.TotalPoints).ThenBy(x => x.AverageTeamSum))
+            {
+
+                <tbody>
+                    <tr>
+                        <td>
+                            <img src="@supp.FavoriteTeamBadgeUrl" alt="Alternate Text" />
+                        </td>
+                        <td>
+                            <a asp-controller="Users" asp-action="AllTeams" asp-route-userId="@supp.Id" >@supp.UserName</a>
+                        </td>
+                        <td>
+                            @supp.TotalPoints
+                        </td>
+                        <td>
+                            @supp.Games.Count
+                        </td>
+                        <td>
+                            @supp.AverageTeamSumAtString
+                        </td>
+                    </tr>
+                </tbody>
+            }
+        </table>
+
+        <div class="table-title">
+            <a asp-controller="Supporters" asp-action="AllByTotalPoints">Full ranking</a>
+        </div>
+
+    </div>
+
+    <div class="rank-matchday col-md-6">
+
+        <div class="table-title">
+            Top Five by game points
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Club
+                    </th>
+                    <th>
+                        Supporter
+                    </th>
+                    <th>
+                        Matchday
+                    </th>
+                    <th>
+                        Points
+                    </th>
+                    <th>
+                        Team Price
+                    </th>
+                </tr>
+            </thead>
+            @foreach (var game in Model.TopFiveGame.OrderByDescending(x => x.Points).ThenBy(x => x.TeamSum))
+            {
+
+                <tbody>
+                    <tr>
+                        <td>
+                            <img src="@game.UserFavoriteTeamBadgeUrl" alt="Alternate Text" />
+                        </td>
+                        <td>
+                            <a asp-controller="Users" asp-action="AllTeams" asp-route-userId="@game.UserId">@game.UserUserName</a>
+                        </td>
+                        <td>
+                            @game.Matchday
+                        </td>
+                        <td>
+                            @game.Points
+                        </td>
+                        <td>
+                            @game.TeamSumAtString
+                        </td>
+                    </tr>
+                </tbody>
+            }
+        </table>
+
+        <div class="table-title">
+            <a asp-controller="Supporters" asp-action="AllByGamePoints">Full ranking</a>
+        </div>
+
+    </div>
 
 </div>
