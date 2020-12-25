@@ -1,6 +1,11 @@
-﻿@using PLF_Football.Common
-@model PLF_Football.Web.ViewModels.UserGame.UserGameTeamViewModel
+﻿@model PLF_Football.Web.ViewModels.UserGame.UserGameTeamViewModel
 
+@using PLF_Football.Common
+@using System.Security.Claims;
+
+@{
+    this.ViewData["CuurentUserId"] = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+}
 
 <style>
     .bg-pitch {
@@ -55,7 +60,7 @@
             <div class="text-center budget">Available budget :</div>
             <div class="text-center budget-amount">@Model.FreeBudgetAsString</div>
             <br />
-            @if (!Model.IsMatchdayStarted && Model.Team.Count < 11)
+            @if (!Model.IsMatchdayStarted && Model.Team.Count < 11 && Model.UserId == (string)this.ViewData["CuurentUserId"])
             {
                 <div class="row justify-content-center">
                     <a class="btn btn-primary alert-secondary" style="font-weight:bolder" asp-controller="Players" asp-action="All">
@@ -102,16 +107,20 @@
 
         }
 
-        <div class="col-md-3">
-            <div class="text-center budget">Team price :</div>
-            <div class="text-center budget-amount">@Model.TeamSumAsString</div>
-            <br />
+    <div class="col-md-3">
+        <div class="text-center budget">Team price :</div>
+        <div class="text-center budget-amount">@Model.TeamSumAsString</div>
+        <br />
+        @if (Model.UserId == (string)this.ViewData["CuurentUserId"])
+        {
             <div class="row justify-content-center">
                 <a class="btn btn-primary alert-secondary" style="font-weight:bolder" asp-controller="Users" asp-action="Index">
                     My Last Teams
                 </a>
             </div>
-        </div>
+        }
+
+    </div>
 
     </div>
 
@@ -255,7 +264,7 @@
 
             </div>
             <div class="modal-footer">
-                <a class="btn btn-secondary" href="/Users/Team?userId=@Model.UserId&matchday=@Model.Matchday">No, my bad</a>
+                <a class="btn btn-secondary" href="/Users/Team?matchday=@Model.Matchday">No, my bad</a>
 
                 <a class="btn btn-primary" id="remove" href="">Yes, Remove</a>
             </div>
@@ -267,7 +276,7 @@
 
     function btn_onClick(id) {
 
-        document.querySelector("#remove").setAttribute("href", "/UserGames/Remove?userId=@Model.UserId&userGameId=@Model.Id&playerId="+id);
+        document.querySelector("#remove").setAttribute("href", "/UserGames/Remove?userGameId=@Model.Id&playerId="+id);
     }
 
 </script>

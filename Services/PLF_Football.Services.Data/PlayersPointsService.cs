@@ -6,6 +6,7 @@
 
     using PLF_Football.Data.Common.Repositories;
     using PLF_Football.Data.Models;
+    using PLF_Football.Services.Mapping;
     using PLF_Football.Web.ViewModels.Players;
 
     public class PlayersPointsService : IPlayersPointsService
@@ -28,6 +29,11 @@
 
             await this.playersPointsRepo.AddAsync(playersPoints);
             await this.playersPointsRepo.SaveChangesAsync();
+        }
+
+        public ICollection<T> GetAllPointsByMatchdaysForPlayer<T>(int playerId)
+        {
+            return this.playersPointsRepo.AllAsNoTracking().Where(x => x.PlayerId == playerId).To<T>().ToList();
         }
 
         public int GetPointsByMatchdayAndPlayerIdCollection(int matchday, ICollection<int> playersId)

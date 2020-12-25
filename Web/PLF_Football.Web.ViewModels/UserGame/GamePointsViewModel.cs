@@ -21,6 +21,10 @@
 
         public int Points { get; set; }
 
+        public int PointPrice => this.TeamSum / this.Points;
+
+        public string PointPriceAtString => this.PointPrice.ToString("C0", CultureInfo.CreateSpecificCulture("en-GB"));
+
         public int TeamSum { get; set; }
 
         public string TeamSumAtString => this.TeamSum.ToString("C0", CultureInfo.CreateSpecificCulture("en-GB"));

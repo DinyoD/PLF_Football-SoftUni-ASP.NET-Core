@@ -9,32 +9,16 @@
     public class ClubsController : BaseController
     {
         private readonly IClubsService clubService;
-        private readonly IFixtureService fixtiresService;
 
         public ClubsController(
-            IClubsService clubService,
-            IFixtureService fixtiresService)
+            IClubsService clubService)
         {
             this.clubService = clubService;
-            this.fixtiresService = fixtiresService;
         }
 
         public IActionResult Index(int id)
         {
             var viewModel = this.clubService.GetById<ClubMainVewModel>(id);
-            return this.View(viewModel);
-        }
-
-        public IActionResult Fixtures(int teamId)
-        {
-            var fixtures = this.fixtiresService
-                .GetFixturesOnAndBeforeSpecificMatchdayByClub<FixtureBasicViewModel>(GlobalConstants.AllFixtureCount, teamId);
-
-            var viewModel = new CollectionOfFixturesViewModel
-            {
-                AllFixtures = fixtures,
-            };
-
             return this.View(viewModel);
         }
     }

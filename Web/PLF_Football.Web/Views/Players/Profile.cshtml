@@ -31,6 +31,9 @@
     .follow-us li .fa:hover {
         color: #025a8e;
     }
+    .btn{
+        margin-right: 15px;
+    }
 </style>
 
 <br />
@@ -85,14 +88,19 @@
                 <p>Height: <span style="font-weight: bold">@Model.Height cm.</span></p>
             }
 
-            <div>
-                <a class="btn btn-dark" asp-controller="Players" asp-action="Statistics" asp-route-id="@Model.Id">
-                    Premier League Record
-                </a>
-                <a class="btn btn-success" style="margin-left: 20px" asp-controller="UserGames" asp-action="AddPlayer" asp-route-id="@Model.Id">
-                    Buy
-                </a>
-            </div>
+        <div>
+            <a class="btn btn-dark" asp-controller="Players" asp-action="Statistics" asp-route-id="@Model.Id">
+                Premier League Record
+            </a>
+
+            <a class="btn btn-dark" asp-controller="Players" asp-action="Points" asp-route-id="@Model.Id">
+                Game Points
+            </a>
+
+            <a class="btn btn-success" asp-controller="UserGames" asp-action="AddPlayer" asp-route-id="@Model.Id">
+                Buy
+            </a>
+        </div>
             <br />
     </div>
 

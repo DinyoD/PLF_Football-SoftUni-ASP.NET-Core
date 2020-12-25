@@ -100,7 +100,7 @@
 
         <div class="buttons">
 
-            <a class="btn btn-primary alert-secondary" style="font-weight:bolder" asp-controller="Users" asp-action="Ranking">
+            <a class="btn btn-primary alert-secondary" style="font-weight:bolder" asp-controller="Supporters" asp-action="AllByTotalPoints">
                 Total Pts: @Model.TotalPoints
             </a>
             <hr />
@@ -129,7 +129,7 @@
             <hr />
             <hr />
             <br />
-            <a class="btn btn-primary alert-secondary" style="font-weight:bolder" asp-controller="Clubs" asp-action="Fixtures" asp-route-teamId="@Model.FavoriteTeamId">
+            <a class="btn btn-primary alert-secondary" style="font-weight:bolder" asp-controller="Fixtures" asp-action="Club" asp-route-clubId="@Model.FavoriteTeamId">
                 <div>@Model.FavoriteTeamName</div>
                 <div>Fixtures</div>
             </a>
@@ -150,7 +150,7 @@
 
                                 <span class="col-md-6 team-info">Team: @Model.Teams.Where(x => x.Matchday == Model.LastStartedMatchday - 1 + i).FirstOrDefault().TeamSumAsString </span>
                                 <span class="col-md-3 team-info">Pts: @Model.Teams.Where(x => x.Matchday == Model.LastStartedMatchday - 1 + i).FirstOrDefault().Points</span>
-                                <a class="btn-small alert-success" style="font-weight:bolder" asp-controller="Users" asp-action="Team" asp-route-userId="@Model.Id" asp-route-matchday="@(Model.LastStartedMatchday-1+i)">
+                                <a class="btn-small alert-success" style="font-weight:bolder" asp-controller="Users" asp-action="Team" asp-route-matchday="@(Model.LastStartedMatchday-1+i)">
                                     Details
                                 </a>
                             </div>

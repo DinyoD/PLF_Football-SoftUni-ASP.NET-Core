@@ -1,29 +1,37 @@
-﻿@model PLF_Football.Web.ViewModels.Supporters.CollectionOfSupporterViewModel
+﻿@model PLF_Football.Web.ViewModels.Supporters.RankingOfSupporterViewModel
+
+@using System.Security.Claims;
+
+@{
+    this.ViewData["CuurentUserId"] = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+}
 
 <style>
     .container-supp {
         position: relative;
         padding-top: 100px;
     }
-    .container-supp:after {
-        content: "";
-        display: block;
-        position: absolute;
-        top: 0;
-        left: -13%;
-        background-image: url('/image/Common/fans.png');
-        width: 128.5%;
-        height: 82vh;
-        background-position: top;
-        background-size: 100%;
-        opacity: 0.3;
-        z-index: -1;
-    }
-    table{
+
+        .container-supp:after {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: -13%;
+            background-image: url('/image/Common/fans.png');
+            width: 128.5%;
+            height: 82vh;
+            background-position: top;
+            background-size: 100%;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+    table {
         background-color: rgba(255,255,255,0.5);
         border-radius: 10px;
-
     }
+
     .table-title {
         height: 30px;
         margin-bottom: 10px;
@@ -33,17 +41,20 @@
         color: white;
         font-weight: bold;
     }
-    .table-title a{
-        color: white;
-    }
+
+        .table-title a {
+            color: white;
+        }
 
     td a {
         color: black;
     }
+
     td img {
         width: 30px;
     }
-    td{
+
+    td, th {
         text-align: center;
         font-weight: bold;
     }
@@ -64,7 +75,7 @@
                         Club
                     </th>
                     <th>
-                        Supporter
+                        Name
                     </th>
                     <th>
                         Points
@@ -73,20 +84,20 @@
                         Games
                     </th>
                     <th>
-                        Avarage Team Price
+                        Avg. Team Price
                     </th>
                 </tr>
             </thead>
-            @foreach (var supp in Model.AllSupporters.OrderByDescending(x => x.TotalPoints).ThenBy(x => x.AverageTeamSum))
+            @foreach (var supp in Model.TopFiveSupporters.OrderByDescending(x => x.TotalPoints).ThenBy(x => x.AverageTeamSum))
             {
 
                 <tbody>
-                    <tr>
+                    <tr @if(supp.Id == (string)this.ViewData["CuurentUserId"] ) {<text> style="background-color:lightgreen"</text>}>
                         <td>
                             <img src="@supp.FavoriteTeamBadgeUrl" alt="Alternate Text" />
                         </td>
                         <td>
-                            <a asp-controller="Users" asp-action="AllTeams" asp-route-userId="@supp.Id" >@supp.UserName</a>
+                            <a asp-controller="Users" asp-action="AllTeams" asp-route-userId="@supp.Id">@supp.UserName</a>
                         </td>
                         <td>
                             @supp.TotalPoints
@@ -121,7 +132,7 @@
                         Club
                     </th>
                     <th>
-                        Supporter
+                        Name
                     </th>
                     <th>
                         Matchday
@@ -138,7 +149,7 @@
             {
 
                 <tbody>
-                    <tr>
+                    <tr @if(game.UserId == (string)this.ViewData["CuurentUserId"] ) {<text> style="background-color:lightgreen"</text>}>
                         <td>
                             <img src="@game.UserFavoriteTeamBadgeUrl" alt="Alternate Text" />
                         </td>

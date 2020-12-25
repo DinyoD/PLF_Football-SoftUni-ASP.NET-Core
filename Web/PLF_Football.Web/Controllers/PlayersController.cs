@@ -2,13 +2,15 @@
 {
     using System;
     using System.Linq;
-
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using PLF_Football.Common;
+    using PLF_Football.Services;
     using PLF_Football.Services.Data;
     using PLF_Football.Web.ViewModels.Clubs;
     using PLF_Football.Web.ViewModels.Players;
+    using PLF_Football.Web.ViewModels.PlayersPoints;
     using PLF_Football.Web.ViewModels.Position;
 
     [Authorize]
@@ -17,15 +19,21 @@
         private readonly IPlayersService playersService;
         private readonly IClubsService clubsService;
         private readonly IPositionService positionService;
+        private readonly IPlayersPointsService playersPointsService;
+        private readonly IFixtureScraperService fixtureScraperService;
 
         public PlayersController(
             IPlayersService playersService,
             IClubsService clubsService,
-            IPositionService positionService)
+            IPositionService positionService,
+            IPlayersPointsService playersPointsService, 
+            IFixtureScraperService fixtureScraperService)
         {
             this.playersService = playersService;
             this.clubsService = clubsService;
             this.positionService = positionService;
+            this.playersPointsService = playersPointsService;
+            this.fixtureScraperService = fixtureScraperService;
         }
 
         public IActionResult Profile(int id)
@@ -90,6 +98,30 @@
             {
                 viewModel.AllPlayers = viewModel.AllPlayers.Where(x => x.FullName.ToLower().Contains(searchString.ToLower())).ToList();
             }
+
+            return this.View(viewModel);
+        }
+
+        public async Task<IActionResult> Points(int id)
+        {
+            var pointsByFixture = this.playersPointsService.GetAllPointsByMatchdaysForPlayer<PointsByFixtureViewModel>(id);
+            var lastMatchday = await this.fixtureScraperService.GetFirstNotStartedMatchdayAsync();
+            for (int i = 13; i < lastMatchday; i++)
+            {
+                if (!pointsByFixture.Any(x => x.Matchday == i))
+                {
+                    pointsByFixture.Add(new PointsByFixtureViewModel { Matchday = i, Points = 0 });
+                }
+            };
+            var clubName = this.playersService.GetClubNameByPLayerId(id);
+            var playerFullName = this.playersService.GetPlayerFullNameById(id);
+            var viewModel = new PlayerPointsViewModel
+            {
+                PlayerId = id,
+                PlayerName = playerFullName,
+                ClubName = clubName,
+                PointsByFixture = pointsByFixture.OrderBy(x => x.Matchday).ToList(),
+            };
 
             return this.View(viewModel);
         }

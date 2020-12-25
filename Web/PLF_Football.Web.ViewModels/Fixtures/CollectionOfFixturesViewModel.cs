@@ -4,6 +4,8 @@
 
     public class CollectionOfFixturesViewModel
     {
+        public int UserTeamId { get; set; }
+
         public ICollection<FixtureBasicViewModel> AllFixtures { get; set; }
     }
 }

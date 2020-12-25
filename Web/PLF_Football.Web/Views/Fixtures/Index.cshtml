@@ -1,0 +1,79 @@
+﻿@model PLF_Football.Web.ViewModels.Fixtures.CollectionOfFixturesViewModel
+
+
+<style>
+    .container {
+        margin: 0 15px;
+        max-width: 97vw;
+    }
+    .fixture {
+        margin-top: 1px;
+        background-color: grey;
+        border: 1px solid white;
+        border-radius: 10px;
+        padding-top: 8px;
+    }
+
+    .fixture .row {
+            min-height: 32px;
+            align-items: center;
+        }
+
+    .fixture-team {
+        font-size: 11px;
+        font-weight: bold;
+        color: black;
+    }
+
+    .fixture-result {
+        font-size: 11px;
+        color: white;
+        padding: 0 0;
+    }
+
+    .right {
+        text-align: end;
+    }
+    .matchday {
+        background-color: grey;
+        color: black;
+        font-size: 13px;
+        font-weight: bold;
+        height: 20px;
+        border-radius: 10px;
+        margin: 10px 0;
+        padding-top: 3px;
+    }
+    hr {
+        margin: 8px 16px;
+    }
+</style>
+
+<div class="row">
+    @for (var i = 1; i <= 38; i++)
+     {
+    <div class="fixture col-md-3">
+        <div class="text-center matchday">Matchday: @i</div>
+        @foreach (var fix in Model.AllFixtures.Where(x => x.Matchday == i).OrderBy(x=>x.Result))
+        {
+
+            <div class="row" @if (Model.UserTeamId == fix.AwayTeamId || Model.UserTeamId == fix.HomeTeamId) { <text> style="background-color: forestgreen" </text> }>
+                <a class="col-md-5 fixture-team left" asp-controller="Clubs" asp-action="Index" asp-route-id="@fix.HomeTeamId">
+                    @fix.HomeTeamName
+                </a>
+
+                <div class="col-md-2 fixture-result text-center" @if (!fix.Finished) { <text> style="color:darkgray" </text> }>
+                    @fix.Result
+                    @if (fix.Result.Contains(":"))
+                    {<div>(CET)</div>}
+                </div>
+
+                <a class="col-md-5 fixture-team right" asp-controller="Clubs" asp-action="Index" asp-route-id="@fix.AwayTeamId">
+                    @fix.AwayTeamName
+                </a>
+            </div>
+            <hr />
+        }
+    </div>
+     }
+</div>

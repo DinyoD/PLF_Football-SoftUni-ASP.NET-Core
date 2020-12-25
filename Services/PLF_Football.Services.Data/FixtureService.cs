@@ -18,6 +18,11 @@
             this.fixturesRepo = fixturesRepo;
         }
 
+        public ICollection<T> GetAllFixtures<T>()
+        {
+            return this.fixturesRepo.AllAsNoTracking().To<T>().ToList();
+        }
+
         public ICollection<T> GetFixturesAfterSpecificAndBeforeOrOnNextMatchday<T>(int matchday, int nextMatchday)
         {
             if (nextMatchday > 38)

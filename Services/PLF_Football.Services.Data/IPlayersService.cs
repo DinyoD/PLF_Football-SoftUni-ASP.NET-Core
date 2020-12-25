@@ -26,5 +26,7 @@
         ICollection<Player> GetPlayersByClubId(int clubId);
 
         string GetClubNameByPLayerId(int playerId);
+
+        string GetPlayerFullNameById(int playerId);
     }
 }

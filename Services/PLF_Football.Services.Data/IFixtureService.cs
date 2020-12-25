@@ -13,6 +13,8 @@
 
         ICollection<T> GetFixturesAfterSpecificAndBeforeOrOnNextMatchday<T>(int matchday, int nextmatchday);
 
+        ICollection<T> GetAllFixtures<T>();
+            
         Task UpdateFixtureAsync(ICollection<FixtureForUpdateDto> fixtures);
     }
 }

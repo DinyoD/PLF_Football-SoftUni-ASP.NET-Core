@@ -8,5 +8,7 @@
         T GetUserById<T>(string userId);
 
         ICollection<T> GetAllUsers<T>();
+
+        int GetFavoriteClubIdByUserId(string userId);
     }
 }

@@ -8,5 +8,7 @@
         ICollection<T> GetAll<T>();
 
         T GetById<T>(int id);
+
+        string GetClubNameById(int clubId);
     }
 }

@@ -1,10 +1,11 @@
-﻿@model PLF_Football.Web.ViewModels.Supporters.CollectionOfSupporterViewModel
+﻿@model PLF_Football.Web.ViewModels.Supporters.CollectionOfSupportersGamePointsViewModel
 
 @using System.Security.Claims;
 
 @{
     this.ViewData["CuurentUserId"] = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 }
+
 <style>
     .container-supp {
         position: relative;
@@ -61,10 +62,10 @@
 
 <div class="row col-md-12 container-supp">
 
-    <div class="rank-total col-md-12">
+    <div class="rank-matchday col-md-12">
 
         <div class="table-title">
-            Supporters full ranking
+            Supporters games full ranking
         </div>
 
         <table class="table table-striped">
@@ -77,51 +78,46 @@
                         Name
                     </th>
                     <th>
-                        Total Points
+                        Matchday
                     </th>
                     <th>
-                        Games
+                        Points
                     </th>
                     <th>
-                        Pts per Game
-                    </th>
-                    <th>
-                        Avg. Team Price
+                        Team Price
                     </th>
                     <th>
                         Avg. Point Price
                     </th>
                 </tr>
             </thead>
-            @foreach (var supp in Model.Supporters.OrderByDescending(x => x.TotalPoints).ThenBy(x => x.AverageTeamSum))
+            @foreach (var game in Model.GamesByPoints.OrderByDescending(x => x.Points).ThenBy(x => x.TeamSum))
             {
 
                 <tbody>
-                    <tr @if(supp.Id == (string)this.ViewData["CuurentUserId"] ) {<text> style="background-color:lightgreen"</text>}>
+                    <tr @if(game.UserId == (string)this.ViewData["CuurentUserId"] ) {<text> style="background-color:lightgreen"</text>}>
                         <td>
-                            <img src="@supp.FavoriteTeamBadgeUrl" alt="Alternate Text" />
+                            <img src="@game.UserFavoriteTeamBadgeUrl" alt="Alternate Text" />
                         </td>
                         <td>
-                            <a asp-controller="Users" asp-action="AllTeams" asp-route-userId="@supp.Id">@supp.UserName</a>
+                            <a asp-controller="Users" asp-action="AllTeams" asp-route-userId="@game.UserId">@game.UserUserName</a>
                         </td>
                         <td>
-                            @supp.TotalPoints
+                            @game.Matchday
                         </td>
                         <td>
-                            @supp.Games.Count
+                            @game.Points
                         </td>
                         <td>
-                            @(supp.TotalPoints / supp.Games.Count)
+                            @game.TeamSumAtString
                         </td>
                         <td>
-                            @supp.AverageTeamSumAtString
-                        </td>
-                        <td>
-                            @supp.PointSumAtString
+                            @game.PointPriceAtString
                         </td>
                     </tr>
                 </tbody>
             }
         </table>
     </div>
+
 </div>

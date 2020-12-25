@@ -17,18 +17,36 @@
         opacity: 0.5;
         z-index: -1;
     }
-
+    .player-profile-buttons .btn{
+        margin: 20px 5px 0 5px;
+    }
 </style>
 <div class="container-player-profile bg-team">
     <figure class="row">
 
         <img src="@Model.Player.ImageUrl" class="img-responsive" alt="" onerror="this.src = 'https://resources.premierleague.com/premierleague/photos/players/110x140/Photo-Missing.png'">
+        <div class="">
+            <a class="display-2">
+                @Model.Player.FullName
+            </a>
+            <div class="row justify-content-end player-profile-buttons">
+                <a class="btn btn-dark" asp-controller="Players" asp-action="Profile" asp-route-id="@Model.PlayerId">
+                    Profile
+                </a>
 
-        <a class="display-2" title="Player Profile" asp-controller="Players" asp-action="Profile" asp-route-id="@Model.PlayerId">
-            @Model.Player.FullName
-        </a>
+                <a class="btn btn-dark" asp-controller="Players" asp-action="Points" asp-route-id="@Model.PlayerId">
+                    Game Points
+                </a>
 
+                <a class="btn btn-success" asp-controller="UserGames" asp-action="AddPlayer" asp-route-id="@Model.PlayerId">
+                    Buy
+                </a>
+            </div>
+        </div>
     </figure>
+
+
+
     <div class="row">
         <p class="display-4">@Model.Player.PositionName</p>
         <span class="display-4" style="color:crimson">@Model.Player.PriceAtString</span>

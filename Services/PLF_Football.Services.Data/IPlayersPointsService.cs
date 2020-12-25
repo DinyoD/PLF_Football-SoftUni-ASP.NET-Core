@@ -10,5 +10,7 @@
         Task AddPlayersPointByFixtureAsync(PlayersPointsInMatchdayDto playersPointsDto);
 
         int GetPointsByMatchdayAndPlayerIdCollection(int matchday, ICollection<int> playersId);
+
+        ICollection<T> GetAllPointsByMatchdaysForPlayer<T>(int playerId);
     }
 }

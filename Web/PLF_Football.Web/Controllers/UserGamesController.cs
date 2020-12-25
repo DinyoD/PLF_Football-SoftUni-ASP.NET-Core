@@ -11,6 +11,7 @@
     using PLF_Football.Services;
     using PLF_Football.Services.Data;
 
+    [Authorize]
     public class UserGamesController : BaseController
     {
         private readonly UserManager<ApplicationUser> userManager;
@@ -33,16 +34,21 @@
             this.fixtureScraperService = fixtureScraperService;
         }
 
-        [Authorize]
         public async Task<IActionResult> AddPlayer(int id)
         {
-            var user = await this.userManager.GetUserAsync(this.User);
+            var currUser = await this.userManager.GetUserAsync(this.User);
             var nextMatchday = await this.fixtureScraperService.GetFirstNotStartedMatchdayAsync();
 
-            var userGameId = this.userGamesService.GetUserGameIdByUserAndMatchday(user.Id, nextMatchday);
+            var userGameId = this.userGamesService.GetUserGameIdByUserAndMatchday(currUser.Id, nextMatchday);
+            var userGameUserId = this.userGamesService.GetUserIdByUserGameId(userGameId);
+            if (currUser.Id != userGameUserId)
+            {
+                return this.Unauthorized();
+            }
+
             if (userGameId == 0 && nextMatchday < 39)
             {
-                userGameId = await this.userGamesService.CreateUserGameAsync(user.Id, nextMatchday);
+                userGameId = await this.userGamesService.CreateUserGameAsync(currUser.Id, nextMatchday);
             }
 
             var player = this.playersService.GetPlayerById(id);
@@ -57,13 +63,13 @@
             {
                 return this.RedirectToAction("User", "Error");
             }
-            else if (user.ClubId == player.ClubId
-                && playersInTeam.Where(x => x.ClubId == user.ClubId).Count() >= 5)
+            else if (currUser.ClubId == player.ClubId
+                && playersInTeam.Where(x => x.ClubId == currUser.ClubId).Count() >= 5)
             {
                 return this.RedirectToPage("Error - already five local");
             }
-            else if (user.ClubId != player.ClubId
-                && playersInTeam.Where(x => x.ClubId != user.ClubId).Count() >= 6)
+            else if (currUser.ClubId != player.ClubId
+                && playersInTeam.Where(x => x.ClubId != currUser.ClubId).Count() >= 6)
             {
                 return this.RedirectToPage("Error - already six foreign");
             }
@@ -102,23 +108,22 @@
             else
             {
                 await this.userGamesService.AddPlayerToUserGameAsync(id, userGameId);
-                return this.Redirect($"/Users/Team/?userId={user.Id}&matchday={nextMatchday}");
+                return this.Redirect($"/Users/Team/?matchday={nextMatchday}");
             }
         }
 
-        [Authorize]
-        public async Task<IActionResult> Remove(int playerId, int userGameId, string userId)
+        public async Task<IActionResult> Remove(int playerId, int userGameId)
         {
-            var user = await this.userManager.GetUserAsync(this.User);
-
-            if (user.Id != userId)
+            var currUser = await this.userManager.GetUserAsync(this.User);
+            var userGameUserId = this.userGamesService.GetUserIdByUserGameId(userGameId);
+            if (currUser.Id != userGameUserId)
             {
                 return this.Unauthorized();
             }
 
             await this.userGamesService.RemovePlayerFromUserGameAsync(playerId, userGameId);
             var matchday = this.userGamesService.GetMatchdayByuserGameId(userGameId);
-            return this.Redirect($"/Users/Team/?userId={userId}&matchday={matchday}");
+            return this.Redirect($"/Users/Team/?matchday={matchday}");
         }
     }
 }

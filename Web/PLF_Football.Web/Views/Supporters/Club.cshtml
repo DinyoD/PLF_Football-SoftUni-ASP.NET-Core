@@ -1,9 +1,10 @@
-﻿@model PLF_Football.Web.ViewModels.Supporters.CollectionOfSupporterViewModel
+﻿@model PLF_Football.Web.ViewModels.Supporters.CollectionOfSuportersByClubViewModels
 
 @using System.Security.Claims;
 
 @{
     this.ViewData["CuurentUserId"] = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+    this.ViewData["ClubImg"] = @Model.ClubName.ToLower();
 }
 <style>
     .container-supp {
@@ -11,20 +12,20 @@
         padding-top: 100px;
     }
 
-        .container-supp:after {
-            content: "";
-            display: block;
-            position: absolute;
-            top: 0;
-            left: -13%;
-            background-image: url('/image/Common/fans.png');
-            width: 128.5%;
-            height: 82vh;
-            background-position: top;
-            background-size: 100%;
-            opacity: 0.3;
-            z-index: -1;
-        }
+    .container-supp:after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: -13%;
+        background-image: url('/image/Club/@(this.ViewData["ClubImg"]).png');
+        width: 128.5%;
+        height: 82vh;
+        background-position: top;
+        background-size: 100%;
+        opacity: 0.3;
+        z-index: -1;
+     }
 
     table {
         background-color: rgba(255,255,255,0.5);
@@ -64,7 +65,7 @@
     <div class="rank-total col-md-12">
 
         <div class="table-title">
-            Supporters full ranking
+            @Model.ClubName Supporters full ranking
         </div>
 
         <table class="table table-striped">
@@ -97,7 +98,7 @@
             {
 
                 <tbody>
-                    <tr @if(supp.Id == (string)this.ViewData["CuurentUserId"] ) {<text> style="background-color:lightgreen"</text>}>
+                    <tr @if (supp.Id == (string)this.ViewData["CuurentUserId"]) { <text> style="background-color:lightgreen" </text> }>
                         <td>
                             <img src="@supp.FavoriteTeamBadgeUrl" alt="Alternate Text" />
                         </td>
@@ -125,3 +126,4 @@
         </table>
     </div>
 </div>
+

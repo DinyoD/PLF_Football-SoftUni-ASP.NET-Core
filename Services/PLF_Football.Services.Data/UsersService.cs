@@ -21,6 +21,17 @@
             return this.userRepo.AllAsNoTracking().Where(x => x.FavoriteTeam != null).To<T>().ToList();
         }
 
+        public int GetFavoriteClubIdByUserId(string userId)
+        {
+            var user = this.userRepo.AllAsNoTracking().Where(x => x.Id == userId).FirstOrDefault();
+            if (user.FavoriteTeam != null)
+            {
+                return user.FavoriteTeam.Id;
+            }
+
+            return -1;
+        }
+
         public T GetUserById<T>(string userId)
         {
             return this.userRepo.AllAsNoTracking().Where(x => x.Id == userId).To<T>().FirstOrDefault();

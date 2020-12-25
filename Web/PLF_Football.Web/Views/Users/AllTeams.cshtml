@@ -1,5 +1,7 @@
 ﻿@model PLF_Football.Web.ViewModels.ApplicationUsers.UserAllTeamsViewModel
+
 @using System.Security.Claims;
+
 @{
     this.ViewData["ClubImg"] = @Model.FavoriteTeamName.ToLower();
     this.ViewData["Title"] = @Model.UserName +"'s "+ @Model.FavoriteTeamName + " Fantasy Teams";
@@ -59,7 +61,7 @@
                                 Add Player
                             </a>
                         }
-                        <a class="btn btn-dark alert-secondary" style="font-weight:bolder" asp-controller="Users" asp-action="Team" asp-route-userId="@Model.Id"
+                        <a class="btn btn-dark alert-secondary" style="font-weight:bolder" asp-controller="Users" asp-action="Team"
                            asp-route-matchday="@userGame.Matchday">
                             Details
                         </a>

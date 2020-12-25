@@ -22,6 +22,10 @@
 
         public int TotalPoints => this.Games.Sum(x => x.Points);
 
+        public int PointSum { get; set; }
+
+        public string PointSumAtString => this.PointSum.ToString("C0", CultureInfo.CreateSpecificCulture("en-GB"));
+
         public int AverageTeamSum { get; set; }
 
         public string AverageTeamSumAtString => this.AverageTeamSum.ToString("C0", CultureInfo.CreateSpecificCulture("en-GB"));

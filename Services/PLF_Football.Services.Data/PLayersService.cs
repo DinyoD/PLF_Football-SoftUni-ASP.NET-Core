@@ -50,6 +50,15 @@
             return this.playersRepo.All().Where(x => x.Id == playerId).FirstOrDefault();
         }
 
+        public string GetPlayerFullNameById(int playerId)
+        {
+            return this.playersRepo
+                .AllAsNoTracking()
+                .Where(x => x.Id == playerId)
+                .Select(x => x.FirstName == null ? x.LastName : x.FirstName + " " + x.LastName)
+                .FirstOrDefault();
+        }
+
         public ICollection<T> GetPlayersByClubId<T>(int clubId)
         {
             return this.playersRepo.All().Where(x => x.ClubId == clubId).To<T>().ToList();

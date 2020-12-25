@@ -26,52 +26,114 @@
             opacity: 0.6;
             z-index: -1;
         }
+        .club-info{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        .club-nav{
+            display: flex;
+            flex-direction: column;
+            margin-left: -90px;
+
+        }
+        .club-nav a{
+            width: 160px;
+            margin-bottom: 20px;
+
+            color: black;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .team-badge img{
+            width: 160px;
+            height: 160px;
+            margin: 0 0 40px 0;
+        }
+        .club-content{
+            display: flex;
+            flex-direction: column;
+            justify-content: start;
+        }
+        .club-content div{
+            margin-left: auto;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .team-sl{
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 30px;
+        }
+        .club-content .team-sl a {
+            text-decoration: none;
+        }
+        .club-content .fa {
+            color: white;
+            font-size: 32px;
+            margin:10px 20px 10px 20px;
+        }
+        .club-content a {
+            color: black;
+            font-size: 22px;
+            text-decoration: underline;
+        }
+        .team-name{
+            font-size: 72px;
+            font-weight: bold;
+            padding-right: 10px;
+            margin-bottom: -10px;
+        }
     </style>
 
     <section class="our-webcoderskull padding-lg">
 
-        <div class="container container-players">
+        <div class="container">
 
-            <div class="club-info">
-
-                <div>
-                    <img src="@Model.BadgeUrl" alt="alternate text" style="height:50px; width:50px"/>
-                    <span class="display-4" >@Model.Name</span>
+            <div class="club-info col-md-12">
+                <div class="club-nav">
+                    <div class="team-badge">
+                        <img src="@Model.BadgeUrl" alt="alternate text"/>
+                    </div>
+                    <a class="btn btn-outline-secondary" asp-controller="Fixtures" asp-action="Club" asp-route-clubId="@Model.Id">Fixtures</a>
+                    <a class="btn btn-outline-secondary" asp-controller="Supporters" asp-action="Club" asp-route-clubId="@Model.Id">Supporters</a>
                 </div>
 
-                <div>
-                    <ul class="row follow-us clearfix">
-                        <li>
-                            <a href="@Model.SocialLinks.WebsiteLink">
-                                <i class="fas fa-home" aria-hidden="true"></i>
-                                <span>Official Website</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="@Model.SocialLinks.FacebookLink">
-                                <i class="fa fa-facebook" aria-hidden="true"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="@Model.SocialLinks.TweeterLink">
-                                <i class="fa fa-twitter" aria-hidden="true"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="@Model.SocialLinks.InstagramLink">
-                                <i class="fa fa-linkedin" aria-hidden="true"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+                <div class="club-content">
 
-                <div>
-                    <a href="@Model.PLLink">source</a>
-                </div>
+                    <div>
+                        <span class="team-name">@Model.Name</span>
+                    </div>
 
-                <div>
-                    <i class="fas fa-home" aria-hidden="true"></i>
-                    <span>@Model.StadiumName</span>
+                    <div>
+                        <a href="@Model.SocialLinks.WebsiteLink">
+                            <span>@Model.SocialLinks.WebsiteName</span>
+                        </a>
+                    </div>
+
+                    <div class="team-sl">
+
+                        <a href="@Model.SocialLinks.FacebookLink">
+                            <i class="fa fa-facebook" aria-hidden="true"></i>
+                        </a>
+
+                        <a href="@Model.SocialLinks.TweeterLink">
+                            <i class="fa fa-twitter" aria-hidden="true"></i>
+                        </a>
+
+                        <a href="@Model.SocialLinks.InstagramLink">
+                            <i class="fa fa-linkedin" aria-hidden="true"></i>
+                        </a>
+
+                    </div>
+
+                    <div>
+                        Home:  @Model.StadiumName
+                    </div>
+
+                    <div>
+                        <a href="@Model.PLLink">data source</a>
+                    </div>
+
                 </div>
             </div>
 
