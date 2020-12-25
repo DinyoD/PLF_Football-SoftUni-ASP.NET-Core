@@ -20,6 +20,8 @@
 
         public bool IsMatchdayStarted { get; set; }
 
+        public string AddPlayerResult { get; set; }
+
         public int Points => this.Team
                                         .Sum(x => x.PlayerPoints
                                                     .Where(y => y.Matchday == this.Matchday)

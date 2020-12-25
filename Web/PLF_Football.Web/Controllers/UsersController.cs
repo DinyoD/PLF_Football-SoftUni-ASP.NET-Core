@@ -79,10 +79,11 @@
             return this.View(viewModel);
         }
 
-        public async Task<IActionResult> Team(int matchday)
+        public async Task<IActionResult> Team(int matchday, string addResult = null)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var viewModel = this.userGamesService.GetUserGame<UserGameTeamViewModel>(userId, matchday);
+            viewModel.AddPlayerResult = addResult;
             var nextMatchday = await this.fixtureScraperService.GetFirstNotStartedMatchdayAsync();
             if (viewModel.Matchday < nextMatchday)
             {

@@ -54,62 +54,71 @@
             var player = this.playersService.GetPlayerById(id);
             var playersInTeam = this.userGamesService.GetUserGameMatchTeamPlayers(userGameId);
             var teamPrice = playersInTeam.Sum(x => x.Price);
+            var addResult = string.Empty;
+            try
+            {
+                if (playersInTeam.Count >= 11)
+                {
+                    throw new System.Exception("Your team is full!");
+                }
+                else if (playersInTeam.Contains(player))
+                {
+                    throw new System.Exception("This player has already been added!");
+                }
+                else if (currUser.ClubId == player.ClubId
+                    && playersInTeam.Where(x => x.ClubId == currUser.ClubId).Count() >= 5)
+                {
+                    throw new System.Exception("You already have 5 players from your favorite team!");
+                }
+                else if (currUser.ClubId != player.ClubId
+                    && playersInTeam.Where(x => x.ClubId != currUser.ClubId).Count() >= 6)
+                {
+                    throw new System.Exception("You already have 6 players from other teams!");
+                }
 
-            if (playersInTeam.Count >= 11)
-            {
-                return this.RedirectToPage("Error - team is full");
+                // Gk
+                else if (player.PositionId == 4
+                    && playersInTeam.Where(x => x.PositionId == 4).Count() >= 1)
+                {
+                    throw new System.Exception("You already have a goalkeeper in your team!");
+                }
+
+                // Def
+                else if (player.PositionId == 3
+                    && playersInTeam.Where(x => x.PositionId == 3).Count() >= 4)
+                {
+                    throw new System.Exception("You already have 4 defenders in your team!");
+                }
+
+                // Midf
+                else if (player.PositionId == 2
+                    && playersInTeam.Where(x => x.PositionId == 2).Count() >= 4)
+                {
+                    throw new System.Exception("You already have 4 midfielders in your team!");
+                }
+
+                // Forw
+                else if (player.PositionId == 1
+                    && playersInTeam.Where(x => x.PositionId == 1).Count() >= 2)
+                {
+                    throw new System.Exception("You already have 2 forwards in your team!");
+                }
+                else if (GlobalConstants.UserBudget - teamPrice < player.Price)
+                {
+                    throw new System.Exception("Not enough money to buy this player!");
+                }
+                else
+                {
+                    await this.userGamesService.AddPlayerToUserGameAsync(id, userGameId);
+                    addResult = "Player successfuly added.";
+                }
             }
-            else if (playersInTeam.Contains(player))
+            catch (System.Exception ex)
             {
-                return this.RedirectToAction("User", "Error");
-            }
-            else if (currUser.ClubId == player.ClubId
-                && playersInTeam.Where(x => x.ClubId == currUser.ClubId).Count() >= 5)
-            {
-                return this.RedirectToPage("Error - already five local");
-            }
-            else if (currUser.ClubId != player.ClubId
-                && playersInTeam.Where(x => x.ClubId != currUser.ClubId).Count() >= 6)
-            {
-                return this.RedirectToPage("Error - already six foreign");
+                addResult = ex.Message;
             }
 
-            // Gk
-            else if (player.PositionId == 4
-                && playersInTeam.Where(x => x.PositionId == 4).Count() >= 1)
-            {
-                return this.RedirectToPage("Error - already one GK");
-            }
-
-            // Def
-            else if (player.PositionId == 3
-                && playersInTeam.Where(x => x.PositionId == 3).Count() >= 4)
-            {
-                return this.RedirectToPage("Error - already 4 Defs");
-            }
-
-            // Midf
-            else if (player.PositionId == 2
-                && playersInTeam.Where(x => x.PositionId == 2).Count() >= 4)
-            {
-                return this.RedirectToPage("Error - already 4 Midf");
-            }
-
-            // Forw
-            else if (player.PositionId == 1
-                && playersInTeam.Where(x => x.PositionId == 1).Count() >= 2)
-            {
-                return this.RedirectToPage("Error - already 2 Forw");
-            }
-            else if (GlobalConstants.UserBudget - teamPrice < player.Price)
-            {
-                return this.RedirectToPage("Error - price too hight");
-            }
-            else
-            {
-                await this.userGamesService.AddPlayerToUserGameAsync(id, userGameId);
-                return this.Redirect($"/Users/Team/?matchday={nextMatchday}");
-            }
+            return this.Redirect($"/Users/Team/?matchday={nextMatchday}&addResult={addResult}");
         }
 
         public async Task<IActionResult> Remove(int playerId, int userGameId)

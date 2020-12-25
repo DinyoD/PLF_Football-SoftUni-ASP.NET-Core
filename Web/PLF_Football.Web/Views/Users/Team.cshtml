@@ -50,10 +50,42 @@
     a .fa {
         font-size: 22px;
     }
-</style>
+    /* The alert message box */
+    .alert {
+        padding: 20px;
+        background-color: #f44336; /* Red */
+        color: white;
+        margin-bottom: 15px;
+        text-align: center;
+    }
 
+    /* The close button */
+    .closebtn {
+        margin-left: 15px;
+        color: white;
+        font-weight: bold;
+        float: right;
+        font-size: 22px;
+        line-height: 20px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+        /* When moving the mouse over the close button */
+        .closebtn:hover {
+            color: black;
+        }
+</style>
+@if (Model.AddPlayerResult != null)
+{
+    <div class="alert" @if (Model.AddPlayerResult == "Player successfuly added.") { <text> style="background-color:lightgreen" </text> }>
+
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        @Model.AddPlayerResult
+    </div>
+}
 <div class="bg-pitch">
-    <br />
+
     <div class="row justify-content-center" style="min-height:20vh">
 
         <div class="col-md-3 jua">
@@ -107,20 +139,20 @@
 
         }
 
-    <div class="col-md-3">
-        <div class="text-center budget">Team price :</div>
-        <div class="text-center budget-amount">@Model.TeamSumAsString</div>
-        <br />
-        @if (Model.UserId == (string)this.ViewData["CuurentUserId"])
-        {
-            <div class="row justify-content-center">
-                <a class="btn btn-primary alert-secondary" style="font-weight:bolder" asp-controller="Users" asp-action="Index">
-                    My Last Teams
-                </a>
-            </div>
-        }
+        <div class="col-md-3">
+            <div class="text-center budget">Team price :</div>
+            <div class="text-center budget-amount">@Model.TeamSumAsString</div>
+            <br />
+            @if (Model.UserId == (string)this.ViewData["CuurentUserId"])
+            {
+                <div class="row justify-content-center">
+                    <a class="btn btn-primary alert-secondary" style="font-weight:bolder" asp-controller="Users" asp-action="Index">
+                        My Last Teams
+                    </a>
+                </div>
+            }
 
-    </div>
+        </div>
 
     </div>
 
