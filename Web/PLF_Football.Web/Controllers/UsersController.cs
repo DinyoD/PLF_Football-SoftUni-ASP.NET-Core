@@ -4,6 +4,7 @@
     using System.Security.Claims;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using PLF_Football.Services;
     using PLF_Football.Services.Data;
@@ -11,6 +12,7 @@
     using PLF_Football.Web.ViewModels.Fixtures;
     using PLF_Football.Web.ViewModels.UserGame;
 
+    [Authorize]
     public class UsersController : BaseController
     {
         private readonly IUserGamesService userGamesService;

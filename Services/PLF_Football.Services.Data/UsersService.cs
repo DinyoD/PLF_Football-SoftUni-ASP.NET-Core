@@ -24,9 +24,9 @@
         public int GetFavoriteClubIdByUserId(string userId)
         {
             var user = this.userRepo.AllAsNoTracking().Where(x => x.Id == userId).FirstOrDefault();
-            if (user.FavoriteTeam != null)
+            if (user.ClubId != null)
             {
-                return user.FavoriteTeam.Id;
+                return (int)user.ClubId;
             }
 
             return -1;

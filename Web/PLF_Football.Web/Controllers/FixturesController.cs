@@ -2,11 +2,13 @@
 {
     using System.Security.Claims;
 
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using PLF_Football.Common;
     using PLF_Football.Services.Data;
     using PLF_Football.Web.ViewModels.Fixtures;
 
+    [Authorize]
     public class FixturesController : BaseController
     {
         private readonly IFixtureService fixtureService;

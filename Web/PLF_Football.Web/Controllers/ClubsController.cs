@@ -1,11 +1,13 @@
 ﻿namespace PLF_Football.Web.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using PLF_Football.Common;
+
     using PLF_Football.Services.Data;
     using PLF_Football.Web.ViewModels.Clubs;
-    using PLF_Football.Web.ViewModels.Fixtures;
 
+
+    [Authorize]
     public class ClubsController : BaseController
     {
         private readonly IClubsService clubService;
