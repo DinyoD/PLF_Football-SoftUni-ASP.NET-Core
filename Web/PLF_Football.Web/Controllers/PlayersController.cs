@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using PLF_Football.Common;
@@ -26,7 +27,7 @@
             IPlayersService playersService,
             IClubsService clubsService,
             IPositionService positionService,
-            IPlayersPointsService playersPointsService, 
+            IPlayersPointsService playersPointsService,
             IFixtureScraperService fixtureScraperService)
         {
             this.playersService = playersService;
@@ -112,7 +113,8 @@
                 {
                     pointsByFixture.Add(new PointsByFixtureViewModel { Matchday = i, Points = 0 });
                 }
-            };
+            }
+
             var clubName = this.playersService.GetClubNameByPLayerId(id);
             var playerFullName = this.playersService.GetPlayerFullNameById(id);
             var viewModel = new PlayerPointsViewModel

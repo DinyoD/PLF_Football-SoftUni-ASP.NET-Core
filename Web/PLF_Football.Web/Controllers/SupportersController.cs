@@ -76,7 +76,6 @@
 
         public async Task<IActionResult> Club(int clubId)
         {
-
             var supporters = await this.GetAllSupporterViewModels();
             var clubSupporters = supporters.Where(x => x.FavoriteTeamId == clubId).ToList();
 
@@ -105,8 +104,8 @@
                     game.Points = points;
                 }
 
-                supporter.AverageTeamSum = supporter.Games.Sum(x => x.TeamSum) / supporter.Games.Count;
-                supporter.PointSum = supporter.Games.Sum(x => x.TeamSum) / supporter.TotalPoints;
+                supporter.AverageTeamSum = supporter.Games.Count> 0 ? supporter.Games.Sum(x => x.TeamSum) / supporter.Games.Count : 0;
+                supporter.PointSum = supporter.TotalPoints > 0 ? supporter.Games.Sum(x => x.TeamSum) / supporter.TotalPoints : 0;
             }
 
             return supporters;

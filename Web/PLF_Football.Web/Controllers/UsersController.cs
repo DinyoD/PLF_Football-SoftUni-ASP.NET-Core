@@ -1,5 +1,6 @@
 ﻿namespace PLF_Football.Web.Controllers
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
@@ -10,6 +11,7 @@
     using PLF_Football.Services.Data;
     using PLF_Football.Web.ViewModels.ApplicationUsers;
     using PLF_Football.Web.ViewModels.Fixtures;
+    using PLF_Football.Web.ViewModels.Players;
     using PLF_Football.Web.ViewModels.UserGame;
 
     [Authorize]
@@ -85,6 +87,16 @@
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var viewModel = this.userGamesService.GetUserGame<UserGameTeamViewModel>(userId, matchday);
+            if (viewModel == null)
+            {
+                viewModel = new UserGameTeamViewModel
+                {
+                    UserId = userId,
+                    Matchday = matchday,
+                    Team = new List<UserTeamPlayerViewModel>(),
+                };
+            }
+
             viewModel.AddPlayerResult = addResult;
             var nextMatchday = await this.fixtureScraperService.GetFirstNotStartedMatchdayAsync();
             if (viewModel.Matchday < nextMatchday)

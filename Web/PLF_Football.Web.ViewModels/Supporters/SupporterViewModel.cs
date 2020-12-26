@@ -30,6 +30,8 @@
 
         public string AverageTeamSumAtString => this.AverageTeamSum.ToString("C0", CultureInfo.CreateSpecificCulture("en-GB"));
 
+        public int PtsPerGame => this.Games.Count > 0 ? this.TotalPoints / this.Games.Count : 0;
+
         public ICollection<GamePointsViewModel> Games { get; set; }
     }
 }

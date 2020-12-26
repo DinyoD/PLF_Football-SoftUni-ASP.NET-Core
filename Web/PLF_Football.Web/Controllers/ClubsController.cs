@@ -6,7 +6,6 @@
     using PLF_Football.Services.Data;
     using PLF_Football.Web.ViewModels.Clubs;
 
-
     [Authorize]
     public class ClubsController : BaseController
     {

@@ -54,7 +54,9 @@ a:hover{
     text-decoration: none;
 
 }
-
+.navbar-nav{
+    align-items: center;
+}
 .footer {
     position: absolute;
     bottom: 0;

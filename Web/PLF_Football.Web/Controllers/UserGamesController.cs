@@ -16,20 +16,17 @@
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IUserGamesService userGamesService;
-        private readonly IFixtureService fixtureService;
         private readonly IPlayersService playersService;
         private readonly IFixtureScraperService fixtureScraperService;
 
         public UserGamesController(
             UserManager<ApplicationUser> userManager,
             IUserGamesService userGamesService,
-            IFixtureService fixtureService,
             IPlayersService playersService,
             IFixtureScraperService fixtureScraperService)
         {
             this.userManager = userManager;
             this.userGamesService = userGamesService;
-            this.fixtureService = fixtureService;
             this.playersService = playersService;
             this.fixtureScraperService = fixtureScraperService;
         }
@@ -40,15 +37,16 @@
             var nextMatchday = await this.fixtureScraperService.GetFirstNotStartedMatchdayAsync();
 
             var userGameId = this.userGamesService.GetUserGameIdByUserAndMatchday(currUser.Id, nextMatchday);
-            var userGameUserId = this.userGamesService.GetUserIdByUserGameId(userGameId);
-            if (currUser.Id != userGameUserId)
-            {
-                return this.Unauthorized();
-            }
 
             if (userGameId == 0 && nextMatchday < 39)
             {
                 userGameId = await this.userGamesService.CreateUserGameAsync(currUser.Id, nextMatchday);
+            }
+
+            var userGameUserId = this.userGamesService.GetUserIdByUserGameId(userGameId);
+            if (currUser.Id != userGameUserId)
+            {
+                return this.Unauthorized();
             }
 
             var player = this.playersService.GetPlayerById(id);
@@ -59,7 +57,7 @@
             {
                 if (playersInTeam.Count >= 11)
                 {
-                    throw new System.Exception("Your team is full!");
+                    throw new System.Exception("Your team si full!");
                 }
                 else if (playersInTeam.Contains(player))
                 {

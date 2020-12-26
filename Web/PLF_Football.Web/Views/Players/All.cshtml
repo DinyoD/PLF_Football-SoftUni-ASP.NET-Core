@@ -43,6 +43,16 @@
     .btn-small-buy:focus {
         color: black;
     }
+    table th{
+        color: grey;
+    }
+    table .text{
+        font-weight: bold;
+        font-size: 15px;
+    }
+    table .text-small{
+        font-weight: normal;
+    }
 </style>
 
 <div class="bg">
@@ -99,13 +109,13 @@
             @foreach (var item in Model.AllPlayers.Skip((Model.PageNumber - 1) * Model.ItemsPerPage).Take(Model.ItemsPerPage))
             {
             <tr>
-                <td class="text">
+                <td class="text text-small">
                     @Html.DisplayFor(modelItem => item.FirstName)
                 </td>
                 <td class="text">
                     @Html.DisplayFor(modelItem => item.LastName)
                 </td>
-                <td class="text">
+                <td class="text text-small">
                     @Html.DisplayFor(modelItem => item.Position.Name)
                 </td>
                 <td class="text">

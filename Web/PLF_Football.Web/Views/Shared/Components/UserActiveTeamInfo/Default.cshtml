@@ -1,0 +1,20 @@
+﻿@model PLF_Football.Web.ViewModels.ViewComponents.UserActiveTeamViewModel
+
+    <style>
+        .nav-item .nav-link .budget{
+            color: black;
+            font-weight: bold;
+            margin-left: 200px;
+            padding: 3px 10px;
+            border: 0.5px solid grey;
+            border-radius: 10px;
+
+        }
+    </style>    
+
+<li class="nav-item">
+    <a class="nav-link text-dark" title="Players: @Model.PlayersInTeam" asp-area="" asp-controller="Users" asp-action="Team" asp-route-matchday="@Model.Matchday">
+        <div class="budget">Budget: @Model.BudgetAsString</div>
+    </a>
+</li>
+
