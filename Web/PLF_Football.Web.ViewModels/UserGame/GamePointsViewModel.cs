@@ -21,7 +21,7 @@
 
         public int Points { get; set; }
 
-        public int PointPrice => this.TeamSum / this.Points;
+        public int PointPrice => this.Points > 0 ? this.TeamSum / this.Points : 0;
 
         public string PointPriceAtString => this.PointPrice.ToString("C0", CultureInfo.CreateSpecificCulture("en-GB"));
 

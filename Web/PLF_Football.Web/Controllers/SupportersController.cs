@@ -104,7 +104,7 @@
                     game.Points = points;
                 }
 
-                supporter.AverageTeamSum = supporter.Games.Count> 0 ? supporter.Games.Sum(x => x.TeamSum) / supporter.Games.Count : 0;
+                supporter.AverageTeamSum = supporter.Games.Count > 0 ? supporter.Games.Sum(x => x.TeamSum) / supporter.Games.Count : 0;
                 supporter.PointSum = supporter.TotalPoints > 0 ? supporter.Games.Sum(x => x.TeamSum) / supporter.TotalPoints : 0;
             }
 

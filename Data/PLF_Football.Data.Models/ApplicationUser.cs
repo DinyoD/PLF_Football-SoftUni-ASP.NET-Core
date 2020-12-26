@@ -18,6 +18,7 @@ namespace PLF_Football.Data.Models
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
             this.Games = new HashSet<UserGame>();
+            this.Messages = new HashSet<Message>();
         }
 
         // Audit info
@@ -42,6 +43,8 @@ namespace PLF_Football.Data.Models
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
 
         public virtual ICollection<UserGame> Games { get; set; }
+
+        public virtual ICollection<Message> Messages { get; set; }
 
         [NotMapped]
         public int TotalPoints => this.Games.Sum(x => x.Points);

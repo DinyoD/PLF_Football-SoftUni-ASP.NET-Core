@@ -21,6 +21,7 @@
     using PLF_Football.Services.Data;
     using PLF_Football.Services.Mapping;
     using PLF_Football.Services.Messaging;
+    using PLF_Football.Web.Hubs;
     using PLF_Football.Web.ViewModels;
 
     public class Startup
@@ -49,7 +50,7 @@
                         options.CheckConsentNeeded = context => true;
                         options.MinimumSameSitePolicy = SameSiteMode.None;
                     });
-
+            services.AddSignalR();
             services.AddControllersWithViews(
                 options =>
                     {
@@ -81,6 +82,7 @@
             services.AddTransient<IPlayerStatsService, PlayerStatsService>();
             services.AddTransient<IPlayersPointsService, PlayersPointsService>();
             services.AddTransient<IPositionService, PositionService>();
+            services.AddTransient<IMessagesService, MessagesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -125,6 +127,7 @@
             app.UseEndpoints(
                 endpoints =>
                     {
+                        endpoints.MapHub<ChatHub>("/Chat");
                         endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapRazorPages();
