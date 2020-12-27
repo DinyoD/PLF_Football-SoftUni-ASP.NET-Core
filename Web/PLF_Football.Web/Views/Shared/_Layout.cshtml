@@ -43,6 +43,19 @@
 
                             @(await Component.InvokeAsync("UserActiveTeamInfo"))
                         }
+                        else if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Administration" asp-controller="Players" asp-action="Index" title="Admin">Admin</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Data" asp-action="Update" title="Update">Data Update</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="/Hangfire" title="Hangfire">Hangfire</a>
+                            </li>
+                        }
                         else
                         {
                             <li class="nav-item">

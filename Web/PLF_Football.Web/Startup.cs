@@ -2,6 +2,9 @@
 {
     using System.Reflection;
 
+    using Hangfire;
+    using Hangfire.Dashboard;
+    using Hangfire.MemoryStorage;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -10,7 +13,7 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-
+    using PLF_Football.Common;
     using PLF_Football.Data;
     using PLF_Football.Data.Common;
     using PLF_Football.Data.Common.Repositories;
@@ -21,6 +24,7 @@
     using PLF_Football.Services.Data;
     using PLF_Football.Services.Mapping;
     using PLF_Football.Services.Messaging;
+    using PLF_Football.Web.Controllers;
     using PLF_Football.Web.Hubs;
     using PLF_Football.Web.ViewModels;
 
@@ -37,6 +41,14 @@
         public void ConfigureServices(IServiceCollection services)
         {
             var connectonString = this.configuration.GetConnectionString("DefaultConnection");
+
+            services.AddHangfire(config => config
+                                .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                                 .UseSimpleAssemblyNameTypeSerializer()
+                                 .UseDefaultTypeSerializer()
+                                 .UseMemoryStorage());
+
+            services.AddHangfireServer();
 
             services.AddDbContext<ApplicationDbContext>(
                 options => options.UseSqlServer(connectonString));
@@ -86,7 +98,7 @@
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IRecurringJobManager recurringJobManager)
         {
             AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
 
@@ -124,6 +136,10 @@
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseHangfireDashboard(
+                   "/Hangfire",
+                   new DashboardOptions { Authorization = new[] { new HangfireAuthorizationFilter() } });
+
             app.UseEndpoints(
                 endpoints =>
                     {
@@ -132,6 +148,20 @@
                         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapRazorPages();
                     });
+
+            recurringJobManager.AddOrUpdate<DataController>(
+                                                         "DataUpdate",
+                                                         x => x.UpdateFixturesAndPlayersStatsAndPointsAsync(),
+                                                         "*/15 * * * *");
+        }
+
+        private class HangfireAuthorizationFilter : IDashboardAuthorizationFilter
+        {
+            public bool Authorize(DashboardContext context)
+            {
+                var httpContext = context.GetHttpContext();
+                return httpContext.User.IsInRole(GlobalConstants.AdministratorRoleName);
+            }
         }
     }
 }

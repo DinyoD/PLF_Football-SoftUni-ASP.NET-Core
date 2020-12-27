@@ -42,6 +42,13 @@
 
         public async Task<IActionResult> Update()
         {
+            var viewModel = await this.UpdateFixturesAndPlayersStatsAndPointsAsync();
+
+            return this.View(viewModel);
+        }
+
+        public async Task<UpdateCountViewModel> UpdateFixturesAndPlayersStatsAndPointsAsync()
+        {
             var nextMatchday = await this.fixtureScraperService.GetFirstNotStartedMatchdayAsync();
             var currMatchday = nextMatchday - 1;
 
@@ -92,7 +99,7 @@
                 UpdatedPlayersCount = totalUpdatedPlayers,
             };
 
-            return this.View(viewModel);
+            return viewModel;
         }
 
         private ICollection<FixtureForUpdateDto> UpdateNextMatchdayFixtureTime(
