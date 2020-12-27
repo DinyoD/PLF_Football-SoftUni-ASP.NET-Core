@@ -27,8 +27,11 @@
                 Points = playersPointsDto.Points,
             };
 
-            await this.playersPointsRepo.AddAsync(playersPoints);
-            await this.playersPointsRepo.SaveChangesAsync();
+            if (!this.playersPointsRepo.AllAsNoTracking().Any(x => x.PlayerId == playersPoints.PlayerId && x.Matchday == playersPoints.Matchday))
+            {
+                await this.playersPointsRepo.AddAsync(playersPoints);
+                await this.playersPointsRepo.SaveChangesAsync();
+            }
         }
 
         public ICollection<T> GetAllPointsByMatchdaysForPlayer<T>(int playerId)
