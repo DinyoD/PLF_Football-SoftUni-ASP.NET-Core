@@ -3,12 +3,7 @@
     this.ViewData["ClubImg"] = @Model.Name.ToLower();
 }
 
-    @*<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>*@
     <link href="~/css/teamSection.css" rel="stylesheet" />
-    <!------ Include the above in your HEAD tag ---------->
-
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <style>
@@ -95,7 +90,7 @@
                         <img src="@Model.BadgeUrl" alt="alternate text"/>
                     </div>
                     <a class="btn btn-outline-secondary" asp-controller="Fixtures" asp-action="Club" asp-route-clubId="@Model.Id">Fixtures</a>
-                    <a class="btn btn-outline-secondary" asp-controller="Supporters" asp-action="Club" asp-route-clubId="@Model.Id">Supporters</a>
+                    <a class="btn btn-outline-secondary" asp-controller="Supporters" asp-action="Club" asp-route-clubId="@Model.Id">Fans</a>
                 </div>
 
                 <div class="club-content">

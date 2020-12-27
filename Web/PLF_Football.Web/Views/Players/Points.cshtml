@@ -27,11 +27,21 @@
         opacity: 0.3;
         z-index: -1;
     }
+    .points-player-name{
+        margin-right: auto;
+        padding: 10px 0 0 20px;
+        font-size: 22px;
+        font-weight: bolder;
+    }
 </style>
 
 <div class="bg-point">
 
     <div class="row justify-content-end">
+
+        <div class="points-player-name">
+            @Model.PlayerName
+        </div>
 
         <a class="btn btn-dark" asp-controller="Players" asp-action="Profile" asp-route-id="@Model.PlayerId">
             Profile
@@ -85,7 +95,7 @@
                 }
             },
             series: [{
-                name: '@Model.PlayerName',
+                name: "Points",
                 data: @JsonSerializer.Serialize(Model.PointsByFixture.Select(x => x.Points).ToList()),
             }
             ]

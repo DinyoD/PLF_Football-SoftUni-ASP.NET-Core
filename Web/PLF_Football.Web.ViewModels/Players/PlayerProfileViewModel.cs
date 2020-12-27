@@ -22,6 +22,8 @@
 
         public string ClubName { get; set; }
 
+        public int ClubId { get; set; }
+
         public ClubSocialLinksViewModel SocialLinks { get; set; }
 
         public ICollection<PlayerPointsByFixtureViewModel> PlayerPoints { get; set; }
