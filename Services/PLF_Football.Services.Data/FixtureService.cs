@@ -32,7 +32,7 @@
 
             return this.fixturesRepo
                         .All()
-                        .Where(x => x.Matchday > matchday && x.Matchday <= nextMatchday)
+                        .Where(x => x.Matchday >= matchday && x.Matchday <= nextMatchday)
                         .To<T>()
                         .ToList();
         }

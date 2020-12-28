@@ -17,6 +17,8 @@
     [Authorize]
     public class UsersController : BaseController
     {
+        private const int FirstMatchday = 1;
+
         private readonly IUserGamesService userGamesService;
         private readonly IUsersService usersService;
         private readonly IFixtureService fixtureService;
@@ -40,12 +42,12 @@
 
             var nextMatchday = await this.fixtureScraperService.GetFirstNotStartedMatchdayAsync();
 
-            var lastOfOldMatchdays = nextMatchday - 3;
+            var previousMatchday = nextMatchday - 2;
             var viewModel = this.usersService.GetUserById<UserIndexPageViewModel>(userId);
 
             viewModel.Id = userId;
             viewModel.Teams = this.userGamesService
-                        .GetUserGamesByUserIdAfterSpecificMatchday<UserGameTeamViewModel>(userId, lastOfOldMatchdays);
+                        .GetUserGamesByUserIdAfterSpecificMatchday<UserGameTeamViewModel>(userId, FirstMatchday);
             viewModel.LastStartedMatchday = nextMatchday - 1;
 
             foreach (var matchday in viewModel.Teams)
@@ -56,7 +58,7 @@
                 }
             }
 
-            var fixtures = this.fixtureService.GetFixturesAfterSpecificAndBeforeOrOnNextMatchday<FixtureBasicViewModel>(lastOfOldMatchdays, nextMatchday);
+            var fixtures = this.fixtureService.GetFixturesAfterSpecificAndBeforeOrOnNextMatchday<FixtureBasicViewModel>(previousMatchday, nextMatchday);
 
             viewModel.Fixtures = fixtures;
 

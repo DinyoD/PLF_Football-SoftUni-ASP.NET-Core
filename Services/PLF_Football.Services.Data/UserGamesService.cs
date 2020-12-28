@@ -116,7 +116,7 @@
         {
             return this.userGamesRepo
                 .AllAsNoTracking()
-                .Where(x => x.UserId == userId && x.Matchday > matchday)
+                .Where(x => x.UserId == userId && x.Matchday >= matchday)
                 .To<T>()
                 .ToList();
         }
