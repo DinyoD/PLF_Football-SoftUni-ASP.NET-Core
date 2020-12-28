@@ -7,6 +7,9 @@
 <ul class="navbar-nav">
     @if (this.SignInManager.IsSignedIn(this.User))
     {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-controller="Home" asp-action="GameRules" title="Rules">Game Rules</a>
+        </li>
 
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Settings @(this.User.Identity.Name)</a>

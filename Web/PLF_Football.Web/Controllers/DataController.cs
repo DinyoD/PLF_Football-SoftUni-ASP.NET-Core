@@ -88,7 +88,7 @@
 
             var nextMatcdayFixture = await this.fixtureScraperService.GetFixturesOnMatchdayAsync(nextMatchday);
             var nextMatcdayFixtureInDb = this.fixtureService
-                .GetFixturesAfterSpecificAndBeforeOrOnNextMatchday<FixtureForUpdateDto>(nextMatchday - 1, nextMatchday);
+                .GetFixturesAfterSpecificAndBeforeOrOnNextMatchday<FixtureForUpdateDto>(nextMatchday, nextMatchday);
 
             var updatedFixtureTimeDtoList = this.UpdateNextMatchdayFixtureTime(nextMatcdayFixture, nextMatcdayFixtureInDb);
             await this.fixtureService.UpdateFixtureAsync(updatedFixtureTimeDtoList);
@@ -243,7 +243,7 @@
                 var fixture = pastOrCurrentMatchdayFixtures
                     .Where(x => x.HomeTeamId == fixtureinDb.HomeTeamId && x.AwayTeamId == fixtureinDb.AwayTeamId)
                     .FirstOrDefault();
-                if (fixture.Finished != fixtureinDb.Finished || fixture.Started != fixtureinDb.Started)
+                if (fixture.Result != fixtureinDb.Result || fixture.Started != fixtureinDb.Started || fixture.Finished != fixtureinDb.Finished)
                 {
                     var fixtureForUpdateDto = new FixtureForUpdateDto
                     {

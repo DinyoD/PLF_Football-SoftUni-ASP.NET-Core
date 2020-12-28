@@ -45,7 +45,6 @@
     <ProjectReference Include="..\..\Services\PLF_Football.Services.Mapping\PLF_Football.Services.Mapping.csproj" />
     <ProjectReference Include="..\..\Services\PLF_Football.Services.Messaging\PLF_Football.Services.Messaging.csproj" />
     <ProjectReference Include="..\..\Services\PLF_Football.Services\PLF_Football.Services.csproj" />
-    <ProjectReference Include="..\PLF_Football.Web.Infrastructure\PLF_Football.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\PLF_Football.Web.ViewModels\PLF_Football.Web.ViewModels.csproj" />
   </ItemGroup>
 
