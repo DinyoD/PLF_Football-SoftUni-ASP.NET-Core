@@ -65,7 +65,7 @@
     <div class="rank-total col-md-12">
 
         <div class="table-title">
-            @Model.ClubName Supporters full ranking
+            <a asp-controller="Clubs" asp-action="Index" asp-route-id="@Model.ClubId">@Model.ClubName</a> Supporters full ranking
         </div>
 
         <table class="table table-striped">

@@ -84,6 +84,7 @@
             {
                 Supporters = clubSupporters,
                 ClubName = clubName,
+                ClubId = clubId,
             };
 
             return this.View(viewModel);

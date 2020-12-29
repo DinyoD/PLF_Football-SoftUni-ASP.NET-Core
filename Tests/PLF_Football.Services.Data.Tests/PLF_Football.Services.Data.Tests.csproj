@@ -29,6 +29,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\PLF_Football.Data\PLF_Football.Data.csproj" />
     <ProjectReference Include="..\..\Services\PLF_Football.Services.Data\PLF_Football.Services.Data.csproj" />
+    <ProjectReference Include="..\..\Web\PLF_Football.Web.ViewModels\PLF_Football.Web.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

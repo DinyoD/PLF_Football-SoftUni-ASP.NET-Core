@@ -4,5 +4,7 @@
     {
         public string ClubName { get; set; }
 
+        public int ClubId { get; set; }
+
     }
 }
