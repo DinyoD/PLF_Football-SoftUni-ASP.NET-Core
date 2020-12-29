@@ -5,6 +5,10 @@
         padding-top: 100px;
         color: gray;
     }
+    .body-text {
+        color: gray;
+        font-size: 24px;
+    }
 </style>
 <div class="container" style="width: 100vw; height: 70vh">
 
@@ -27,8 +31,13 @@
             Welcome to <span class="display-2" style="color:darkslateblue">@GlobalConstants.SystemName</span>
         </h1>
 
-        <div>
-            <a asp-action="GameRules" >Game rules</a>
+        <div class="body-text">
+            <p>
+                Funny and easy game for Football Fans with simple <a asp-action="GameRules">rules</a>.
+            </p>
+            <p>
+                Just <a asp-area="Identity" asp-page="/Account/Register">register</a> or <a asp-area="Identity" asp-page="/Account/Login">login</a> and enjoy!
+            </p>
         </div>
 
     </div>

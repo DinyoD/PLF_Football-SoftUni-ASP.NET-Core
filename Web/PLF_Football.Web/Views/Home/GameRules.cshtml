@@ -1,10 +1,34 @@
 ﻿<style>
+        .container::after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: -16px;
+        left: 0;
+        background-image: url('/image/Common/rules.png');
+        width: 100%;
+        height: 100%;
+        background-position: top;
+        background-size: 100%;
+        opacity: 0.3;
+        z-index: -1;
+    }
+    .tetx-container{
+        padding-top: 30px;
+    }
+    .tetx-container h3{
+        text-align: center;
+        margin-bottom: 30px;
+    }
     .text-div{
         margin-bottom: 10px;
     }
+    .text-div p{
+        margin: 0 0;
+    }
 </style>
 
-<div class="">
+<div class=" col tetx-container">
     <h3> Premier League Fan Football rules</h3>
     <div class="text-div">
         <p>Each player must choose a <b>Favorite Team</b> during his registration.</p>
@@ -12,9 +36,66 @@
         <p>The player will be added automatically to the fan group of this <b>Favorite Team</b>.</p>
     </div>
 
-    <div>
+    <div class="text-div">
         <p>The <b>“Upcoming Matchday”</b> is the first of the next Matchdays from which no game has started.</p>
-        <p>When a game starts from one Matchday it becomes "Current Matchday".</p>
-        <p>The Matchday after the "Current" becomes "Next Matchday". </p>
+        <p>When a game starts from one Matchday it becomes <b>"Current Matchday"</b>.</p>
+        <p>The Matchday after the "Current" becomes <b>"Next Matchday"</b>. </p>
     </div>
+
+    <div class="text-div">
+        <p>For every upcoming Matchday the player chooses a brand-new team of 11 player.</p>
+        <p>The team must include:</p>
+        <p>- 1 Goalkeeper</p>
+        <p>- 4 Defender</p>
+        <p>- 4 Midfielders</p>
+        <p>- 2 Forwards</p>
+
+        <p>The player cannot change this scheme.</p>
+
+    </div>
+
+    <div class="text-div">
+        <p>The team must have exactly 5 players from his <b>Favorite Team</b>.</p>
+        <p>The rest 6 players can be chosen from other teams. They can be chosen only from one team or randomly selected from 6 others.</p>
+    </div>
+
+    <div class="text-div">
+        <p>Every football player has a certain price in Pounds.</p>
+        <p>The budget for each Matchday is 40 million pounds.</p>
+        <p>The total value of the 11 players in each team cannot exceed 40 million pounds.</p>
+    </div>
+
+    <div class="text-div">
+        <p>Until the start of the Matchday the player can:</p>
+        <p>- Create a team</p>
+        <p>- Can add football players in the team</p>
+        <p>- Can remove football players from the team</p>
+        <p>Everything must be done in compliance with the price rules.</p>
+    </div>
+
+    <div class="text-div">
+        <p>After the end of every game from the <b>“Current Matchday”</b>, the footballer player who participated in the game receives points according the following rules:</p>
+        <p>- Participation in the game, no matter how long - <b>2 points</b></p>
+        <p>- Victory of his team - <b>3 points</b></p>
+        <p>- Draw - <b>1 point</b></p>
+        <p>- Goal assistance - <b>2 points</b> for each assistance of the Football player in the current game</p>
+        <p>- Goal - <b>3 points</b> for each goal of the Football player in the current game</p>
+        <p>- Clean Sheet - <b>2 points</b> for each defender and the goalkeeper</p>
+        <p>- Yellow Card - <b>minus 1 point</b></p>
+        <p>- Red Card - <b>minus 3 points</b></p>
+
+    </div>
+
+    <div class="text-div">
+        <p>The player receives points for each Matchday in which he participates</p>.
+        <p>These points are the sum of the points of each football player in his team, received during the respective Matchday.</p>
+        <p><b>The Total Points</b> of the player are the sum of his points for each Matchday in which he participated and created a team.</p>
+        <p><b>The Ranking</b> in the game is based on the total points of each player.</p>
+        <p> In case of a draw, the ranking is made on a lower average budget spend for one Matchday.</p>
+        <p>There is also a <b>Ranking</b> for:</p>
+        <p>- Maximum points in a Matchday no matter in which one</p>
+        <p>- Ranking among the fans in each Favorite Team according to their total points</p>
+
+    </div>
+
 </div>

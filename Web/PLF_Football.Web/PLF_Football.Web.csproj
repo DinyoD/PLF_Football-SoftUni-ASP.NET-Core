@@ -118,6 +118,9 @@
     <Content Update="wwwroot\image\Common\pitch.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="wwwroot\image\Common\rules.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\image\Common\tactics.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
