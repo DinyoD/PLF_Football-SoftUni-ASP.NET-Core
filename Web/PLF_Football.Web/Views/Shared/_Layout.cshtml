@@ -65,15 +65,12 @@
                     </ul>
                 </div>
             </div>
-
         </nav>
     </header>
 
     @if (User.Identity.IsAuthenticated)
     {
-        <cache>
-            <vc:clubs-links></vc:clubs-links>
-        </cache>
+        <vc:next-fixtures-list />
         <div class="container">
             <partial name="_CookieConsentPartial" />
             <main role="main" class="pb-3">

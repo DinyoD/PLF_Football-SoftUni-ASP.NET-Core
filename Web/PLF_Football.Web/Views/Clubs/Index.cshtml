@@ -153,8 +153,14 @@
                             <p class="display-3">@player.PositionName <i style="color: grey"> @player.Country.Name</i></p>
 
                             <p>
+                                <a class="btn btn-secondary alert-secondary" asp-controller="Players" asp-action="Points" asp-route-id="@player.Id">
+                                    Points
+                                </a>
                                 <a class="btn btn-secondary alert-secondary" asp-controller="Players" asp-action="Profile" asp-route-id="@player.Id">
                                     Profile
+                                </a>
+                                <a class="btn btn-secondary alert-secondary" asp-controller="Players" asp-action="Statistics" asp-route-id="@player.Id">
+                                    PL stats
                                 </a>
                             </p>
                             <ul class="follow-us clearfix">

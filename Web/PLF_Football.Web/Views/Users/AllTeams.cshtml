@@ -40,7 +40,7 @@
             {
             <div class="row align-items-center">
 
-                <span class="col-md-2">Matchday: @userGame.Matchday </span>
+                <span class="col-md-2 alert-dark">Matchweek: @userGame.Matchday </span>
                 @if (userGame.IsMatchdayStarted)
                 {
                     <span class="col-md-2 alert-danger ">Status: Closed</span>
@@ -50,8 +50,8 @@
                     <span class="col-md-2 alert-success ">Status: Open</span>
                 }
                 <span></span>
-                <span class="col-md-4">Team Price: @userGame.TeamSumAsString </span>
-                <span class="col-md-1">pts: @userGame.Points</span>
+                <span class="col-md-4 alert-dark">Team: @userGame.Team.Count players -  Price: @userGame.TeamSumAsString </span>
+                <span class="col-md-1 alert-dark">pts: @userGame.Points</span>
                 <span class="row justify-content-end col-md-3">
                     @if (userGame.UserId == (string)this.ViewData["CuurentUserId"])
                     {
@@ -72,7 +72,7 @@
                 <div class="col-md-12 d-flex justify-content-between">
                     @foreach (var player in userGame.Team.OrderByDescending(x => x.Position.Id))
                     {
-                     <a title="Player Profile" asp-controller="Players" asp-action="Profile" asp-route-id="@player.Id">
+                     <a title="@player.LastName - @player.ClubName" asp-controller="Players" asp-action="Profile" asp-route-id="@player.Id">
                         <img style="height:100px" src="@player.ImageUrl" alt="Alternate Text" />
 
                         @if (player.PlayerPoints.Any(x => x.Matchday == userGame.Matchday))

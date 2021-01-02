@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    public class CollectionOfSupporterViewModel
+    public class CollectionOfSupporterViewModel : PagingViewModel
     {
         public ICollection<SupporterViewModel> Supporters { get; set; }
     }

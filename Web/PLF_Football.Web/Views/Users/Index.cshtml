@@ -43,7 +43,7 @@
     .team {
             padding: 10px 0px 15px 25px;
             width: 350px;
-            height: 430px;
+            height: 460px;
             background-color: forestgreen;
             border-radius:10px;
         }
@@ -93,6 +93,9 @@
     hr{
         margin: 8px 16px;
     }
+    .count{
+        margin-left: -25px;
+    }
 
 </style>
 
@@ -103,8 +106,6 @@
             <a class="btn btn-primary alert-secondary" style="font-weight:bolder" asp-controller="Supporters" asp-action="AllByTotalPoints">
                 Total Pts: @Model.TotalPoints
             </a>
-            <hr />
-            <hr />
             <br />
             <a class="btn btn-primary alert-secondary" style="font-weight:bolder" asp-controller="Users" asp-action="AllTeams">
                 All Teams
@@ -122,12 +123,11 @@
                     Remove Player
                 </a>
             }
-            <hr />
+
             <a class="btn btn-primary alert-secondary" style="font-weight:bolder" asp-controller="" asp-action="Chat">
                 Chat
             </a>
-            <hr />
-            <hr />
+
             <br />
             <a class="btn btn-primary alert-secondary" style="font-weight:bolder" asp-controller="Fixtures" asp-action="Club" asp-route-clubId="@Model.FavoriteTeamId">
                 <div>@Model.FavoriteTeamName</div>
@@ -141,7 +141,7 @@
             {
                 <div class="col-md-4">
 
-                    <div class="text-center matchday">Matchday: @(Model.LastStartedMatchday-1+i) (@this.ViewData[$"{i}"])</div>
+                    <div class="text-center matchday">Matchweek: @(Model.LastStartedMatchday-1+i) (@this.ViewData[$"{i}"])</div>
 
                     <div class="team">
                         @if (Model.Teams.Any(x => x.Matchday == Model.LastStartedMatchday - 1 + i))
@@ -159,7 +159,7 @@
 
                                 @foreach (var player in Model.Teams.Where(x => x.Matchday == Model.LastStartedMatchday - 1 + i).FirstOrDefault().Team.Where(x => x.Position.Id == 1))
                                 {
-                                    <a class="row" title="@player.LastName" asp-controller="Players" asp-action="Profile" asp-route-id="@player.Id">
+                                    <a class="row" title="@player.LastName - @player.ClubName" asp-controller="Players" asp-action="Profile" asp-route-id="@player.Id">
                                         <img style="height:70px" src="@player.ImageUrl" alt="Alternate Text" />
 
                                         @if (player.PlayerPoints.Any(x => x.Matchday == Model.LastStartedMatchday - 1 + i))
@@ -185,7 +185,7 @@
 
                                 @foreach (var player in Model.Teams.Where(x => x.Matchday == Model.LastStartedMatchday - 1 + i).FirstOrDefault().Team.Where(x => x.Position.Id == 2))
                                 {
-                                    <a class="row" title="@player.LastName" asp-controller="Players" asp-action="Profile" asp-route-id="@player.Id">
+                                    <a class="row" title="@player.LastName - @player.ClubName" asp-controller="Players" asp-action="Profile" asp-route-id="@player.Id">
                                         <img style="height:70px" src="@player.ImageUrl" alt="Alternate Text" />
 
                                         @if (player.PlayerPoints.Any(x => x.Matchday == Model.LastStartedMatchday - 1 + i))
@@ -211,7 +211,7 @@
 
                                 @foreach (var player in Model.Teams.Where(x => x.Matchday == Model.LastStartedMatchday - 1 + i).FirstOrDefault().Team.Where(x => x.Position.Id == 3))
                                 {
-                                    <a class="row" title="@player.LastName" asp-controller="Players" asp-action="Profile" asp-route-id="@player.Id">
+                                    <a class="row" title="@player.LastName - @player.ClubName" asp-controller="Players" asp-action="Profile" asp-route-id="@player.Id">
                                         <img style="height:70px" src="@player.ImageUrl" alt="Alternate Text" />
 
                                         @if (player.PlayerPoints.Any(x => x.Matchday == Model.LastStartedMatchday - 1 + i))
@@ -237,7 +237,7 @@
 
                                 @foreach (var player in Model.Teams.Where(x => x.Matchday == Model.LastStartedMatchday - 1 + i).FirstOrDefault().Team.Where(x => x.Position.Id == 4))
                                 {
-                                    <a class="row" title="@player.LastName" asp-controller="Players" asp-action="Profile" asp-route-id="@player.Id">
+                                    <a class="row" title="@player.LastName - @player.ClubName" asp-controller="Players" asp-action="Profile" asp-route-id="@player.Id">
                                         <img style="height:70px" src="@player.ImageUrl" alt="Alternate Text" />
 
                                         @if (player.PlayerPoints.Any(x => x.Matchday == Model.LastStartedMatchday - 1 + i))
@@ -256,7 +256,10 @@
                                     </a>
 
                                 }
-
+                            </div>
+                            <hr/>
+                            <div class="team-info text-center count">
+                                Players in team: <b>@Model.Teams.Where(x => x.Matchday == Model.LastStartedMatchday - 1 + i).FirstOrDefault().Team.Count</b>
                             </div>
                         }
                         else

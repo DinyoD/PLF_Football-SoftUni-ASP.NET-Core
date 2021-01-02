@@ -26,6 +26,11 @@
             return this.clubsRepo.AllAsNoTracking().Where(x => x.Id == id).To<T>().FirstOrDefault();
         }
 
+        public int GetClubIdByClubName(string clubName)
+        {
+            return this.clubsRepo.AllAsNoTracking().Where(x => x.Name == clubName).Select(x => x.Id).FirstOrDefault();
+        }
+
         public string GetClubNameById(int clubId)
         {
             return this.clubsRepo.AllAsNoTracking().Where(x => x.Id == clubId).Select(x => x.Name).FirstOrDefault();

@@ -41,5 +41,7 @@
         public const int UserBudget = 40_000_000;
 
         public const int PlayersPerPage = 9;
+
+        public const int SupportersPerPage = 10;
     }
 }

@@ -17,6 +17,8 @@
 
         public string ImageUrl { get; set; }
 
+        public string ClubName { get; set; }
+
         public string PositionName { get; set; }
 
         public PositionBasicViewModel Position { get; set; }

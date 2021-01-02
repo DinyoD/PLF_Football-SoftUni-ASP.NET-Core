@@ -8,6 +8,8 @@
     {
         public string ClubName { get; set; }
 
+        public int ClubId { get; set; }
+
         public int PlayerId { get; set; }
 
         public string PlayerName { get; set; }

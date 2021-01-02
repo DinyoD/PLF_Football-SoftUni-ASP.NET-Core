@@ -4,12 +4,14 @@
 
 @{
     this.ViewData["CuurentUserId"] = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+    this.ViewData["firstSupporterOnPageNumber"] = (this.Model.PageNumber - 1 )* this.Model.ItemsPerPage + 1;
+    this.ViewData["lastSupporterOnPageNumber"] = (this.Model.PageNumber - 1) * this.Model.ItemsPerPage + this.Model.ItemsPerPage > this.Model.ItemsCount ? this.Model.ItemsCount : (this.Model.PageNumber - 1) * this.Model.ItemsPerPage + this.Model.ItemsPerPage;
 }
 
 <style>
     .container-supp {
         position: relative;
-        padding-top: 100px;
+        padding-top: 10px;
     }
 
         .container-supp:after {
@@ -20,9 +22,8 @@
             left: -13%;
             background-image: url('/image/Common/fans.png');
             width: 128.5%;
-            height: 102%;
+            height: 81vh;
             background-position: top;
-            background-repeat: repeat;
             background-size: 100%;
             opacity: 0.3;
             z-index: -1;
@@ -43,21 +44,49 @@
         font-weight: bold;
     }
 
-        .table-title a {
-            color: white;
-        }
+    .table-title a {
+        color: white;
+    }
+
+    .table-head-row th{
+        align-content: center;
+        padding: 5px 0;
+    }
+
+    .table-head-row form label,select, input{
+        margin-bottom: 0;
+
+    }
+    
+    .table-head-row form select{
+        padding: 1.405px 1px;
+        border-radius: 5px;
+    }
+
+    .table-head-row form input {
+        padding: 0 10px;
+        border-radius: 5px;
+    }
 
     td a {
         color: black;
     }
 
     td img {
-        width: 30px;
+        width: 20px;
     }
 
     td, th {
         text-align: center;
         font-weight: bold;
+    }
+
+    .table tbody tr td {
+        padding: 8.5px;
+    }
+
+    .paging {
+        margin-bottom: 10px;
     }
 </style>
 
@@ -65,13 +94,17 @@
 
     <div class="rank-matchday col-md-12">
 
+        <div class="paging">
+            <partial name="_PagingPartialSupportersByGamePoints" model="@Model" />
+        </div>
+
         <div class="table-title">
-            Supporters games full ranking
+            Supporters games full ranking (@this.ViewData["firstSupporterOnPageNumber"] - @this.ViewData["lastSupporterOnPageNumber"])
         </div>
 
         <table class="table table-striped">
             <thead>
-                <tr>
+                <tr class="table-head-row">
                     <th>
                         Club
                     </th>
@@ -79,7 +112,13 @@
                         Name
                     </th>
                     <th>
-                        Matchday
+                        <form  method="get">
+                            <label for="matchdaySearch">Matchweek: </label>
+                            <select asp-route="matchdaySearch" , name="matchdaySearch"
+                                    asp-items="@Model.AllMatchdays.Select(x=> new SelectListItem (x.MatchdayName, x.MatchdayNumber.ToString()))">
+                            </select>
+                            <input type="submit" value="Ok" />
+                        </form>
                     </th>
                     <th>
                         Points
@@ -92,11 +131,12 @@
                     </th>
                 </tr>
             </thead>
-            @foreach (var game in Model.GamesByPoints.OrderByDescending(x => x.Points).ThenBy(x => x.TeamSum))
-            {
 
-                <tbody>
-                    <tr @if(game.UserId == (string)this.ViewData["CuurentUserId"] ) {<text> style="background-color:lightgreen"</text>}>
+            <tbody>
+                @foreach (var game in Model.Supporters.OrderByDescending(x => x.Points).ThenBy(x => x.TeamSum).Skip((Model.PageNumber - 1) * Model.ItemsPerPage).Take(Model.ItemsPerPage))
+                {
+
+                    <tr @if (game.UserId == (string)this.ViewData["CuurentUserId"]) { <text> style="background-color:lightgreen" </text> }>
                         <td>
                             <img src="@game.UserFavoriteTeamBadgeUrl" alt="Alternate Text" />
                         </td>
@@ -116,9 +156,10 @@
                             @game.PointPriceAtString
                         </td>
                     </tr>
-                </tbody>
-            }
-        </table>
+
+                }
+            </tbody>
+            </table>
     </div>
 
 </div>

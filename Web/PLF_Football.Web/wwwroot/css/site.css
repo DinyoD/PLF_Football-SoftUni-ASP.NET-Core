@@ -70,12 +70,6 @@ a:hover{
     align-items: end;
 }
 
-.container-clubs {
-    padding-bottom: 10px;
-    margin-bottom: 5px;
-    border-bottom: 1px solid grey;
-}
-
 .container-player-profile {
     margin-top: 30px;
     background-color: rgba(255, 255, 255, 0.5);

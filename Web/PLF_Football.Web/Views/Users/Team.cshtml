@@ -91,14 +91,18 @@
         <div class="col-md-3 jua">
             <div class="text-center budget">Available budget :</div>
             <div class="text-center budget-amount">@Model.FreeBudgetAsString</div>
+
             <br />
             @if (!Model.IsMatchdayStarted && Model.Team.Count < 11 && Model.UserId == (string)this.ViewData["CuurentUserId"])
             {
+
                 <div class="row justify-content-center">
                     <a class="btn btn-primary alert-secondary" style="font-weight:bolder" asp-controller="Players" asp-action="All">
                         Add New Player
                     </a>
                 </div>
+                <br>
+                <div class="text-center budget">You need <b style="color:firebrick">@(11 - Model.Team.Count)</b> more players.</div>
             }
         </div>
 

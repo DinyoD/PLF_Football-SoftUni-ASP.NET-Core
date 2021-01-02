@@ -6,6 +6,7 @@
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using PLF_Football.Common;
     using PLF_Football.Services;
     using PLF_Football.Services.Data;
     using PLF_Football.Web.ViewModels.Supporters;
@@ -50,31 +51,74 @@
             return this.View(viewModel);
         }
 
-        public async Task<IActionResult> AllByGamePoints()
+        public async Task<IActionResult> AllByGamePoints(int page = 1, string matchdaySearch = "0")
         {
             var supporters = await this.GetAllSupporterViewModels();
             var allGames = supporters.SelectMany(x => x.Games).ToList();
 
             var viewModel = new CollectionOfSupportersGamePointsViewModel
             {
-                GamesByPoints = allGames,
+                Supporters = allGames,
+                PageNumber = page,
+                ItemsPerPage = GlobalConstants.SupportersPerPage,
+                MatchdaySearch = int.Parse(matchdaySearch),
             };
+
+            if (viewModel.MatchdaySearch > 0)
+            {
+                viewModel.Supporters = viewModel.Supporters.Where(x => x.Matchday == viewModel.MatchdaySearch).ToList();
+            }
+
+            viewModel.ItemsCount = viewModel.Supporters.Count;
+
+            if (viewModel.PageNumber < 1)
+            {
+                viewModel.PageNumber = 1;
+            }
+            else if (viewModel.PageNumber > viewModel.PagesCount)
+            {
+                viewModel.PageNumber = viewModel.PagesCount;
+            }
+
+            viewModel.AllMatchdays = new List<MatchdayViewModel>() { new MatchdayViewModel { MatchdayName = "All", MatchdayNumber = 0 } };
+
+            foreach (var matchday in allGames.Select(x => x.Matchday))
+            {
+                if (!viewModel.AllMatchdays.Select(x => x.MatchdayNumber).Contains(matchday))
+                {
+                    viewModel.AllMatchdays.Add(new MatchdayViewModel { MatchdayName = matchday.ToString(), MatchdayNumber = matchday });
+                }
+            }
+
+            viewModel.AllMatchdays = viewModel.AllMatchdays.OrderBy(x => x.MatchdayNumber).ToList();
 
             return this.View(viewModel);
         }
 
-        public async Task<IActionResult> AllByTotalPoints()
+        public async Task<IActionResult> AllByTotalPoints(int page = 1)
         {
             var supporters = await this.GetAllSupporterViewModels();
             var viewModel = new CollectionOfSupporterViewModel
             {
                 Supporters = supporters,
+                PageNumber = page,
+                ItemsPerPage = GlobalConstants.SupportersPerPage,
             };
+            viewModel.ItemsCount = viewModel.Supporters.Count;
+
+            if (viewModel.PageNumber < 1)
+            {
+                viewModel.PageNumber = 1;
+            }
+            else if (viewModel.PageNumber > viewModel.PagesCount)
+            {
+                viewModel.PageNumber = viewModel.PagesCount;
+            }
 
             return this.View(viewModel);
         }
 
-        public async Task<IActionResult> Club(int clubId)
+        public async Task<IActionResult> Club(int clubId, int page = 1)
         {
             var supporters = await this.GetAllSupporterViewModels();
             var clubSupporters = supporters.Where(x => x.FavoriteTeamId == clubId).ToList();
@@ -85,7 +129,19 @@
                 Supporters = clubSupporters,
                 ClubName = clubName,
                 ClubId = clubId,
+                PageNumber = page,
+                ItemsPerPage = GlobalConstants.SupportersPerPage,
             };
+            viewModel.ItemsCount = viewModel.Supporters.Count;
+
+            if (viewModel.PageNumber < 1)
+            {
+                viewModel.PageNumber = 1;
+            }
+            else if (viewModel.PageNumber > viewModel.PagesCount)
+            {
+                viewModel.PageNumber = viewModel.PagesCount;
+            }
 
             return this.View(viewModel);
         }
@@ -101,8 +157,15 @@
                 foreach (var game in supporter.Games)
                 {
                     var players = this.userGamesService.GetPlayersIdsByUserGameId(game.Id);
-                    var points = this.playersPointsService.GetPointsByMatchdayAndPlayerIdCollection(game.Matchday, players);
-                    game.Points = points;
+                    if (players.Count < 11)
+                    {
+                        game.Points = 0;
+                    }
+                    else
+                    {
+                        var points = this.playersPointsService.GetPointsByMatchdayAndPlayerIdCollection(game.Matchday, players);
+                        game.Points = points;
+                    }
                 }
 
                 supporter.AverageTeamSum = supporter.Games.Count > 0 ? supporter.Games.Sum(x => x.TeamSum) / supporter.Games.Count : 0;

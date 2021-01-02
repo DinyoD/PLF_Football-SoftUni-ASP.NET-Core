@@ -4,8 +4,12 @@
 
     using PLF_Football.Web.ViewModels.UserGame;
 
-    public class CollectionOfSupportersGamePointsViewModel
+    public class CollectionOfSupportersGamePointsViewModel : PagingViewModel
     {
-        public ICollection<GamePointsViewModel> GamesByPoints { get; set; }
+        public ICollection<GamePointsViewModel> Supporters { get; set; }
+
+        public ICollection<MatchdayViewModel> AllMatchdays { get; set; }
+
+        public int MatchdaySearch { get; set; }
     }
 }

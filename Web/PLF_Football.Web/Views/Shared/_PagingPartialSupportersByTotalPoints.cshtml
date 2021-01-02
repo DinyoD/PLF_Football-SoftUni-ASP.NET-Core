@@ -1,0 +1,27 @@
+﻿
+@{
+    this.ViewData["currPagesCount"] = (int)Math.Ceiling((double)Model.Supporters.Count / Model.ItemsPerPage);
+}
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item">
+            <a class="page-link @if (Model.PageNumber == 1) { <text>disabled</text> }" aria-label="Previous"
+               asp-area="" asp-controller="Supporters" asp-action="AllByTotalPoints"
+               asp-route-page="@Model.PreviousPageNumber">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="#">
+                @(Model.PagesCount < Model.PageNumber ? 0 : Model.PageNumber) of @ViewData["currPagesCount"]
+            </a>
+        </li>
+        <li class="page-item">
+            <a class="page-link @if (Model.PageNumber == Model.PagesCount) { <text>disabled</text> }" aria-label="Next"
+               asp-area="" asp-controller="Supporters" asp-action="AllByTotalPoints"  
+               asp-route-page="@Model.NextPageNumber">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>

@@ -22,11 +22,12 @@
 
         public string AddPlayerResult { get; set; }
 
-        public int Points => this.Team
-                                        .Sum(x => x.PlayerPoints
-                                                    .Where(y => y.Matchday == this.Matchday)
-                                                    .Select(z => z.Points)
-                                                    .FirstOrDefault());
+        public int Points => this.Team.Count == 11
+                                  ? this.Team.Sum(x => x.PlayerPoints
+                                   .Where(y => y.Matchday == this.Matchday)
+                                   .Select(z => z.Points)
+                                   .FirstOrDefault())
+                                  : 0;
 
         public virtual ICollection<UserTeamPlayerViewModel> Team { get; set; }
 

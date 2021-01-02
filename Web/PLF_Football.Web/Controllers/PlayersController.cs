@@ -51,8 +51,13 @@
 
         public IActionResult Statistics(int id)
         {
+            var clubName = this.playersService.GetClubNameByPLayerId(id);
+            var clubId = this.clubsService.GetClubIdByClubName(clubName);
+
             var viewModel = this.playersService.GetPlayerStatsbyId<PlayerStatsViewModel>(id);
-            viewModel.ClubName = this.playersService.GetClubNameByPLayerId(id);
+            viewModel.ClubName = clubName;
+            viewModel.ClubId = clubId;
+
             return this.View(viewModel);
         }
 
@@ -117,11 +122,13 @@
 
             var clubName = this.playersService.GetClubNameByPLayerId(id);
             var playerFullName = this.playersService.GetPlayerFullNameById(id);
+            var clubId = this.clubsService.GetClubIdByClubName(clubName);
             var viewModel = new PlayerPointsViewModel
             {
                 PlayerId = id,
                 PlayerName = playerFullName,
                 ClubName = clubName,
+                ClubId = clubId,
                 PointsByFixture = pointsByFixture.OrderBy(x => x.Matchday).ToList(),
             };
 

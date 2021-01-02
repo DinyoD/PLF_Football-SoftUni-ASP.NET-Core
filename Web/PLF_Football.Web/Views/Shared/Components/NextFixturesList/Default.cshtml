@@ -1,0 +1,40 @@
+﻿@model PLF_Football.Web.ViewModels.ViewComponents.NextFixturesListViewModel
+
+    <style>
+        .container-clubs {
+            padding-bottom: 5px;
+            padding-top: 5px;
+            margin-top: -15px!important;
+            margin-bottom: 5px;
+            border: 1px solid grey;
+        }
+            .container-clubs li {
+                font-weight: bold;
+                border: 1px solid grey;
+                border-radius: 15px;
+                padding: 3px 10px;  
+                background-color: lightgray;
+            }
+    </style>
+
+<div class="container col-12 container-clubs">
+    <ul class="row list-inline justify-content-around">
+            
+        @*<li>
+            <div>Matchweek: @Model.Matchday</div>
+        </li>*@
+        
+        @foreach (var fix in Model.Fixture)
+         {
+            <li>
+                <a title="@fix.HomeTeam.Name" asp-area="" asp-controller="Clubs" asp-action="Index" asp-route-id="@fix.HomeTeam.Id">
+                    <img src="@fix.HomeTeam.BadgeUrl" alt="Alternate Text" style="width:40px" />
+                </a>
+                <span>vs</span>
+                <a title="@fix.AwayTeam.Name" asp-area="" asp-controller="Clubs" asp-action="Index" asp-route-id="@fix.AwayTeam.Id">
+                    <img src="@fix.AwayTeam.BadgeUrl" alt="Alternate Text" style="width:40px" />
+                </a>
+           </li>
+         }
+    </ul>
+</div>

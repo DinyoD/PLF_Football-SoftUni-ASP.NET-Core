@@ -10,5 +10,7 @@
         T GetById<T>(int id);
 
         string GetClubNameById(int clubId);
+
+        int GetClubIdByClubName(string clubName);
     }
 }
