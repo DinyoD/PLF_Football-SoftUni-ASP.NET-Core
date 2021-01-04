@@ -152,7 +152,7 @@
             recurringJobManager.AddOrUpdate<DataController>(
                                                          "DataUpdate",
                                                          x => x.UpdateFixturesAndPlayersStatsAndPointsAsync(),
-                                                         "*/15 * * * *");
+                                                         "*/17 * * * *");
         }
 
         private class HangfireAuthorizationFilter : IDashboardAuthorizationFilter

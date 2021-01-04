@@ -132,5 +132,34 @@
             var matchday = this.userGamesService.GetMatchdayByuserGameId(userGameId);
             return this.Redirect($"/Users/Team/?matchday={matchday}");
         }
+
+        public async Task<IActionResult> CopyTeam(int userGameId)
+        {
+            var userGameUserId = this.userGamesService.GetUserIdByUserGameId(userGameId);
+            var currenUser = await this.userManager.GetUserAsync(this.User);
+            if (userGameUserId != currenUser.Id)
+            {
+                return this.Unauthorized();
+            }
+
+            var playersIds = this.userGamesService.GetPlayersIdsByUserGameId(userGameId);
+
+            var nextMatchday = await this.fixtureScraperService.GetFirstNotStartedMatchdayAsync();
+            var userGameIdForNextMatchday = this.userGamesService.GetUserGameIdByUserAndMatchday(currenUser.Id, nextMatchday);
+
+            if (userGameIdForNextMatchday > 0
+                &&
+                this.userGamesService.GetUserGameMatchTeamPlayers(userGameIdForNextMatchday).Count > 0)
+            {
+                return this.RedirectToAction("Team", "Users", new { matchday = nextMatchday, addResult = "Your team must be empty to copy another team!" });
+            }
+
+            foreach (var playerId in playersIds)
+            {
+                await this.AddPlayer(playerId);
+            }
+
+            return this.RedirectToAction("Team", "Users", new { matchday = nextMatchday, addResult = "Team players successfuly added." });
+        }
     }
 }

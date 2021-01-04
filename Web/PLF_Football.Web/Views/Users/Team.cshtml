@@ -50,6 +50,13 @@
     a .fa {
         font-size: 22px;
     }
+
+    .button-team{
+        font-weight: bold;
+        width: 150px;
+        margin-bottom: 10px;
+    }
+
     /* The alert message box */
     .alert {
         padding: 20px;
@@ -78,7 +85,7 @@
 </style>
 @if (Model.AddPlayerResult != null)
 {
-    <div class="alert" @if (Model.AddPlayerResult == "Player successfuly added.") { <text> style="background-color:lightgreen" </text> }>
+    <div class="alert" @if (Model.AddPlayerResult.Contains("successfuly")) { <text> style="background-color:lightgreen" </text> }>
 
         <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
         @Model.AddPlayerResult
@@ -88,7 +95,7 @@
 
     <div class="row justify-content-center" style="min-height:20vh">
 
-        <div class="col-md-3 jua">
+        <div class="col-md-3">
             <div class="text-center budget">Available budget :</div>
             <div class="text-center budget-amount">@Model.FreeBudgetAsString</div>
 
@@ -97,11 +104,10 @@
             {
 
                 <div class="row justify-content-center">
-                    <a class="btn btn-primary alert-secondary" style="font-weight:bolder" asp-controller="Players" asp-action="All">
+                    <a class="btn btn-primary alert-secondary button-team" style="font-weight:bolder" asp-controller="Players" asp-action="All">
                         Add New Player
                     </a>
                 </div>
-                <br>
                 <div class="text-center budget">You need <b style="color:firebrick">@(11 - Model.Team.Count)</b> more players.</div>
             }
         </div>
@@ -143,20 +149,26 @@
 
         }
 
-        <div class="col-md-3">
-            <div class="text-center budget">Team price :</div>
-            <div class="text-center budget-amount">@Model.TeamSumAsString</div>
-            <br />
-            @if (Model.UserId == (string)this.ViewData["CuurentUserId"])
-            {
-                <div class="row justify-content-center">
-                    <a class="btn btn-primary alert-secondary" style="font-weight:bolder" asp-controller="Users" asp-action="Index">
-                        My Last Teams
-                    </a>
-                </div>
-            }
+    <div class="col-md-3">
+        <div class="text-center budget">Team price :</div>
+        <div class="text-center budget-amount">@Model.TeamSumAsString</div>
+        <br />
+        @if (Model.UserId == (string)this.ViewData["CuurentUserId"])
+        {
+            <div class="row justify-content-center">
+                <a class="btn btn-primary alert-secondary  button-team" asp-controller="Users" asp-action="Index">
+                    My Last Teams
+                </a>
+            </div>
+            
+            <div class="row justify-content-center">
+                <a class="btn btn-primary alert-secondary button-team" asp-controller="Users" asp-action="AllTeams">
+                    My All Teams
+                </a>
+            </div>
+        }
 
-        </div>
+    </div>
 
     </div>
 

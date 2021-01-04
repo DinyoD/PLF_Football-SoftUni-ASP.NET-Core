@@ -108,7 +108,7 @@
             </a>
             <br />
             <a class="btn btn-primary alert-secondary" style="font-weight:bolder" asp-controller="Users" asp-action="AllTeams">
-                All Teams
+                My All Teams
             </a>
 
             @if (Model.Teams.Where(x => x.Matchday == Model.LastStartedMatchday + 1).FirstOrDefault()== null || Model.Teams.Where(x => x.Matchday == Model.LastStartedMatchday + 1).FirstOrDefault()?.Team.Count() < 11)
@@ -264,7 +264,7 @@
                         }
                         else
                         {
-                            <div class="span-center">Sorry, you don`t have a team for this matchday!</div>
+                            <div class="span-center">Sorry, you don`t have a team for this matchweek!</div>
                         }
                     </div>
 

@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
@@ -64,9 +65,22 @@
             var updatedFixtureDto = this.GetAllChangedFixture(
                                                       pastOrCurrentMatchdayFixtures,
                                                       pastOrCurrentMatchdayNotFinishedFixtureInDb);
+            if (updatedFixtureDto.Count > 0)
+            {
+                await this.fixtureService.UpdateFixtureAsync(updatedFixtureDto);
+            }
+
+            var nextMatcdayFixture = await this.fixtureScraperService.GetFixturesOnMatchdayAsync(nextMatchday);
+            var nextMatcdayFixtureInDb = this.fixtureService
+                .GetFixturesAfterSpecificAndBeforeOrOnNextMatchday<FixtureForUpdateDto>(nextMatchday, nextMatchday);
+
+            var updatedFixtureTimeDtoList = this.UpdateNextMatchdayFixtureTime(nextMatcdayFixture, nextMatcdayFixtureInDb);
+            await this.fixtureService.UpdateFixtureAsync(updatedFixtureTimeDtoList);
+
             var clubsIdAndMatchdayPairsInFixtureForUpdate = this.GetClubsIdAndMatchdayPairs(updatedFixtureDto);
             var clubsId = clubsIdAndMatchdayPairsInFixtureForUpdate.Keys;
 
+            Thread.Sleep(10000);
             var totalUpdatedPlayers = 0;
             foreach (var clubId in clubsId)
             {
@@ -80,18 +94,6 @@
 
                 totalUpdatedPlayers += updatedPlayersInClubCount;
             }
-
-            if (updatedFixtureDto.Count > 0)
-            {
-                await this.fixtureService.UpdateFixtureAsync(updatedFixtureDto);
-            }
-
-            var nextMatcdayFixture = await this.fixtureScraperService.GetFixturesOnMatchdayAsync(nextMatchday);
-            var nextMatcdayFixtureInDb = this.fixtureService
-                .GetFixturesAfterSpecificAndBeforeOrOnNextMatchday<FixtureForUpdateDto>(nextMatchday, nextMatchday);
-
-            var updatedFixtureTimeDtoList = this.UpdateNextMatchdayFixtureTime(nextMatcdayFixture, nextMatcdayFixtureInDb);
-            await this.fixtureService.UpdateFixtureAsync(updatedFixtureTimeDtoList);
 
             var viewModel = new UpdateCountViewModel
             {

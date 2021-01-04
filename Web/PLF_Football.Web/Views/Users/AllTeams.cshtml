@@ -61,6 +61,12 @@
                                 Add Player
                             </a>
                         }
+                        else
+                        {
+                            <a class="btn btn-dark alert-success btn-add" style="font-weight:bolder" asp-controller="UserGames" asp-action="CopyTeam" asp-route-userGameId="@userGame.Id">
+                                Copy team
+                            </a>
+                        }
                         <a class="btn btn-dark alert-secondary" style="font-weight:bolder" asp-controller="Users" asp-action="Team"
                            asp-route-matchday="@userGame.Matchday">
                             Details
